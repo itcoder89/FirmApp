@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Cancel Booking Reasons"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/edt_feedback_msg"
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:gravity="top"
+        android:hint="Reasons"
+        android:background="@drawable/edit_drwaable_light_color"
+        android:layout_height="100dp"/>
+
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="match_parent"
+        android:text="Save"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

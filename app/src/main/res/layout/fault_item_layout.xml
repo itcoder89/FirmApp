@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="14dp"
+                android:paddingBottom="5dp"
+                android:text="Split Ac-Installation"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="5dp"
+                android:text="Amount Rs.100"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+
+        <!--if there is item-->
+        <LinearLayout
+            android:id="@+id/llAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10dp"
+                android:background="@drawable/border_selection_color"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_less"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:drawableBottom="@drawable/ic_less"
+                    android:gravity="center"
+                    android:paddingBottom="2dp"
+                    android:text=""
+                    android:textColor="@color/colorPrimary" />
+
+
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary" />
+
+
+                <TextView
+                    android:id="@+id/tv_add"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+</LinearLayout>

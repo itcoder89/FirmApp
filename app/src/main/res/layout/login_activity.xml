@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/logo_login"
+        android:paddingLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:paddingRight="30dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Experience our best service at \n most affordable price"
+        android:textSize="14dp"
+        android:visibility="visible"
+        android:gravity="center"
+        android:textColor="#313346"
+        android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/ll_login"
+            android:visibility="visible"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="10dp">
+
+                <EditText
+                    android:id="@+id/edt_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#00000000"
+                    android:hint="Your Phone Number"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:gravity="center"
+                    android:text=""
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:minWidth="100dp"
+                    android:textColor="#313346"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textColor="#313346"
+                android:text="Don't worry your number will not be shared with anyone"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_margin="30dp"
+                android:text="Login"
+                android:textColor="#F3F2F9"
+                android:layout_height="50dp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_otp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="10dp">
+
+                <EditText
+                    android:id="@+id/edt_otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#00000000"
+                    android:hint="Enter OTP"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:gravity="center"
+                    android:text=""
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:minWidth="100dp"
+                    android:textColor="#313346"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textColor="#313346"
+                android:text="Please enter the OTP recived on your registered mobile number"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text_send_otp"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:textSize="14dp"
+                android:textColor="#5B68EB"
+                android:text=""
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_otp_resend"
+                android:background="#5B68EB"
+                android:layout_width="match_parent"
+                android:layout_margin="30dp"
+                android:text="Resend OTP"
+                android:textColor="#F3F2F9"
+                android:layout_height="50dp"/>
+
+            <Button
+                android:id="@+id/btn_otp_submit"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_margin="30dp"
+                android:text="Submit"
+                android:textColor="#F3F2F9"
+                android:layout_height="50dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/login_bg_logo"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="150dp"/>
+
+</RelativeLayout>

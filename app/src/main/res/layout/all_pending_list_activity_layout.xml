@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <include
+        layout="@layout/comman_top_header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:id="@+id/lltopheaderview"
+        android:gravity="center"
+        android:weightSum="6"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/tvTodayLeads"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="TODAY" />
+
+
+        <TextView
+            android:id="@+id/tvTommorrowLeads"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="TOMMORROW" />
+
+        <TextView
+            android:id="@+id/tvAllLeads"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="ALL" />
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
