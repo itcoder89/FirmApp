@@ -5,13 +5,12 @@ import Interfaces.OnResponse
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.firmapp.R
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import kotlinx.android.synthetic.main.comman_top_header.*
 import kotlinx.android.synthetic.main.expert_profile_layout.*
 import model.ExpertDetailsData
 import utils.CustomDialogue
-import utils.LocalStorage
 
 class ExpertDetails : AppCompatActivity(), OnResponse<UniverSelObjct> {
 

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.firmapp.R;
+import com.kodpartner.R;
 
 public class RescheduleActivity extends AppCompatActivity {
 

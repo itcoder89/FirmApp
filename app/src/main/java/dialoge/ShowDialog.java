@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.firmapp.R;
+import com.kodpartner.R;
 
 
 /**

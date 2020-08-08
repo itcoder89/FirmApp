@@ -1,17 +1,31 @@
 package adapter
 
-import android.app.Activity
+import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
+import Interfaces.OnResponse
+import android.app.Dialog
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.*
+import android.view.Window
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.firmapp.R
+import androidx.recyclerview.widget.RecyclerView
+import com.kodpartner.R
+import com.social.ekchat.Interfaces.UniverSelObjct
+import model.AcceptLeadData
 import model.NewLeadsData
+import utils.LocalStorage
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class NewLeadsAdapter(var cxt: FragmentActivity?) :
+class NewLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
     RecyclerView.Adapter<NewLeadsAdapter.ViewHolder>() {
 
     var feedData: ArrayList<NewLeadsData.DataBean>? = ArrayList()
@@ -45,18 +59,40 @@ class NewLeadsAdapter(var cxt: FragmentActivity?) :
 
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
+        holder.tvOrderId.text = "Order ID-"+feedData!![position].order_id + ""
+        holder.tvUnit.text = "Unit "+feedData!![position].unit + "/-"
         holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].address
-        holder.tvBookingDateTime.text = feedData!![position].service_date +", "+ feedData!![position].service_time
-       // holder.txt_coupon_validupto.text = feedData!![position].validupto
+        holder.tvCommission.text = "Commission\n"+feedData!![position].commission + "/-"
+        holder.tvFault.text = ""+feedData!![position].fault + "/-"
+        holder.tvAddress.text = feedData!![position].customerDetails.address
+        //holder.tvBookingDateTime.text = feedData!![position].service_date +", "+ feedData!![position].service_time
+        //holder.tvBookingDateTime.text = feedData!![position].booking_date
 
-       /* holder.btn_apply.setOnClickListener{
+        //val inputPattern = "yyyy-MM-dd hh:mm:ss";
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        val outputPattern = "dd-MM-yyyy hh:mm:ss";
+        var inputFormat =  SimpleDateFormat(inputPattern);
+        val outputFormat =  SimpleDateFormat(outputPattern);
 
-            CartActivity.coupon_code = feedData!![position].couponcode
-            CartActivity.coupon_discount = feedData!![position].amount
-            Toast.makeText(cxt,"Applied Successfully!!",Toast.LENGTH_LONG).show()
-            cxt.finish()
-        }*/
+        var date1: Date? = null;
+        var str : String?= null;
+
+        try {
+            date1 = inputFormat.parse(feedData!![position].booking_date);
+            str = outputFormat.format(date1);
+        } catch (e: ParseException) {
+            e.printStackTrace();
+        }
+        holder.tvBookingDateTime.text =str
+
+        holder.tvAcceptJobs.setOnClickListener{
+            //showDialoge(feedData!![position].order_id,cxt!!)
+            mListner.onClick(position)
+            //CartActivity.coupon_code = feedData!![position].couponcode
+            //CartActivity.coupon_discount = feedData!![position].amount
+            ///Toast.makeText(cxt,"Applied Successfully!!",Toast.LENGTH_LONG).show()
+           // cxt.finish()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -68,11 +104,21 @@ class NewLeadsAdapter(var cxt: FragmentActivity?) :
         var tvBookingDateTime: TextView
         var tvServiceAmount: TextView
         var tvAddress: TextView
+        var tvAcceptJobs: TextView
+        var tvCommission: TextView
+        var tvFault: TextView
+        var tvUnit: TextView
+        var tvOrderId: TextView
 
         init {
+            tvAcceptJobs = itemView.findViewById<View>(R.id.tvAcceptJobs) as TextView
             tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
+            tvCommission = itemView.findViewById<View>(R.id.tvCommission) as TextView
+            tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
+            tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
+            tvOrderId = itemView.findViewById<View>(R.id.tvOrderId) as TextView
         }
     }
 

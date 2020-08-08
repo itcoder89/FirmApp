@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.firmapp.R;
+import com.kodpartner.R;
 
 import java.util.List;
 

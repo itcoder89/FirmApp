@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.firmapp"
+        applicationId "com.kodpartner"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -51,11 +51,12 @@ dependencies {
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
 
     //Map location
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
     /*please api tosearch location*/
     implementation 'com.google.android.libraries.places:places:2.0.0'
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
     implementation 'com.github.kanytu:android-parallax-listview:v1.1'
+    implementation 'com.razorpay:checkout:1.5.16'
 }

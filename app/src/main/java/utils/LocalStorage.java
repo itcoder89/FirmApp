@@ -5,6 +5,17 @@ import android.preference.PreferenceManager;
 
 public class LocalStorage {
 
+    public static void setFirstTimeLogin(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setFirstTimeLogin", key);
+        prefsEditor.commit();
+    }
+
+    public static String getFirstTimeLogin(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setFirstTimeLogin", "false");
+    }
     public static void setCustomerID(Context context, String key) {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
@@ -26,5 +37,16 @@ public class LocalStorage {
     public static String getCustomerEmailID(Context context) {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("setCustomerEmailID", "");
+    }
+    public static void setCustomerImage(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setCustomerImage", key);
+        prefsEditor.commit();
+    }
+
+    public static String getCustomerImage(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setCustomerImage", "");
     }
 }

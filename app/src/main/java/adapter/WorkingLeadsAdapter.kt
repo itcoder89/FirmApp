@@ -3,10 +3,8 @@ package adapter
 import Interfaces.Apicall
 import Interfaces.OnResponse
 import activity.TrackLocation
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,16 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.MaterialDialog
-import com.firmapp.R
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
-import model.OpenLeadsData
 import model.RescheduleData
 import model.WorkingLeadsData
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -62,12 +55,14 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
 
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
+        holder.tvUnit.text = "Unit "+feedData!![position].unit
+        holder.tvFault.text = ""+feedData!![position].fault
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].address+" - Map Link"
+        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
         holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
-        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].ocustomer_name)
-        //holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].c)
+        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
+        holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
         holder.tvCancel.setOnClickListener{
 
@@ -78,7 +73,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
             cxt!!.startActivity(intent)
-            cxt!!.finish()
+            //cxt!!.finish()
         }
 
     }
@@ -96,7 +91,8 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
         var tvCustomerName: TextView
         var tvCustomerMobile: TextView
         var tvCancel: TextView
-        //var tvRescheduledLeads: TextView
+        var tvUnit: TextView
+        var tvFault: TextView
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -106,6 +102,8 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
             tvCustomerName = itemView.findViewById<View>(R.id.tvCustomerName) as TextView
             tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
             tvCancel = itemView.findViewById<View>(R.id.tvCancel) as TextView
+            tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
+            tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }
     }
@@ -118,7 +116,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
 
         }
     }

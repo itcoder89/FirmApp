@@ -2,9 +2,7 @@ package adapter
 
 import Interfaces.Apicall
 import Interfaces.OnResponse
-import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.MaterialDialog
-import com.firmapp.R
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.*
 import java.text.ParseException
@@ -57,12 +54,29 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
 
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
+        holder.tvUnit.text = "Unit "+feedData!![position].unit
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].address+""
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date.trim())
-        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].ocustomer_name.trim())
-        holder.tvDescription.setText(feedData!![position].description.trim())
+        holder.tvAddress.text = feedData!![position].customerDetails.address+""
+
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        val outputPattern = "dd-MM-yyyy hh:mm:ss";
+        var inputFormat =  SimpleDateFormat(inputPattern);
+        val outputFormat =  SimpleDateFormat(outputPattern);
+
+        var date1: Date? = null;
+        var str : String?= null;
+
+        try {
+            date1 = inputFormat.parse(feedData!![position].booking_date);
+            str = outputFormat.format(date1);
+        } catch (e: ParseException) {
+            e.printStackTrace();
+        }
+
+        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname.trim())
+        holder.tvDescription.setText(feedData!![position].fault.trim())
         holder.tvCancelbyfirm.setText("Cancelled by- "+feedData!![position].cancel_by.trim() +" / Reason - "+feedData!![position].cancel_reason.trim())
 
         /*holder.tvCancel.setOnClickListener{
@@ -87,6 +101,7 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         var tvAddress: TextView
         var tvBookingDateTime: TextView
         var tvCustomerName: TextView
+        var tvUnit: TextView
         //var tvCustomerMobile: TextView
 
         var tvDescription: TextView
@@ -102,6 +117,7 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
             //tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
             tvDescription = itemView.findViewById<View>(R.id.tvDescription) as TextView
             tvCancelbyfirm = itemView.findViewById<View>(R.id.tvCancelbyfirm) as TextView
+            tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             //tvFeedbackbykod = itemView.findViewById<View>(R.id.tvFeedbackbykod) as TextView
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }
@@ -115,7 +131,7 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
 
         }
     }

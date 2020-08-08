@@ -8,7 +8,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
@@ -21,8 +20,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.firmapp.BuildConfig
-import com.firmapp.R
+import com.kodpartner.BuildConfig
+import com.kodpartner.R
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -153,6 +152,8 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
             }
         }
     }
+
+
 
     private fun buildLocationSettingsRequest() {
         val builder = LocationSettingsRequest.Builder()

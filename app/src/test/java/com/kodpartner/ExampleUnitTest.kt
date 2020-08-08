@@ -1,4 +1,4 @@
-package com.firmapp
+package com.kodpartner
 
 import org.junit.Test
 

@@ -1,20 +1,16 @@
 package adapter
 
 import activity.ExpertDetails
-import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.*
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
-import com.firmapp.R
+import com.kodpartner.R
 import com.squareup.picasso.Picasso
 import model.ExpertListData
-import model.OpenLeadsData
-import model.RecomplaintsListData
 
 
 class ExpertListAdapter(var cxt: FragmentActivity?) :

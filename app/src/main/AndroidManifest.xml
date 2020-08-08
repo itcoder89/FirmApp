@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.firmapp">
+    package="com.kodpartner">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DashboardActivity" />
+        <activity android:name="com.kodpartner.DashboardActivity" />
         <activity android:name="activity.LoginActivity" />
         <activity android:name="activity.RescheduleActivity" />
         <activity android:name="activity.ExpertDetails" />
@@ -39,6 +39,8 @@
         <activity android:name="activity.AllPendingLeadsActivity" />
         <activity android:name="activity.TrackLocation" />
         <activity android:name="activity.MoveToWorking" />
+        <activity android:name="activity.SendOtp" />
+        <activity android:name="activity.WalletRecharge" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -48,6 +50,11 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCipQRHyKIpBtpL32GVguoCh8ChSpXhSQQ" />
 
+        <!-- Add your API key here -->
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_BgowKeNL8bFbS1"
+            />
     </application>
 
 </manifest>

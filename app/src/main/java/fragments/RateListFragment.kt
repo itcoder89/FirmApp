@@ -15,13 +15,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firmapp.R
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.RateListData
 import model.ServiceListForRateData
 import utils.CustomDialogue
 import utils.LocalStorage
-import java.util.*
 
 
 class RateListFragment : Fragment(), OnResponse<UniverSelObjct>, AdapterView.OnItemSelectedListener {
@@ -50,7 +49,7 @@ class RateListFragment : Fragment(), OnResponse<UniverSelObjct>, AdapterView.OnI
         recyclerView!!.layoutManager = layoutManager
 
 
-        spinner = fragmentView.findViewById<View>(com.firmapp.R.id.spinner) as Spinner
+        spinner = fragmentView.findViewById<View>(com.kodpartner.R.id.spinner) as Spinner
         // Spinner click listener
         spinner!!.onItemSelectedListener = this
         /*val categories: MutableList<String> =

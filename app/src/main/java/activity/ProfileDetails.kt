@@ -5,12 +5,11 @@ import Interfaces.OnResponse
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.firmapp.R
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.comman_top_header.*
 import kotlinx.android.synthetic.main.profile_layout.*
-import model.ExpertDetailsData
 import model.ProfileDetailsData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -47,7 +46,7 @@ class ProfileDetails : AppCompatActivity(), OnResponse<UniverSelObjct> {
                         tvFirmName.text=profileDetailsData.data.f_name.toString()
                         tvFirmUANNo.text=profileDetailsData.data.f_udhyog_no.toString()
 
-
+                        LocalStorage.setCustomerImage(this,"https://kodservices.in/upload/firm_documents/"+profileDetailsData.data.p_image)
                         Picasso
                             .with(this)
                             .load("https://kodservices.in/upload/firm_documents/"+profileDetailsData.data.p_image)

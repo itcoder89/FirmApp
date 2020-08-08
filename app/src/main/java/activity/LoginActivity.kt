@@ -15,8 +15,8 @@ import android.view.WindowManager
 import com.google.gson.Gson
 
 import android.util.Log
-import com.firmapp.DashboardActivity
-import com.firmapp.R
+import com.kodpartner.DashboardActivity
+import com.kodpartner.R
 import model.LoginData
 import utils.AppSignatureHelper
 import utils.CustomDialogue
@@ -50,6 +50,7 @@ class LoginActivity : AppCompatActivity() , OnResponse<UniverSelObjct> {
                     }
                 }
             }else if(response.status.equals("2")){
+                CustomDialogue.showcustomblank(this, "Alert", response.msg)
                /// startActivity(Intent(this,RegisterActivity::class.java).putExtra("phone",edt_phone.text.toString()))
             }else{
                 CustomDialogue.showcustomblank(this, "Alert", response.msg)

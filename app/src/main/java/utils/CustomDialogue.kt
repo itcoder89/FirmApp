@@ -5,8 +5,8 @@ import android.content.Intent
 import android.widget.Button
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
-import com.firmapp.DashboardActivity
-import com.firmapp.R
+import com.kodpartner.DashboardActivity
+import com.kodpartner.R
 
 class CustomDialogue {
     companion object {

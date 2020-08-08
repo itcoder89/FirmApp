@@ -1,7 +1,5 @@
 package activity
 
-import Interfaces.Apicall
-import android.app.TabActivity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,9 +7,9 @@ import android.os.Handler
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.firmapp.DashboardActivity
-import com.firmapp.R
-import utils.SessionManager
+import com.kodpartner.DashboardActivity
+import com.kodpartner.R
+import utils.LocalStorage
 
 
 class SplashActivity : AppCompatActivity() {
@@ -29,9 +27,8 @@ class SplashActivity : AppCompatActivity() {
         }
 
         Handler().postDelayed({
-            val intent = Intent(this, DashboardActivity::class.java)
-            startActivity(intent)
-            if (SessionManager.getInstance(this).getSharedPreferences(getString(R.string.LoginData_key)).equals("")) {
+            //if (SessionManager.getInstance(this).getSharedPreferences(getString(R.string.LoginData_key)).equals("")) {
+            if (LocalStorage.getFirstTimeLogin(this).equals("false")) {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else {

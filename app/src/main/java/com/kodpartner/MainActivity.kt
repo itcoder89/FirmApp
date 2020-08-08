@@ -1,4 +1,4 @@
-package com.firmapp
+package com.kodpartner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

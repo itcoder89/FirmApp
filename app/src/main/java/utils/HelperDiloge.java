@@ -10,8 +10,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
-import com.firmapp.BuildConfig;
-import com.firmapp.R;
+import com.kodpartner.BuildConfig;
+import com.kodpartner.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;

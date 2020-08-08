@@ -1,7 +1,6 @@
 package adapter
 
 import activity.TrackLocation
-import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
-import com.firmapp.R
-import model.OpenLeadsData
+import com.kodpartner.R
 import model.PendingLeadsData
-import model.RecomplaintsListData
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
@@ -51,35 +52,35 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
 
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].address+" - Map Link"
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
-        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].ocustomer_name)
+        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
 
-        if(feedData!![position].idstatus.toInt() == 1){
-            holder.tvStatus.text="Current Status - Pending"
-        }else if(feedData!![position].idstatus.toInt() == 2){
-            holder.tvStatus.text="Current Status - Assigned"
-        }else if(feedData!![position].idstatus.toInt() == 3){
-            holder.tvStatus.text="Current Status - Working"
-        }else if(feedData!![position].idstatus.toInt() == 4){
-            holder.tvStatus.text="Current Status - On Hold"
-        }else if(feedData!![position].idstatus.toInt() == 5){
-            holder.tvStatus.text="Current Status - Schedule"
-        }else if(feedData!![position].idstatus.toInt() == 6){
-            holder.tvStatus.text="Current Status - Cancelled"
-        }else if(feedData!![position].idstatus.toInt() == 7){
-            holder.tvStatus.text="Current Status - Closed"
-        }else if(feedData!![position].idstatus.toInt() == 8){
-            holder.tvStatus.text="Current Status - Call Not Connected"
-        }else if(feedData!![position].idstatus.toInt() == 9){
-            holder.tvStatus.text="Current Status - Re-Complaint"
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        val outputPattern = "dd-MM-yyyy hh:mm:ss";
+        var inputFormat =  SimpleDateFormat(inputPattern);
+        val outputFormat =  SimpleDateFormat(outputPattern);
+
+        var date1: Date? = null;
+        var str : String?= null;
+
+        try {
+            date1 = inputFormat.parse(feedData!![position].booking_date);
+            str = outputFormat.format(date1);
+        } catch (e: ParseException) {
+            e.printStackTrace();
         }
+        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+        holder.tvCompleteDateTime.setText("Visit- "+feedData!![position].service_date+" "+feedData!![position].service_time)
+        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
+        holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
+        holder.tvStatus.text="Current Status -"+feedData!![position].current_status
+        holder.tvUnit.text="Unit "+feedData!![position].unit
+
         holder.tvAddress.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
             cxt!!.startActivity(intent)
-            cxt!!.finish()
+            //cxt!!.finish()
         }
     }
 
@@ -96,6 +97,8 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
         var tvCustomerName: TextView
         var tvCustomerMobile: TextView
         var tvStatus: TextView
+        var tvCompleteDateTime: TextView
+        var tvUnit: TextView
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -105,6 +108,8 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
             tvCustomerName = itemView.findViewById<View>(R.id.tvCustomerName) as TextView
             tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
             tvStatus = itemView.findViewById<View>(R.id.tvStatus) as TextView
+            tvCompleteDateTime = itemView.findViewById<View>(R.id.tvCompleteDateTime) as TextView
+            tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
         }
     }
 

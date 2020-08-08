@@ -3,10 +3,8 @@ package adapter
 import Interfaces.Apicall
 import Interfaces.OnResponse
 import activity.TrackLocation
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,16 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.MaterialDialog
-import com.firmapp.R
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
 import model.CompletedLeadsData
-import model.OpenLeadsData
 import model.RescheduleData
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -64,17 +57,21 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
 
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         holder.tvServiceAmount.text = "Total Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].address
+        holder.tvAddress.text = feedData!![position].customerDetails.address
         holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
-        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].ocustomer_name)
-        holder.tvDescription.setText(feedData!![position].description)
+        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
+        holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
+        holder.tvDescription.setText(feedData!![position].fault)
+        if(feedData!![position].rating != null)
+            holder.tvFeedbackbyCustomer.setText("Feedback by customer - "+feedData!![position].rating)
+        else
+            holder.tvFeedbackbyCustomer.setText("Feedback by customer - 0.0")
 
         holder.tvAddress.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
             cxt!!.startActivity(intent)
-            cxt!!.finish()
         }
     }
 
@@ -117,7 +114,7 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
 
         }
     }

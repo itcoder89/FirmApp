@@ -56,7 +56,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_less"
+                    android:id="@+id/decrease"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:drawableBottom="@drawable/ic_less"
@@ -67,7 +67,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_quantity"
+                    android:id="@+id/amount"
                     android:layout_width="30dp"
                     android:layout_height="25dp"
                     android:gravity="center"
@@ -76,7 +76,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_add"
+                    android:id="@+id/increase"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:gravity="center"

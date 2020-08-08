@@ -7,7 +7,7 @@ public class WorkingLeadsData {
 
     /**
      * status : true
-     * data : [{"id":208,"order_id":"202007208","group_order_id":"208","idservice":"2","idsubservice":"8","idfault":"12","idsubfault":"0","user_id":"3","default_amount":"250","amount":"200","qty":"1","session_id":"","idcity":"6","lat_code":"27.1649571","lng_code":"73.7358336","name_prefix":"","ocustomer_name":"","address_street":"","address_type":"","address":"Nagaur Rd, Taausar, Rajasthan 341001, India","coupon_code":"","coupon_discount":"0","idcart":"0","idstatus":"3","status_date":"2020-07-27 06:52:15","booking_from":"app","service_date":"2020-07-28","service_time":"08 AM - 12 PM","multigroup":"1","description":"hello","cancel_reason":"","cancel_by":"","idfirm":"3","idexpert":"0","send_estimate_flag":"1","send_estimate_date":"2020-07-27 06:46:04","feedback_send_flag":"0","message":"","created_at":"Jul 27 2020 13:10","updated_at":"Jul 27 2020 13:22","feedback_date":"","feedback_rating":"","feedback_message":"","feedback_by":"","hold_reason":"","hold_by":"","hold_start_time":"","hold_end_time":""},{"id":25,"order_id":"20200725","group_order_id":"25","idservice":"1","idsubservice":"2","idfault":"1","idsubfault":"0","user_id":"3","default_amount":"600","amount":"400","qty":"1","session_id":"","idcity":"6","lat_code":"27.159789","lng_code":"73.7389596","name_prefix":"","ocustomer_name":"","address_street":"","address_type":"","address":"Taausar, Rajasthan, India","coupon_code":"","coupon_discount":"0","idcart":"0","idstatus":"3","status_date":"2020-07-24 07:06:34","booking_from":"app","service_date":"2020-07-18","service_time":"12 PM - 04 PM","multigroup":"1","description":"","cancel_reason":"","cancel_by":"","idfirm":"3","idexpert":"0","send_estimate_flag":"1","send_estimate_date":"2020-07-15 02:44:29","feedback_send_flag":"0","message":"","created_at":"Jul 15 2020 05:47","updated_at":"Jul 24 2020 13:36","feedback_date":"","feedback_rating":"","feedback_message":"","feedback_by":"","hold_reason":"Tools not available","hold_by":"admin","hold_start_time":"","hold_end_time":"2020-07-24 07:06:34"},{"id":32,"order_id":"20200732","group_order_id":"32","idservice":"1","idsubservice":"3","idfault":"5","idsubfault":"0","user_id":"2","default_amount":"2000","amount":"1800","qty":"1","session_id":"","idcity":"6","lat_code":"27.1983368","lng_code":"73.7493272","name_prefix":"","ocustomer_name":"","address_street":"","address_type":"","address":"Nagaur, Rajasthan, India","coupon_code":"","coupon_discount":"0","idcart":"0","idstatus":"3","status_date":"2020-07-24 07:06:00","booking_from":"web","service_date":"2020-07-15","service_time":"04 PM - 08 PM","multigroup":"0","description":"","cancel_reason":"","cancel_by":"","idfirm":"3","idexpert":"0","send_estimate_flag":"1","send_estimate_date":"2020-07-15 03:33:16","feedback_send_flag":"0","message":"","created_at":"Jul 15 2020 09:55","updated_at":"Jul 24 2020 13:36","feedback_date":"","feedback_rating":"","feedback_message":"","feedback_by":"","hold_reason":"","hold_by":"","hold_start_time":"","hold_end_time":""}]
+     * data : [{"id":208,"order_id":"202007208","amount":"200","unit":"1","service_date":"2020-07-28","service_time":"08 AM - 12 PM","fault":"Water Purifier/RO, UV Purifier/Repair","lat_code":"27.1649571","lng_code":"73.7358336","idcity":"6","booking_date":"2020-07-27T13:10:51.000000Z","customerDetails":{"id":3,"name_prefix":null,"firstname":"Sanjay Panwar","lastname":null,"dob":null,"contact_no":"8104651676","img":null,"latitude":"27.1993592","longitude":"73.7449765","address_street":null,"address_type":null,"address":"Unnamed Road,, Khatri Pura, Nagaur, Rajasthan 341001, India","city":"Nagaur","state":"Rajasthan","country_code":null,"country":"India","user_id":"3","register_from":"1","created_at":"Jul 10 2020 12:49","updated_at":"Aug 04 2020 04:53"}},{"id":25,"order_id":"20200725","amount":"400","unit":"1","service_date":"2020-07-18","service_time":"12 PM - 04 PM","fault":"AC/Water Service/Split AC","lat_code":"27.159789","lng_code":"73.7389596","idcity":"6","booking_date":"2020-07-15T05:47:15.000000Z","customerDetails":{"id":3,"name_prefix":null,"firstname":"Sanjay Panwar","lastname":null,"dob":null,"contact_no":"8104651676","img":null,"latitude":"27.1993592","longitude":"73.7449765","address_street":null,"address_type":null,"address":"Unnamed Road,, Khatri Pura, Nagaur, Rajasthan 341001, India","city":"Nagaur","state":"Rajasthan","country_code":null,"country":"India","user_id":"3","register_from":"1","created_at":"Jul 10 2020 12:49","updated_at":"Aug 04 2020 04:53"}},{"id":32,"order_id":"20200732","amount":"1800","unit":"1","service_date":"2020-07-15","service_time":"04 PM - 08 PM","fault":"AC/Installation/Split AC Installation","lat_code":"27.1983368","lng_code":"73.7493272","idcity":"6","booking_date":"2020-07-15T09:55:39.000000Z","customerDetails":{"id":2,"name_prefix":null,"firstname":"Sanjay Saini","lastname":null,"dob":null,"contact_no":"9460238000","img":null,"latitude":"27.1993592","longitude":"73.7449765","address_street":null,"address_type":null,"address":"Unnamed Road,, Khatri Pura, Nagaur, Rajasthan 341001, India","city":"Nagaur","state":"Rajasthan","country_code":null,"country":"India","user_id":"2","register_from":"1","created_at":"Jul 10 2020 12:48","updated_at":"Jul 10 2020 12:48"}}]
      */
 
     private boolean status;
@@ -33,102 +33,30 @@ public class WorkingLeadsData {
         /**
          * id : 208
          * order_id : 202007208
-         * group_order_id : 208
-         * idservice : 2
-         * idsubservice : 8
-         * idfault : 12
-         * idsubfault : 0
-         * user_id : 3
-         * default_amount : 250
          * amount : 200
-         * qty : 1
-         * session_id :
-         * idcity : 6
-         * lat_code : 27.1649571
-         * lng_code : 73.7358336
-         * name_prefix :
-         * ocustomer_name :
-         * address_street :
-         * address_type :
-         * address : Nagaur Rd, Taausar, Rajasthan 341001, India
-         * coupon_code :
-         * coupon_discount : 0
-         * idcart : 0
-         * idstatus : 3
-         * status_date : 2020-07-27 06:52:15
-         * booking_from : app
+         * unit : 1
          * service_date : 2020-07-28
          * service_time : 08 AM - 12 PM
-         * multigroup : 1
-         * description : hello
-         * cancel_reason :
-         * cancel_by :
-         * idfirm : 3
-         * idexpert : 0
-         * send_estimate_flag : 1
-         * send_estimate_date : 2020-07-27 06:46:04
-         * feedback_send_flag : 0
-         * message :
-         * created_at : Jul 27 2020 13:10
-         * updated_at : Jul 27 2020 13:22
-         * feedback_date :
-         * feedback_rating :
-         * feedback_message :
-         * feedback_by :
-         * hold_reason :
-         * hold_by :
-         * hold_start_time :
-         * hold_end_time :
+         * fault : Water Purifier/RO, UV Purifier/Repair
+         * lat_code : 27.1649571
+         * lng_code : 73.7358336
+         * idcity : 6
+         * booking_date : 2020-07-27T13:10:51.000000Z
+         * customerDetails : {"id":3,"name_prefix":null,"firstname":"Sanjay Panwar","lastname":null,"dob":null,"contact_no":"8104651676","img":null,"latitude":"27.1993592","longitude":"73.7449765","address_street":null,"address_type":null,"address":"Unnamed Road,, Khatri Pura, Nagaur, Rajasthan 341001, India","city":"Nagaur","state":"Rajasthan","country_code":null,"country":"India","user_id":"3","register_from":"1","created_at":"Jul 10 2020 12:49","updated_at":"Aug 04 2020 04:53"}
          */
 
         private int id;
         private String order_id;
-        private String group_order_id;
-        private String idservice;
-        private String idsubservice;
-        private String idfault;
-        private String idsubfault;
-        private String user_id;
-        private String default_amount;
         private String amount;
-        private String qty;
-        private String session_id;
-        private String idcity;
-        private String lat_code;
-        private String lng_code;
-        private String name_prefix;
-        private String ocustomer_name;
-        private String address_street;
-        private String address_type;
-        private String address;
-        private String coupon_code;
-        private String coupon_discount;
-        private String idcart;
-        private String idstatus;
-        private String status_date;
-        private String booking_from;
+        private String unit;
         private String service_date;
         private String service_time;
-        private String multigroup;
-        private String description;
-        private String cancel_reason;
-        private String cancel_by;
-        private String idfirm;
-        private String idexpert;
-        private String send_estimate_flag;
-        private String send_estimate_date;
-        private String feedback_send_flag;
-        private String message;
-        private String created_at;
-        private String updated_at;
-        private String feedback_date;
-        private String feedback_rating;
-        private String feedback_message;
-        private String feedback_by;
-        private String hold_reason;
-        private String hold_by;
-        private String hold_start_time;
-        private String hold_end_time;
+        private String fault;
+        private String lat_code;
+        private String lng_code;
+        private String idcity;
+        private String booking_date;
+        private CustomerDetailsBean customerDetails;
 
         public int getId() {
             return id;
@@ -146,62 +74,6 @@ public class WorkingLeadsData {
             this.order_id = order_id;
         }
 
-        public String getGroup_order_id() {
-            return group_order_id;
-        }
-
-        public void setGroup_order_id(String group_order_id) {
-            this.group_order_id = group_order_id;
-        }
-
-        public String getIdservice() {
-            return idservice;
-        }
-
-        public void setIdservice(String idservice) {
-            this.idservice = idservice;
-        }
-
-        public String getIdsubservice() {
-            return idsubservice;
-        }
-
-        public void setIdsubservice(String idsubservice) {
-            this.idsubservice = idsubservice;
-        }
-
-        public String getIdfault() {
-            return idfault;
-        }
-
-        public void setIdfault(String idfault) {
-            this.idfault = idfault;
-        }
-
-        public String getIdsubfault() {
-            return idsubfault;
-        }
-
-        public void setIdsubfault(String idsubfault) {
-            this.idsubfault = idsubfault;
-        }
-
-        public String getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(String user_id) {
-            this.user_id = user_id;
-        }
-
-        public String getDefault_amount() {
-            return default_amount;
-        }
-
-        public void setDefault_amount(String default_amount) {
-            this.default_amount = default_amount;
-        }
-
         public String getAmount() {
             return amount;
         }
@@ -210,132 +82,12 @@ public class WorkingLeadsData {
             this.amount = amount;
         }
 
-        public String getQty() {
-            return qty;
+        public String getUnit() {
+            return unit;
         }
 
-        public void setQty(String qty) {
-            this.qty = qty;
-        }
-
-        public String getSession_id() {
-            return session_id;
-        }
-
-        public void setSession_id(String session_id) {
-            this.session_id = session_id;
-        }
-
-        public String getIdcity() {
-            return idcity;
-        }
-
-        public void setIdcity(String idcity) {
-            this.idcity = idcity;
-        }
-
-        public String getLat_code() {
-            return lat_code;
-        }
-
-        public void setLat_code(String lat_code) {
-            this.lat_code = lat_code;
-        }
-
-        public String getLng_code() {
-            return lng_code;
-        }
-
-        public void setLng_code(String lng_code) {
-            this.lng_code = lng_code;
-        }
-
-        public String getName_prefix() {
-            return name_prefix;
-        }
-
-        public void setName_prefix(String name_prefix) {
-            this.name_prefix = name_prefix;
-        }
-
-        public String getOcustomer_name() {
-            return ocustomer_name;
-        }
-
-        public void setOcustomer_name(String ocustomer_name) {
-            this.ocustomer_name = ocustomer_name;
-        }
-
-        public String getAddress_street() {
-            return address_street;
-        }
-
-        public void setAddress_street(String address_street) {
-            this.address_street = address_street;
-        }
-
-        public String getAddress_type() {
-            return address_type;
-        }
-
-        public void setAddress_type(String address_type) {
-            this.address_type = address_type;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getCoupon_code() {
-            return coupon_code;
-        }
-
-        public void setCoupon_code(String coupon_code) {
-            this.coupon_code = coupon_code;
-        }
-
-        public String getCoupon_discount() {
-            return coupon_discount;
-        }
-
-        public void setCoupon_discount(String coupon_discount) {
-            this.coupon_discount = coupon_discount;
-        }
-
-        public String getIdcart() {
-            return idcart;
-        }
-
-        public void setIdcart(String idcart) {
-            this.idcart = idcart;
-        }
-
-        public String getIdstatus() {
-            return idstatus;
-        }
-
-        public void setIdstatus(String idstatus) {
-            this.idstatus = idstatus;
-        }
-
-        public String getStatus_date() {
-            return status_date;
-        }
-
-        public void setStatus_date(String status_date) {
-            this.status_date = status_date;
-        }
-
-        public String getBooking_from() {
-            return booking_from;
-        }
-
-        public void setBooking_from(String booking_from) {
-            this.booking_from = booking_from;
+        public void setUnit(String unit) {
+            this.unit = unit;
         }
 
         public String getService_date() {
@@ -354,164 +106,258 @@ public class WorkingLeadsData {
             this.service_time = service_time;
         }
 
-        public String getMultigroup() {
-            return multigroup;
+        public String getFault() {
+            return fault;
         }
 
-        public void setMultigroup(String multigroup) {
-            this.multigroup = multigroup;
+        public void setFault(String fault) {
+            this.fault = fault;
         }
 
-        public String getDescription() {
-            return description;
+        public String getLat_code() {
+            return lat_code;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setLat_code(String lat_code) {
+            this.lat_code = lat_code;
         }
 
-        public String getCancel_reason() {
-            return cancel_reason;
+        public String getLng_code() {
+            return lng_code;
         }
 
-        public void setCancel_reason(String cancel_reason) {
-            this.cancel_reason = cancel_reason;
+        public void setLng_code(String lng_code) {
+            this.lng_code = lng_code;
         }
 
-        public String getCancel_by() {
-            return cancel_by;
+        public String getIdcity() {
+            return idcity;
         }
 
-        public void setCancel_by(String cancel_by) {
-            this.cancel_by = cancel_by;
+        public void setIdcity(String idcity) {
+            this.idcity = idcity;
         }
 
-        public String getIdfirm() {
-            return idfirm;
+        public String getBooking_date() {
+            return booking_date;
         }
 
-        public void setIdfirm(String idfirm) {
-            this.idfirm = idfirm;
+        public void setBooking_date(String booking_date) {
+            this.booking_date = booking_date;
         }
 
-        public String getIdexpert() {
-            return idexpert;
+        public CustomerDetailsBean getCustomerDetails() {
+            return customerDetails;
         }
 
-        public void setIdexpert(String idexpert) {
-            this.idexpert = idexpert;
+        public void setCustomerDetails(CustomerDetailsBean customerDetails) {
+            this.customerDetails = customerDetails;
         }
 
-        public String getSend_estimate_flag() {
-            return send_estimate_flag;
-        }
+        public static class CustomerDetailsBean {
+            /**
+             * id : 3
+             * name_prefix : null
+             * firstname : Sanjay Panwar
+             * lastname : null
+             * dob : null
+             * contact_no : 8104651676
+             * img : null
+             * latitude : 27.1993592
+             * longitude : 73.7449765
+             * address_street : null
+             * address_type : null
+             * address : Unnamed Road,, Khatri Pura, Nagaur, Rajasthan 341001, India
+             * city : Nagaur
+             * state : Rajasthan
+             * country_code : null
+             * country : India
+             * user_id : 3
+             * register_from : 1
+             * created_at : Jul 10 2020 12:49
+             * updated_at : Aug 04 2020 04:53
+             */
 
-        public void setSend_estimate_flag(String send_estimate_flag) {
-            this.send_estimate_flag = send_estimate_flag;
-        }
+            private int id;
+            private Object name_prefix;
+            private String firstname;
+            private Object lastname;
+            private Object dob;
+            private String contact_no;
+            private Object img;
+            private String latitude;
+            private String longitude;
+            private Object address_street;
+            private Object address_type;
+            private String address;
+            private String city;
+            private String state;
+            private Object country_code;
+            private String country;
+            private String user_id;
+            private String register_from;
+            private String created_at;
+            private String updated_at;
 
-        public String getSend_estimate_date() {
-            return send_estimate_date;
-        }
+            public int getId() {
+                return id;
+            }
 
-        public void setSend_estimate_date(String send_estimate_date) {
-            this.send_estimate_date = send_estimate_date;
-        }
+            public void setId(int id) {
+                this.id = id;
+            }
 
-        public String getFeedback_send_flag() {
-            return feedback_send_flag;
-        }
+            public Object getName_prefix() {
+                return name_prefix;
+            }
 
-        public void setFeedback_send_flag(String feedback_send_flag) {
-            this.feedback_send_flag = feedback_send_flag;
-        }
+            public void setName_prefix(Object name_prefix) {
+                this.name_prefix = name_prefix;
+            }
 
-        public String getMessage() {
-            return message;
-        }
+            public String getFirstname() {
+                return firstname;
+            }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
+            public void setFirstname(String firstname) {
+                this.firstname = firstname;
+            }
 
-        public String getCreated_at() {
-            return created_at;
-        }
+            public Object getLastname() {
+                return lastname;
+            }
 
-        public void setCreated_at(String created_at) {
-            this.created_at = created_at;
-        }
+            public void setLastname(Object lastname) {
+                this.lastname = lastname;
+            }
 
-        public String getUpdated_at() {
-            return updated_at;
-        }
+            public Object getDob() {
+                return dob;
+            }
 
-        public void setUpdated_at(String updated_at) {
-            this.updated_at = updated_at;
-        }
+            public void setDob(Object dob) {
+                this.dob = dob;
+            }
 
-        public String getFeedback_date() {
-            return feedback_date;
-        }
+            public String getContact_no() {
+                return contact_no;
+            }
 
-        public void setFeedback_date(String feedback_date) {
-            this.feedback_date = feedback_date;
-        }
+            public void setContact_no(String contact_no) {
+                this.contact_no = contact_no;
+            }
 
-        public String getFeedback_rating() {
-            return feedback_rating;
-        }
+            public Object getImg() {
+                return img;
+            }
 
-        public void setFeedback_rating(String feedback_rating) {
-            this.feedback_rating = feedback_rating;
-        }
+            public void setImg(Object img) {
+                this.img = img;
+            }
 
-        public String getFeedback_message() {
-            return feedback_message;
-        }
+            public String getLatitude() {
+                return latitude;
+            }
 
-        public void setFeedback_message(String feedback_message) {
-            this.feedback_message = feedback_message;
-        }
+            public void setLatitude(String latitude) {
+                this.latitude = latitude;
+            }
 
-        public String getFeedback_by() {
-            return feedback_by;
-        }
+            public String getLongitude() {
+                return longitude;
+            }
 
-        public void setFeedback_by(String feedback_by) {
-            this.feedback_by = feedback_by;
-        }
+            public void setLongitude(String longitude) {
+                this.longitude = longitude;
+            }
 
-        public String getHold_reason() {
-            return hold_reason;
-        }
+            public Object getAddress_street() {
+                return address_street;
+            }
 
-        public void setHold_reason(String hold_reason) {
-            this.hold_reason = hold_reason;
-        }
+            public void setAddress_street(Object address_street) {
+                this.address_street = address_street;
+            }
 
-        public String getHold_by() {
-            return hold_by;
-        }
+            public Object getAddress_type() {
+                return address_type;
+            }
 
-        public void setHold_by(String hold_by) {
-            this.hold_by = hold_by;
-        }
+            public void setAddress_type(Object address_type) {
+                this.address_type = address_type;
+            }
 
-        public String getHold_start_time() {
-            return hold_start_time;
-        }
+            public String getAddress() {
+                return address;
+            }
 
-        public void setHold_start_time(String hold_start_time) {
-            this.hold_start_time = hold_start_time;
-        }
+            public void setAddress(String address) {
+                this.address = address;
+            }
 
-        public String getHold_end_time() {
-            return hold_end_time;
-        }
+            public String getCity() {
+                return city;
+            }
 
-        public void setHold_end_time(String hold_end_time) {
-            this.hold_end_time = hold_end_time;
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
+            }
+
+            public Object getCountry_code() {
+                return country_code;
+            }
+
+            public void setCountry_code(Object country_code) {
+                this.country_code = country_code;
+            }
+
+            public String getCountry() {
+                return country;
+            }
+
+            public void setCountry(String country) {
+                this.country = country;
+            }
+
+            public String getUser_id() {
+                return user_id;
+            }
+
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getRegister_from() {
+                return register_from;
+            }
+
+            public void setRegister_from(String register_from) {
+                this.register_from = register_from;
+            }
+
+            public String getCreated_at() {
+                return created_at;
+            }
+
+            public void setCreated_at(String created_at) {
+                this.created_at = created_at;
+            }
+
+            public String getUpdated_at() {
+                return updated_at;
+            }
+
+            public void setUpdated_at(String updated_at) {
+                this.updated_at = updated_at;
+            }
         }
     }
 }

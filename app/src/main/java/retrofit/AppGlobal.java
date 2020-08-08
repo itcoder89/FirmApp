@@ -56,8 +56,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.firmapp.BuildConfig;
-import com.firmapp.R;
+import com.kodpartner.BuildConfig;
+import com.kodpartner.R;
 
 import java.io.BufferedReader;
 import java.io.File;

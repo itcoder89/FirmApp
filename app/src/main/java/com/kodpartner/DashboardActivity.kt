@@ -1,10 +1,16 @@
-package com.firmapp
+package com.kodpartner
 
+import activity.LoginActivity
 import activity.MapActivity
 import activity.ProfileDetails
+import activity.WalletRecharge
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -28,6 +34,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
     }
 
     private fun init() {
+        LocalStorage.setFirstTimeLogin(this,"true")
         /**
          * Lets inflate the very first fragment
          * Here , we are inflating the TabFragment as the first Fragment
@@ -40,6 +47,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
         nav_img.setOnClickListener(homeOnclickListener)
 
         ll_dashboard.setOnClickListener{
+            tvFragmentTitle.text="KOD Services"
             val homeFragments = HomeFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -47,7 +55,12 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
                 .commit()
             drawerLayout.closeDrawers()
         }
+        ll_wallet_recharge.setOnClickListener{
+            startActivity(Intent(this, WalletRecharge::class.java))
+            drawerLayout.closeDrawers()
+        }
         ll_new_leads.setOnClickListener{
+            tvFragmentTitle.text="New Leads"
             val newLeadsFragments = NewLeadsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -56,6 +69,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_open_leads.setOnClickListener{
+            tvFragmentTitle.text="Open Leads"
             val openLeadsFragments = OpenLeadsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -63,7 +77,17 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
                 .commit()
             drawerLayout.closeDrawers()
         }
+        ll_onhold_leads.setOnClickListener{
+            tvFragmentTitle.text="On-Hold Leads"
+            val onHoldListFragments = OnHoldListFragments()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.containerView, onHoldListFragments)
+                .commit()
+            drawerLayout.closeDrawers()
+        }
         ll_recomplaints.setOnClickListener{
+            tvFragmentTitle.text="Recomplaints"
             val recomplaintsFragments = RecomplaintsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -72,6 +96,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_all_pending_leads.setOnClickListener{
+            tvFragmentTitle.text="All Pending Leads"
             val allPendingLeadsFragments = AllPendingLeadsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -81,6 +106,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
         }
 
         ll_expert_list.setOnClickListener{
+            tvFragmentTitle.text="Expert List"
             val expertListFragments = ExpertListFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -89,10 +115,11 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_working_area.setOnClickListener{
-            startActivity(Intent(this, MapActivity::class.java))
+            startActivity(Intent(this, MapActivity::class.java))//SendOtp  ,MapActivity
             drawerLayout.closeDrawers()
         }
         ll_completed_leads.setOnClickListener{
+            tvFragmentTitle.text="Completed Leads"
             val completedLeadsFragments = CompletedLeadsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -101,6 +128,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_cancel_leads.setOnClickListener{
+            tvFragmentTitle.text="Cancel Leads"
             val completedLeadsFragments = CancelLeadsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -109,6 +137,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_working_leads.setOnClickListener{
+            tvFragmentTitle.text="Working Leads"
             val workingLeadsFragments = WorkingLeadsFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -121,6 +150,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_rate_list.setOnClickListener{
+            tvFragmentTitle.text="Rate List"
             val rateListFragment = RateListFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -129,6 +159,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_wallet_summary.setOnClickListener{
+            tvFragmentTitle.text="Wallet Summary"
             val walletSummary = WalletSummary()
             supportFragmentManager
                 .beginTransaction()
@@ -136,7 +167,40 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
                 .commit()
             drawerLayout.closeDrawers()
         }
+        ll_logout.setOnClickListener {
+            logout()
+        }
 
+    }
+
+    /*
+     **
+     *** Logout Functionality.
+     **
+     */
+    private fun logout() {
+        val alertDialogBuilder: AlertDialog.Builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder.setMessage("Are you sure you want to logout?")
+            .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, id ->
+                val sharedPreferences = PreferenceManager
+                    .getDefaultSharedPreferences(this@DashboardActivity)
+                val editor = sharedPreferences.edit()
+                editor.remove("setFirstTimeLogin")
+                editor.remove("setCustomerID")
+                editor.remove("setCustomerEmailID")
+                // editor.remove("fcm");
+                editor.commit()
+                Log.e("prefrences", "remove")
+                val i =
+                    Intent(this@DashboardActivity, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            })
+            .setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 
     override fun onBackPressed() {

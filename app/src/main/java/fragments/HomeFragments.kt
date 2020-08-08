@@ -3,8 +3,8 @@ package fragments
 import Interfaces.Apicall
 import Interfaces.OnResponse
 import activity.AllPendingLeadsActivity
-import activity.MapActivity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,17 +12,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.firmapp.R
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import model.DashboardData
 import utils.CustomDialogue
 import utils.LocalStorage
-import utils.SessionManager
+
 
 class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
 
     private var tvAllPendingLeads: TextView? = null
+    private var profile_image: CircleImageView? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,12 +36,25 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
             Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
 
             tvAllPendingLeads = fragmentView.findViewById<View>(R.id.tvAllPendingLeads) as TextView
+            profile_image = fragmentView.findViewById<View>(R.id.profile_image) as CircleImageView
 
             tvAllPendingLeads!!.setOnClickListener {
                 startActivity(Intent(activity!!, AllPendingLeadsActivity::class.java))
             }
-        return fragmentView
 
+        if(LocalStorage.getCustomerImage(activity).equals("")){
+            val path: Uri = Uri.parse("android.resource://com.kodpartner/" + R.mipmap.ic_applogo)
+            Picasso
+                .with(activity!!)
+                .load(path)
+                .into(profile_image);
+        }else{
+            Picasso
+                .with(activity!!)
+                .load(LocalStorage.getCustomerImage(activity))
+                .into(profile_image);
+        }
+        return fragmentView
     }
 
     override fun onSucess(response: UniverSelObjct?) {

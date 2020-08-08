@@ -2,10 +2,8 @@ package adapter
 
 import Interfaces.Apicall
 import Interfaces.OnResponse
-import activity.ExpertDetails
 import activity.MoveToWorking
 import activity.TrackLocation
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -17,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.MaterialDialog
-import com.firmapp.R
+import com.kodpartner.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
@@ -53,10 +51,15 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
             var sizeNew = this.feedData!!.size
             notifyItemRangeChanged(size, sizeNew)
         }
+        getTimeDateSlot()
     }
 
     fun clearData() {
         feedData!!.clear()
+    }
+
+    fun getTimeDateSlot(){
+        Apicall(cxt!!).gettimeDateSlab(this,"TimeDateSlot")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -68,19 +71,38 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
 
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
+        holder.tvFault.text = ""+feedData!![position].fault
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].address+" - Map Link"
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
-        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].ocustomer_name)
-        //holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].c)
+        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        holder.tvVisitDateTime.setText("Visit -"+feedData!![position].service_date +" "+feedData!![position].service_time )
+
+
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        val outputPattern = "dd-MM-yyyy hh:mm:ss";
+        var inputFormat =  SimpleDateFormat(inputPattern);
+        val outputFormat =  SimpleDateFormat(outputPattern);
+
+        var date1: Date? = null;
+        var str : String?= null;
+
+        try {
+            date1 = inputFormat.parse(feedData!![position].booking_date);
+            str = outputFormat.format(date1);
+        } catch (e: ParseException) {
+            e.printStackTrace();
+        }
+
+        holder.tvUnit.setText("Unit "+feedData!![position].unit)
+        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+        holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
+        holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
         holder.tvAddress.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
             cxt!!.startActivity(intent)
-            cxt!!.finish()
         }
         holder.tvMoveToWorking.setOnClickListener{
             val intent = Intent(cxt, MoveToWorking::class.java)
@@ -95,7 +117,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
             //cxt.finish()
         }
         holder.tvRescheduledLeads.setOnClickListener{
-            bottomSheetDiloge(position,feedData!![position].idstatus)
+            bottomSheetDiloge(position,feedData!![position].id.toString())
             //showccancel(position,cxt!!)
         }
     }
@@ -110,22 +132,28 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
         var tvServiceId: TextView
         var tvAddress: TextView
         var tvBookingDateTime: TextView
+        var tvVisitDateTime: TextView
         var tvCustomerName: TextView
         var tvCustomerMobile: TextView
         var tvCancel: TextView
         var tvRescheduledLeads: TextView
         var tvMoveToWorking: TextView
+        var tvFault: TextView
+        var tvUnit: TextView
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvServiceId = itemView.findViewById<View>(R.id.tvServiceId) as TextView
             tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
             tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
+            tvVisitDateTime = itemView.findViewById<View>(R.id.tvVisitDateTime) as TextView
             tvCustomerName = itemView.findViewById<View>(R.id.tvCustomerName) as TextView
             tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
             tvCancel = itemView.findViewById<View>(R.id.tvCancel) as TextView
             tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
             tvMoveToWorking = itemView.findViewById<View>(R.id.tvMoveToWorking) as TextView
+            tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
+            tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
         }
     }
 
@@ -137,7 +165,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
 
         }
     }
@@ -151,10 +179,34 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
                         Log.e("partner-openleads", " " + cancelByData.message + "")
 
                     }
-                    "rescheduler" -> {
+                    "reschedule" -> {
                         val rescheduleData = response.response as RescheduleData
                         Log.e("rescheduler", " " + rescheduleData.message + "")
+                        Toast.makeText(cxt,"Your service request has been rescheduled. Thank you.!!",Toast.LENGTH_LONG).show()
+                    }
+                    "TimeDateSlot" -> {
+                        subServiceData = response.response as TimeDateSlabData
 
+                        if(subServiceData!!.data.size>0){
+                            select_date = subServiceData!!.data[0].date
+                            select_time = subServiceData!!.data[0].time[0]
+
+                            val inputPattern = "yyyy-MM-dd";
+                            val outputPattern = "dd-MMM";
+                            var inputFormat =  SimpleDateFormat(inputPattern);
+                            val outputFormat =  SimpleDateFormat(outputPattern);
+
+                            var date1: Date? = null;
+                            var str : String?= null;
+
+                            try {
+                                date1 = inputFormat.parse(select_date);
+                                str = outputFormat.format(date1);
+                            } catch (e: ParseException) {
+                                e.printStackTrace();
+                            }
+
+                        }
                     }
                 }
             }
