@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
     implementation 'com.github.kanytu:android-parallax-listview:v1.1'
     implementation 'com.razorpay:checkout:1.5.16'
+    implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

@@ -25,6 +25,7 @@ public class Dummy extends AppCompatActivity implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rate_list_layout);
 
+
         ServiceModel serviceModel=new ServiceModel();
         // Spinner element
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);

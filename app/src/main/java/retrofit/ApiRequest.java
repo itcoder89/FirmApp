@@ -3,6 +3,7 @@ package retrofit;
 
 
 import model.AcceptLeadData;
+import model.AddFaultSuccessData;
 import model.CancelByData;
 import model.CancelLeadsData;
 import model.CloseByPartnerData;
@@ -11,7 +12,10 @@ import model.CreateOrderData;
 import model.DashboardData;
 import model.ExpertDetailsData;
 import model.ExpertListData;
+import model.GetAllSelectedPartListData;
 import model.GetMoreFaultsData;
+import model.GetOrderFaultsData;
+import model.GetPartListByOrderIdData;
 import model.HoldReasonData;
 import model.LoginData;
 import model.NewLeadsData;
@@ -24,6 +28,7 @@ import model.RechargeWalletData;
 import model.RecomplaintsListData;
 import model.RescheduleData;
 import model.RescheduleLeadsData;
+import model.SaveOrderPartData;
 import model.SendOTPData;
 import model.ServiceListForRateData;
 import model.SubServiceData;
@@ -150,7 +155,21 @@ public interface ApiRequest {
 
     @POST("api/get-more-faults")
     @FormUrlEncoded
-    Call<GetMoreFaultsData> getMoreFaults(@Field("partner_id") String partner_id,@Field("idservice") String idservice,@Field("idsubservice") String idsubservice);
+    Call<GetMoreFaultsData> getMoreFaults(@Field("partner_id") String partner_id,
+                                          @Field("idservice") String idservice,
+                                          @Field("idsubservice") String idsubservice);
+
+    @GET("api/get-order-faults")
+    Call<GetOrderFaultsData> getOrderFaults(@Query("partner_id") String partner_id,
+                                           @Query("order_id") String idservice);
+
+    @GET("api/get-rate-card-by-order-id")
+    Call<GetPartListByOrderIdData> getPartListByOrderID(@Query("partner_id") String partner_id,
+                                                        @Query("order_id") String idservice);
+
+    @GET("api/get-order-part?")
+    Call<GetAllSelectedPartListData> getOrderPartList(@Query("partner_id") String partner_id,
+                                                          @Query("order_id") String idservice);
 
     @POST("api/wallet-recharge-by-partner")
     @FormUrlEncoded
@@ -158,4 +177,21 @@ public interface ApiRequest {
                                             @Field("recharge_amount") String recharge_amount,
                                             @Field("transaction_number") String transaction_number,
                                             @Field("payment_date") String payment_date);
+
+    @POST("api/save-order-part")
+    @FormUrlEncoded
+    Call<SaveOrderPartData> saveOrderPart(@Field("partner_id") String partner_id,
+                                          @Field("order_id") String order_id,
+                                          @Field("partid") String partid,
+                                          @Field("part_amount") String part_amount);
+
+    @POST("api/add-more-faults-inorder")
+    @FormUrlEncoded
+    Call<AddFaultSuccessData> addFaultSuccess(@Field("partner_id") String partner_id,
+                                              @Field("order_id") String order_id,
+                                             @Field("idfault") String idfault,
+                                             @Field("default_amount") String default_amount,
+                                             @Field("amount") String amount,
+                                             @Field("qty") Integer qty,
+                                             @Field("description") String description);
 }

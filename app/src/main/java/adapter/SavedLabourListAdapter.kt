@@ -1,24 +1,28 @@
 package adapter
 
+import Interfaces.ItemAdapterClick2
 import Interfaces.ItemFaultAdapterClick
+import Interfaces.ItemLabourAdapterClick
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.FragmentActivity
 import com.kodpartner.R
+import model.GetAllSelectedPartListData
 import model.GetOrderFaultsData
+import model.RecomplaintsListData
 
 
-class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapterClick) :
-    RecyclerView.Adapter<FaultListAdapter.ViewHolder>() {
+class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabourAdapterClick) :
+    RecyclerView.Adapter<SavedLabourListAdapter.ViewHolder>() {
 
-    var feedData: ArrayList<GetOrderFaultsData.DataBean>? = ArrayList()
+    var feedData: ArrayList<GetAllSelectedPartListData.DataBean>? = ArrayList()
 
     var onItemClick: ((pos: Int, view: View) -> Unit)? = null
     var count = 0
-    fun addData(listItems: List<GetOrderFaultsData.DataBean>) {
+    fun addData(listItems: List<GetAllSelectedPartListData.DataBean>) {
         if (this.feedData != null) {
             var size = this.feedData!!.size
             this.feedData!!.addAll(listItems)
@@ -45,7 +49,7 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
 
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
-        holder.tvTitle.text = ""+feedData!![position].fault
+        holder.tvTitle.text = ""+feedData!![position].name
         holder.tvAmount.text = "Amount Rs."+feedData!![position].amount
         holder.tv_quantity.text = "1"
 
@@ -53,20 +57,18 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
             count=holder.tv_quantity.text.toString().toInt()
             count++
             holder.tv_quantity.text = count.toString()
-            mListner.onPlusClick(position,1,feedData!![position].amount.toFloat())
-
+            mListner.onPlusPartItemClick(position,1,feedData!![position].amount.toFloat())
         }
         holder.tv_less.setOnClickListener{
             count=holder.tv_quantity.text.toString().toInt()
             count--
             holder.tv_quantity.text = count.toString()
             if (count > 0) {
-                mListner.onMinusClick(position,1,feedData!![position].amount.toFloat())
+                mListner.onMinusPartItemClick(position,1,feedData!![position].amount.toFloat())
             }else{
                 count=1
                 holder.tv_quantity.text = count.toString()
             }
-
         }
     }
 

@@ -1,36 +1,27 @@
 package adapter
 
-import Interfaces.Apicall
 import Interfaces.ItemAdapterClick
-import Interfaces.OnResponse
-import activity.TrackLocation
-import android.content.Context
-import android.content.Intent
-import android.util.Log
+import Interfaces.ItemAdapterClick2
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.*
 import androidx.fragment.app.FragmentActivity
-import com.afollestad.materialdialogs.MaterialDialog
 import com.kodpartner.R
-import com.social.ekchat.Interfaces.UniverSelObjct
-import model.CancelByData
-import model.GetMoreFaultsData
-import model.RescheduleData
-import model.WorkingLeadsData
-import kotlin.collections.ArrayList
+import model.GetOrderFaultsData
+import model.GetPartListByOrderIdData
+import model.RecomplaintsListData
 
 
-class AddFaultsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
-    RecyclerView.Adapter<AddFaultsAdapter.ViewHolder>() {
-    var material : MaterialDialog? = null
-    var feedData: ArrayList<GetMoreFaultsData.DataBean>? = ArrayList()
+class LabourListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick2) :
+    RecyclerView.Adapter<LabourListAdapter.ViewHolder>() {
+
+    var feedData: ArrayList<GetPartListByOrderIdData.DataBean.LabourBean>? = ArrayList()
 
     var onItemClick: ((pos: Int, view: View) -> Unit)? = null
 
-    fun addData(listItems: List<GetMoreFaultsData.DataBean>) {
+    fun addData(listItems: List<GetPartListByOrderIdData.DataBean.LabourBean>) {
         if (this.feedData != null) {
             var size = this.feedData!!.size
             this.feedData!!.addAll(listItems)
@@ -51,19 +42,17 @@ class AddFaultsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // create a new view
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.add_faults_item_layout, parent, false)
+            .inflate(R.layout.labour_item_layout, parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
-        holder.tvTitle.text = "Unit "+feedData!![position].name
+        holder.tvTitle.text = ""+feedData!![position].part_name
 
-
-        holder.tvAddFaults.setOnClickListener{
-            mListner.onClick(position)
+        holder.tvAddLabour.setOnClickListener{
+            mListner.onLabourClick(position)
         }
-
 
     }
 
@@ -74,11 +63,13 @@ class AddFaultsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var tvTitle: TextView
-        var tvAddFaults: TextView
+        var tvAddLabour: TextView
 
         init {
             tvTitle = itemView.findViewById<View>(R.id.tvTitle) as TextView
-            tvAddFaults = itemView.findViewById<View>(R.id.tvAddFaults) as TextView
+            tvAddLabour = itemView.findViewById<View>(R.id.tvAddLabour) as TextView
+
         }
     }
+
 }

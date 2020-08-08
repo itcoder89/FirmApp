@@ -43,7 +43,7 @@ class WalletSummary  : Fragment(), OnResponse<UniverSelObjct> {
         try {
                 when (response!!.methodname) {
                     "partner-wallet-summary" -> {
-                        val walletSummaryData = response!!.response as WalletSummaryData
+                        val walletSummaryData = response.response as WalletSummaryData
                         Log.e("partner-newleads"," "+walletSummaryData.isStatus+"")
                         if(walletSummaryData.isStatus == false){
                             Toast.makeText(activity,""+walletSummaryData.message,Toast.LENGTH_SHORT).show()
