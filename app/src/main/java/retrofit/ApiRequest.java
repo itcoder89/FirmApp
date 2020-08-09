@@ -10,6 +10,7 @@ import model.CloseByPartnerData;
 import model.CompletedLeadsData;
 import model.CreateOrderData;
 import model.DashboardData;
+import model.EstimateSentData;
 import model.ExpertDetailsData;
 import model.ExpertListData;
 import model.GetAllSelectedPartListData;
@@ -21,11 +22,14 @@ import model.LoginData;
 import model.NewLeadsData;
 import model.OnHoldLeadsListData;
 import model.OpenLeadsData;
+import model.OrderPlaceData;
 import model.PendingLeadsData;
 import model.ProfileDetailsData;
 import model.RateListData;
 import model.RechargeWalletData;
 import model.RecomplaintsListData;
+import model.RemoveOrderFaultData;
+import model.RemoveOrderPartData;
 import model.RescheduleData;
 import model.RescheduleLeadsData;
 import model.SaveOrderPartData;
@@ -86,6 +90,12 @@ public interface ApiRequest {
 
     @GET("api/partner-accept-leads")
     Call<AcceptLeadData> acceptOrders(@Query("partner_id") String query, @Query("order_id") String lead);
+
+    @GET("api/remove-order-part")
+    Call<RemoveOrderPartData> removeOrderPartItem(@Query("partner_id") String query, @Query("order_id") String lead, @Query("idpart") String idpart);
+
+    @GET("api/remove-order-faults")
+    Call<RemoveOrderFaultData> removeOrderFaultItem(@Query("partner_id") String query, @Query("order_id") String lead, @Query("idfault") String idfault);
 
     @GET("api/partner-completed")
     Call<CompletedLeadsData> getallCompletedLeads(@Query("partner_id") String query);
@@ -153,6 +163,10 @@ public interface ApiRequest {
     @FormUrlEncoded
     Call<CreateOrderData> getCreateOrders(@Field("order_response") String data);
 
+    @POST("api/save-complete-work")
+    @FormUrlEncoded
+    Call<OrderPlaceData> placeOrder(@Field("work_list") String data);
+
     @POST("api/get-more-faults")
     @FormUrlEncoded
     Call<GetMoreFaultsData> getMoreFaults(@Field("partner_id") String partner_id,
@@ -162,6 +176,11 @@ public interface ApiRequest {
     @GET("api/get-order-faults")
     Call<GetOrderFaultsData> getOrderFaults(@Query("partner_id") String partner_id,
                                            @Query("order_id") String idservice);
+
+    @GET("api/send-order-estimate")
+    Call<EstimateSentData> sendEstimateValue(@Query("partner_id") String partner_id,
+                                          @Query("order_id") String order_id,
+                                          @Query("amount") String amount);
 
     @GET("api/get-rate-card-by-order-id")
     Call<GetPartListByOrderIdData> getPartListByOrderID(@Query("partner_id") String partner_id,

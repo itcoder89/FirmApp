@@ -530,6 +530,84 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
+    fun removeOrderPartItem(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        city: String,
+        lead: String,
+        idpart: String
+    ) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.removeOrderPartItem(city,lead,idpart)
+            .enqueue(object : retrofit2.Callback<RemoveOrderPartData> {
+                override fun onResponse(
+                    call: retrofit2.Call<RemoveOrderPartData>,
+                    response: Response<RemoveOrderPartData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<RemoveOrderPartData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+    fun removeOrderFaultItem(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        city: String,
+        lead: String,
+        idpart: String
+    ) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.removeOrderFaultItem(city,lead,idpart)
+            .enqueue(object : retrofit2.Callback<RemoveOrderFaultData> {
+                override fun onResponse(
+                    call: retrofit2.Call<RemoveOrderFaultData>,
+                    response: Response<RemoveOrderFaultData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<RemoveOrderFaultData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
     fun getallCompletedLeads(
         activity: OnResponse<UniverSelObjct>,
         mathod: String,
@@ -1309,6 +1387,40 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
+    fun placeOrder(activity: OnResponse<UniverSelObjct>,
+                    mathod: String,str_data:String) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.placeOrder(str_data)
+            .enqueue(object : Callback<OrderPlaceData> {
+                override fun onResponse(
+                    call: Call<OrderPlaceData>,
+                    response: Response<OrderPlaceData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<OrderPlaceData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
     fun getMoreFaults(activity: OnResponse<UniverSelObjct>,
                     mathod: String,
                     partner_id:String,
@@ -1375,6 +1487,43 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
                 }
 
                 override fun onFailure(call: Call<GetOrderFaultsData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+    fun sendEstimateValue(activity: OnResponse<UniverSelObjct>,
+                    mathod: String,
+                    partner_id:String,
+                    order_id:String,
+                    amount:String) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.sendEstimateValue(partner_id,order_id,amount)
+            .enqueue(object : Callback<EstimateSentData> {
+                override fun onResponse(
+                    call: Call<EstimateSentData>,
+                    response: Response<EstimateSentData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<EstimateSentData>, t: Throwable) {
                     HelperDiloge.hideProgressDialog(mContext)
                     Log.e("", "")
                     activity.onError(t.message.toString())

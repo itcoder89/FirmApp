@@ -3,24 +3,30 @@ package activity
 import Interfaces.*
 import adapter.*
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.Window
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kodpartner.DashboardActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import kotlinx.android.synthetic.main.comman_top_header.*
 import kotlinx.android.synthetic.main.move_to_working_layout.*
 import model.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import retrofit.AppGlobal
 import utils.CustomDialogue
 import utils.LocalStorage
+import java.util.*
 
 class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     AdapterView.OnItemSelectedListener, ItemAdapterClick, ItemFaultAdapterClick,
@@ -29,6 +35,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     private var rv_fault_list: RecyclerView? = null
     private var faultListAdapter: FaultListAdapter? = null
     private var savedLabourListAdapter: SavedLabourListAdapter? = null
+    var received_otp: String = ""
     var city_id: String = ""
     var order_id: String = ""
     var subservice_id: String = ""
@@ -47,8 +54,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     var lst: List<ServiceListForRateData.DataBean>? = null
     var subServicelst: List<SubServiceData.DataBean>? = null
     var count=0
-
-
+    var faultlist: List<GetOrderFaultsData.DataBean>? = null//working fault list
+    var partlist: List<GetAllSelectedPartListData.DataBean>? = null//working fault list
     override fun onResume() {
         super.onResume()
         Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
@@ -79,24 +86,81 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
             intent.putExtra("order_id",order_id)
             startActivity(intent)
         }
+        btnReSendOTP.setOnClickListener {
+            if(!received_otp.isNullOrBlank())
+                showDialoge(received_otp,this)
+            else
+                AppGlobal.showToast(this,"OTP not received")
+        }
         tvAddMoreFault.setOnClickListener {
             Apicall(this)
                 .getServiceListForRate(this,"partner-part-assigned-services", LocalStorage.getCustomerID(this))
         }
         btnSubmitOrder.setOnClickListener {
-            callSubmitAPI()
+            Apicall(this)
+                .sendEstimateValue(this,"send-order-estimate",
+                    LocalStorage.getCustomerID(this),
+                    order_id,edEnterEstimate.text.toString())
+            //callSubmitAPI()
 
         }
     }
 
-    private fun callSubmitAPI() {
 
-        Toast.makeText(this,"final submit"+
+    private fun callSubmitAPI() {
+        //fault list json prepare
+        Log.e("arrCartCount", "on-plus-size:" + faultlist!!.size)
+        val jsonArray = JSONArray()
+        for (i in faultlist!!.indices) {
+            val student1 = JSONObject()
+            try {
+                student1.put("id", faultlist!!.get(i).id)
+                student1.put("quantity", faultlist!!.get(i).qty)
+            } catch (e: JSONException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+            jsonArray.put(student1)
+        }
+        Log.e("JSONArray", "arr:$jsonArray")
+
+        //prepare part json array list
+
+        Log.e("arrCartCount", "on-plus-size:" + partlist!!.size)
+        val jsonArray2 = JSONArray()
+        for (i in partlist!!.indices) {
+            val student1 = JSONObject()
+            try {
+                student1.put("id", partlist!!.get(i).id)
+                student1.put("quantity", partlist!!.get(i).qty)
+            } catch (e: JSONException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+            jsonArray2.put(student1)
+        }
+        Log.e("jsonArray2", "arr:$jsonArray2")
+
+
+        var mainjsonOBj = JSONObject()
+
+        mainjsonOBj.put("partner_id",LocalStorage.getCustomerID(this))
+        mainjsonOBj.put("order_id", order_id)
+        mainjsonOBj.put("total_fault",tvFaultTotalAmount.text.toString())
+        mainjsonOBj.put("total_part", tvPartTotalAmount.text.toString())
+        mainjsonOBj.put("total_estimate",tvTotalEstimateAmount.text.toString())
+        mainjsonOBj.put("fault_list",jsonArray)
+        mainjsonOBj.put("part_list",jsonArray2)
+        Log.e("CreateOrderRequest",mainjsonOBj.toString())
+
+        Apicall(this).placeOrder(this,"save-complete-work",mainjsonOBj.toString())
+
+        /*Toast.makeText(this,"final submit"+
                 "Order Id "+order_id+
                 " Total Fault "+tvFaultTotalAmount.text.toString()+
                 " Total Part "+tvPartTotalAmount.text.toString()+
                 " Total Estimate "+tvTotalEstimateAmount.text.toString(),
-            Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT).show()*/
     }
 
     private var layoutManager1: LinearLayoutManager? = null
@@ -167,6 +231,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         getOrderFaultsData = response.response as GetOrderFaultsData
                         Log.e("get-order-faults","size- "+getOrderFaultsData!!.message)
                         //Toast.makeText(this,""+getOrderFaultsData.message,Toast.LENGTH_SHORT).show()
+                        faultlist=getOrderFaultsData!!.data
                         faultListAdapter = FaultListAdapter(this,this)
                         rv_fault_list!!.adapter = faultListAdapter
                         rv_fault_list!!.setHasFixedSize(false)
@@ -184,6 +249,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         getAllSelectedPartListData = response.response as GetAllSelectedPartListData
                         Log.e("get-order-part","size- "+getAllSelectedPartListData!!.message)
                         //Toast.makeText(this,""+getOrderFaultsData.message,Toast.LENGTH_SHORT).show()
+                        partlist=getAllSelectedPartListData!!.data
                         savedLabourListAdapter = SavedLabourListAdapter(this,this)
                         rv_part_list!!.adapter = savedLabourListAdapter
                         rv_part_list!!.setHasFixedSize(false)
@@ -197,11 +263,43 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         tvPartTotalAmount.text=sum2.toString()
                         //tvTotalEstimateAmount.text = "Total Estimate Amount "+(tvFaultTotalAmount.text.toString().toInt() + tvPartTotalAmount.text.toString().toInt()).toString()+"/-"
                         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+                        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+                    }
+                    "remove-order-part" -> {
+                        val removeOrderPartData = response.response as RemoveOrderPartData
+                        Log.e("remove-order-part","size- "+removeOrderPartData.message)
+                        //Toast.makeText(this,""+removeOrderPartData.message,Toast.LENGTH_SHORT).show()
+                        if(removeOrderPartData.isStatus == true)
+                            Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
+                        else
+                            Toast.makeText(this,""+removeOrderPartData.message,Toast.LENGTH_SHORT).show()
+                    }
+                    "remove-order-faults" -> {
+                        val removeOrderFaultData = response.response as RemoveOrderFaultData
+                        Log.e("remove-order-faults","size- "+removeOrderFaultData.message)
+                        if(removeOrderFaultData.isStatus == true)
+                            Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
+                        else
+                            Toast.makeText(this,""+removeOrderFaultData.message,Toast.LENGTH_SHORT).show()
                     }
                     "add-more-faults-inorder" -> {
                         val addFaultSuccessData = response.response as AddFaultSuccessData
                         Log.e("partner-part-services","size- "+addFaultSuccessData.message)
                         Toast.makeText(this,""+addFaultSuccessData.message,Toast.LENGTH_SHORT).show()
+                    }
+                    "send-order-estimate" -> {
+                        val estimateSentData = response.response as EstimateSentData
+                        Log.e("send-order-estimate","size- "+estimateSentData.message)
+                        Log.e("send-order-estimate","received_otp "+estimateSentData.data.otp)
+                        Toast.makeText(this,""+estimateSentData.message,Toast.LENGTH_SHORT).show()
+                        received_otp=estimateSentData.data.otp.toString()
+                    }
+                    "save-complete-work" -> {
+                        val orderPlaceData = response.response as OrderPlaceData
+                        Log.e("save-complete-work","size- "+orderPlaceData.message)
+                        Toast.makeText(this,""+orderPlaceData.message,Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, DashboardActivity::class.java))
+                        finish()
                     }
                     "partner-part-assigned-services" -> {
                         serviceListForRateData = response.response as ServiceListForRateData
@@ -257,7 +355,6 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     }
 
     override fun onClick(pos: Int) {
-        var count = 0
         Apicall(this)
             .addFaultSuccess(this,
                 "add-more-faults-inorder",
@@ -272,40 +369,117 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
 
     }
 
-    override fun onPlusClick(pos: Int, quantity: Int,total_amount:Float) {
-        //count = quantity
-       // count++
-        Log.e("onPlusClick","pos "+pos + "qty "+count)
+    override fun onPlusClick(faultid: Int,pos: Int, quantity: Int,total_amount:Float) {
+        Log.e("onPlusClick","pos "+pos + "qty "+quantity +" faultid "+faultid)
+        var flag = false
         var lastsum=tvFaultTotalAmount.text.toString()
         tvFaultTotalAmount.text=""+(total_amount + lastsum.toFloat()).toString()
-
         //update final estimate amount
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+        for (i in 0 until faultlist!!.size) {
+            if(faultlist!![i].id == faultid) {
+                faultlist!![i].qty=quantity.toString()
+            }
+        }
+        Log.e("arrCartCount", "on-plus-size:" + faultlist!!.size)
     }
 
-    override fun onMinusClick(pos: Int, quantity: Int,total_amount:Float) {
-        //count = quantity
-        //count--
+    override fun onMinusClick(faultid: Int,pos: Int, quantity: Int,total_amount:Float) {
         Log.e("onMinusClick","pos "+pos + "qty "+quantity)
         var lastsum=tvFaultTotalAmount.text.toString()
         tvFaultTotalAmount.text=""+(lastsum.toFloat() - total_amount).toString()
-
         //update final estimate amount
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+        for (i in 0 until faultlist!!.size) {
+            if(faultlist!![i].id == faultid) {
+                faultlist!![i].qty=quantity.toString()
+            }
+        }
+        Log.e("arrCartCount", "on-minus-size:" + faultlist!!.size)
     }
 
-    override fun onPlusPartItemClick(pos: Int, quantity: Int,total_amount:Float) {
+    override fun onRemoveItemClick(id: Int) {
+        showRemoveItemDialoge(id,this,"falut")
+    }
+
+    override fun onPlusPartItemClick(partid: Int,pos: Int, quantity: Int,total_amount:Float) {
         var lastsum=tvPartTotalAmount.text.toString()
         tvPartTotalAmount.text=""+(total_amount + lastsum.toFloat()).toString()
-
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+        for (i in 0 until partlist!!.size) {
+            if(partlist!![i].id == partid) {
+                partlist!![i].qty=quantity.toString()
+            }
+        }
+        Log.e("arrCartCount", "on-plus-size:" + partlist!!.size)
     }
 
-    override fun onMinusPartItemClick(pos: Int, quantity: Int,total_amount:Float) {
+    override fun onMinusPartItemClick(partid: Int,pos: Int, quantity: Int,total_amount:Float) {
         Log.e("onMinusClick","pos "+pos + "qty "+quantity)
         var lastsum=tvPartTotalAmount.text.toString()
         tvPartTotalAmount.text=""+(lastsum.toFloat() - total_amount).toString()
-
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+        for (i in 0 until partlist!!.size) {
+            if(partlist!![i].id == partid) {
+                partlist!![i].qty=quantity.toString()
+            }
+        }
+        Log.e("arrCartCount", "on-minus-size:" + partlist!!.size)
+    }
+
+    override fun onRemmovePartItemClick(id: Int) {
+        showRemoveItemDialoge(id,this,"part")
+    }
+
+    fun showDialoge(cust_otp: String,cxt: Context) {
+        val dialog = Dialog(cxt)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_resend_otp_popup)
+        dialog.setCanceledOnTouchOutside(false)
+        val edEnterCustomerOTP = dialog.findViewById<View>(R.id.edEnterCustomerOTP) as EditText
+        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
+        val tvYesCancel =
+            dialog.findViewById<View>(R.id.tvYesCancel) as TextView
+        tvNo.setOnClickListener { dialog.dismiss() }
+        tvYesCancel.setOnClickListener {
+            if(edEnterCustomerOTP.text.toString().equals(cust_otp))
+                callSubmitAPI()
+            else
+                Toast.makeText(this,"Invalid OTP Entered!",Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    //Remove Item From List Dialoge
+    fun showRemoveItemDialoge(_id: Int,cxt: Context,type:String) {
+        val dialog = Dialog(cxt)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_remove_popup)
+        dialog.setCanceledOnTouchOutside(false)
+        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
+        val tvYesCancel =
+            dialog.findViewById<View>(R.id.tvYesCancel) as TextView
+        tvNo.setOnClickListener { dialog.dismiss() }
+        tvYesCancel.setOnClickListener {
+            //Log.e("acceptOrderParam","ptnr_id: "+LocalStorage.getCustomerID(cxt)+" order_id:"+order_id)
+            if(type.equals("part")){
+                Apicall(cxt).removeOrderPartItem(this,"remove-order-part",
+                    LocalStorage.getCustomerID(cxt),
+                    order_id,
+                    _id.toString())
+            }else{
+                Apicall(cxt).removeOrderFaultItem(this,"remove-order-faults",
+                    LocalStorage.getCustomerID(cxt),
+                    order_id,
+                    _id.toString())
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 }

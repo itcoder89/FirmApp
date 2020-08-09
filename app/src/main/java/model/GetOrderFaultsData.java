@@ -69,6 +69,19 @@ public class GetOrderFaultsData {
         private String lng_code;
         private String idcity;
         private String booking_date;
+        private String qty;
+
+        public String getQty() {
+            if(qty==null || qty.equals("")){
+                qty = "1";
+            }
+            return qty;
+        }
+
+        public void setQty(String qty) {
+            this.qty = qty;
+        }
+
 
         public int getId() {
             return id;

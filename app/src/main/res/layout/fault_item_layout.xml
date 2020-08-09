@@ -21,16 +21,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="14dp"
-                android:paddingBottom="5dp"
                 android:text="Split Ac-Installation"
                 android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tvAmount"
+            <EditText
+                android:id="@+id/edAmount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="5dp"
-                android:text="Amount Rs.100"
+                android:background="@color/graylight"
+                android:padding="@dimen/dimen_8dp"
+                android:layout_marginTop="15dp"
+                android:hint="Enter Amount"
                 android:textSize="12sp"
                 android:textColor="@color/colorPrimary" />
 
@@ -38,10 +39,22 @@
 
 
         <!--if there is item-->
+        <ImageView
+            android:id="@+id/ivRemoveItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/red"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete"/>
+
         <LinearLayout
             android:id="@+id/llAddItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ivRemoveItem"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_alignParentRight="true"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -50,7 +63,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10dp"
+
                 android:background="@drawable/border_selection_color"
                 android:orientation="horizontal">
 

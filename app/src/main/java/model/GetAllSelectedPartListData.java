@@ -53,6 +53,18 @@ public class GetAllSelectedPartListData {
         private String name;
         private String amount;
         private String order_id;
+        private String qty;
+
+        public String getQty() {
+            if(qty==null || qty.equals("")){
+                qty = "1";
+            }
+            return qty;
+        }
+
+        public void setQty(String qty) {
+            this.qty = qty;
+        }
 
         public int getId() {
             return id;
