@@ -37,15 +37,19 @@ import model.SendOTPData;
 import model.ServiceListForRateData;
 import model.SubServiceData;
 import model.TimeDateSlabData;
+import model.UpdateProfileData;
 import model.WalletSummaryData;
 import model.WalletSummaryListData;
 import model.WorkingAreaData;
 import model.WorkingLeadsData;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiRequest {
@@ -213,4 +217,27 @@ public interface ApiRequest {
                                              @Field("amount") String amount,
                                              @Field("qty") Integer qty,
                                              @Field("description") String description);
+
+    @POST("api/update-partner-profile")
+    @Multipart
+    Call<UpdateProfileData> updateProfile(@Field("partner_id") String partner_id,
+                                          @Field("p_name") String p_name,
+                                          @Field("p_father_name") String p_father_name,
+                                          @Field("alt_mob_no") String alt_mob_no,
+                                          @Field("p_address") String p_address,
+                                          @Field("p_pan_no") String p_pan_no,
+                                          @Field("p_aadhar_no") String p_aadhar_no);
+
+    @POST("api/update-partner-profile")
+    @Multipart
+    Call<UpdateProfileData> updateProfileNew(@Part("partner_id") MultipartBody.Part partner_id,
+                                             @Part("p_name") MultipartBody.Part p_name,
+                                             @Part("p_father_name") MultipartBody.Part p_father_name,
+                                             @Part("alt_mob_no") MultipartBody.Part alt_mob_no,
+                                             @Part("p_address") MultipartBody.Part p_address,
+                                             @Part("p_pan_no") MultipartBody.Part p_pan_no,
+                                             @Part("p_aadhar_no") MultipartBody.Part p_aadhar_no,
+                                             @Part("profile_image") MultipartBody.Part photo,
+                                             @Part("signature_file") MultipartBody.Part signature);
+
 }

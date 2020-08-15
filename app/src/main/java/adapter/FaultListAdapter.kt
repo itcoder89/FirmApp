@@ -1,6 +1,8 @@
 package adapter
 
 import Interfaces.ItemFaultAdapterClick
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import model.GetOrderFaultsData
 
-
 class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapterClick) :
     RecyclerView.Adapter<FaultListAdapter.ViewHolder>() {
 
     var feedData: ArrayList<GetOrderFaultsData.DataBean>? = ArrayList()
+    var SelectfeedData: GetOrderFaultsData.DataBean? = null
 
     var onItemClick: ((pos: Int, view: View) -> Unit)? = null
     var count = 0
@@ -48,26 +50,65 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvTitle.text = ""+feedData!![position].fault
-        holder.edAmount.setText(feedData!![position].amount)
-        holder.tv_quantity.text = "1"
+       // holder.edAmount.setText(feedData!![position].amount)
+        holder.tv_quantity.text = feedData!![position].qty
+
+        if(feedData!![position].rowamount.toInt().equals("0")){
+            var amount = calCulation(feedData!![position])
+            holder.edAmount.setText(amount.toString())
+        }else{
+            holder.edAmount.setText(feedData!![position].rowamount.toString())
+        }
 
         holder.ivRemoveItem.setOnClickListener {
             mListner.onRemoveItemClick(feedData!![position].idfault.toInt())
         }
+        holder.edAmount.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                feedData!![position].rowamount = ""+s
+                finalCalculation(feedData!!)
+            }
+        })
+
         holder.tv_add.setOnClickListener{
             count=holder.tv_quantity.text.toString().toInt()
             count++
+            feedData!![position].qty = ""+count
             holder.tv_quantity.text = count.toString()
-           // mListner.onPlusClick(feedData!![position].id,position,count,feedData!![position].amount.toFloat())
-            mListner.onPlusClick(feedData!![position].id,position,count,holder.edAmount.text.toString().toFloat())
+            var amount = calCulation(feedData!![position])
+            feedData!![position].rowamount = ""+amount
 
+            holder.edAmount.setText(""+amount)
+            finalCalculation(feedData!!)
+            notifyDataSetChanged()
+            mListner.onPlusClick(feedData!![position].id,position,count,holder.edAmount.text.toString().toFloat())
         }
         holder.tv_less.setOnClickListener{
             count=holder.tv_quantity.text.toString().toInt()
             count--
-            holder.tv_quantity.text = count.toString()
             if (count > 0) {
-                //mListner.onMinusClick(feedData!![position].id,position,count,feedData!![position].amount.toFloat())
+                feedData!![position].qty = ""+count
+                holder.tv_quantity.text = count.toString()
+                var amount = calCulation(feedData!![position])
+                feedData!![position].rowamount = ""+amount
+                holder.edAmount.setText(""+amount)
+                notifyDataSetChanged()
                 mListner.onMinusClick(feedData!![position].id,position,count,holder.edAmount.text.toString().toFloat())
             }else{
                 count=1
@@ -77,9 +118,58 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
         }
     }
 
+    private fun finalCalculation(feedData: ArrayList<GetOrderFaultsData.DataBean>) {
+        var finlamount = 0
+        for (i in 0 until feedData.size) {
+            finlamount = finlamount + feedData!![i].rowamount.toInt()
+        }
+        //txt.text = finlamount
+        mListner.onFinalFaultAmount(finlamount)
+    }
+
     override fun getItemCount(): Int {
         return feedData!!.size
     }
+
+    fun calCulation(item: GetOrderFaultsData.DataBean):Int{
+        var total_amount : Int = 0
+        for (x in 0 until item.qty.toInt()){
+            if(x == 0){
+                if(!item.qty1_rate.equals("") && !item.qty1_rate.equals("0")){
+                    total_amount = total_amount + item.qty1_rate.toInt()
+                }else{
+                    total_amount = total_amount + item.default_amount.toInt()
+                }
+            }else if (x == 1){
+                if(!item.qty2_rate.equals("0")){
+                    total_amount = total_amount + item.qty2_rate.toInt()
+                }else if (item.qty2_rate.equals("0")){
+                    if(!item.qty3_rate.equals("0")){
+                        total_amount = total_amount + item.qty2_rate.toInt()
+                    }else if(!item.qty1_rate.equals("0")){
+                        total_amount = total_amount + item.qty1_rate.toInt()
+                    }else{
+                        total_amount = total_amount + item.default_amount.toInt()
+                    }
+                }
+            }else if(x > 1){
+
+                if(!item.qty3_rate.equals("") && !item.qty3_rate.equals("0")){
+                    total_amount = total_amount + item.qty3_rate.toInt()
+                }else if(!item.qty2_rate.equals("") && !item.qty2_rate.equals("0")){
+                    total_amount = total_amount + item.qty2_rate.toInt()
+                }else if(!item.qty1_rate.equals("") && !item.qty1_rate.equals("0")){
+                    total_amount = total_amount + item.qty1_rate.toInt()
+                }else {
+                    total_amount = total_amount + item.default_amount.toInt()
+                }
+
+            }
+        }
+        return total_amount
+
+    }
+
 
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -98,5 +188,4 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
             ivRemoveItem = itemView.findViewById<View>(R.id.ivRemoveItem) as ImageView
         }
     }
-
 }

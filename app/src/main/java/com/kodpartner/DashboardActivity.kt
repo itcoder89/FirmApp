@@ -4,8 +4,7 @@ import activity.LoginActivity
 import activity.MapActivity
 import activity.ProfileDetails
 import activity.WalletRecharge
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -26,11 +25,33 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
     private var mFragmentManager: FragmentManager? = null
     private var mFragmentTransaction: FragmentTransaction? = null
     private val TAG = "DashboardActivity"
+
+    var headertitle=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dashboard_layout)
+        getData()
         init()
 
+    }
+
+    fun getData() {
+        val mBroadcastReceiverPost = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                try {
+                    headertitle = intent.getStringExtra("title")
+                    Log.e("mBroadcastReceiverPost", "headertitle$headertitle")
+                    tvFragmentTitle.text=headertitle
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        this
+        this.registerReceiver(
+            mBroadcastReceiverPost,
+            IntentFilter("start.fragment.action.replacetitle")
+        )
     }
 
     private fun init() {

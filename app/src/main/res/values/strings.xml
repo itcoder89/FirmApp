@@ -29,4 +29,17 @@ functionality.</string>
     <string name="settings">Settings</string>
     <string name="set_location">Set Location</string>
     <string name="spinner_title">Select Service (AC)</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="empty_adhar">Please enter adhar number</string>
+    <string name="empty_pan_no">Please enter pan number</string>
+    <string name="empty_address">Please enter address</string>
+    <string name="empty_alterno">Please enter alternate number</string>
+    <string name="empty_pfathername">Please enter father name</string>
+    <string name="empty_p_name">Please enter name</string>
+    <string name="take_a_picture_from_camera">take a picture from camera</string>
+    <string name="choose_from_gallery">choose from gallery</string>
+    <string name="no_thanks">no thanks</string>
+    <string name="you_want_to_crop_this_image">you want to crop this image</string>
+    <string name="use_orignal">use orignal</string>
+    <string name="crop">crop</string>
 </resources>

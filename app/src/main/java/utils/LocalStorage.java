@@ -38,6 +38,17 @@ public class LocalStorage {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("setCustomerEmailID", "");
     }
+    public static void setFirmName(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setFirmName", key);
+        prefsEditor.commit();
+    }
+
+    public static String getFirmName(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setFirmName", "");
+    }
     public static void setCustomerImage(Context context, String key) {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();

@@ -196,15 +196,14 @@
             <TextView
                 android:id="@+id/tvTotalEstimateAmount"
                 android:layout_width="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="right"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/_20sdp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:gravity="right"
+                android:text="0"
                 android:textColor="@color/red"
-                android:textSize="18dp"
-                android:text="0" />
+                android:textSize="18dp" />
 
         </RelativeLayout>
 
@@ -250,7 +249,7 @@
             android:textColor="@color/red"
             android:paddingLeft="@dimen/_10dp"
             android:textSize="11dp"
-            android:text="* Click on resend button to submit otp" />
+            android:text="* Click on enter otp button to submit otp" />
         <Button
             android:id="@+id/btnReSendOTP"
             android:layout_width="match_parent"
@@ -266,7 +265,7 @@
             android:layout_marginRight="@dimen/dim_50"
             android:paddingLeft="@dimen/_20sdp"
             android:paddingRight="@dimen/_20sdp"
-            android:text="Resend OTP" />
+            android:text="Enter OTP" />
 
 
     </LinearLayout>

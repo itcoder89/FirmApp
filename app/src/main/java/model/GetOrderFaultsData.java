@@ -8,7 +8,7 @@ public class GetOrderFaultsData {
     /**
      * status : true
      * message : OrderID Found.
-     * data : [{"id":339,"order_id":"202008329","default_amount":"0","amount":"2500","unit":"1","service_date":"2020-08-07","service_time":"04 PM - 08 PM","idfault":"80","fault":"Gas Charging (Full)","lat_code":"26.8590969","lng_code":"75.6704022","idcity":"1","booking_date":"2020-08-08T09:41:09.000000Z"},{"id":329,"order_id":"202008329","default_amount":"2000","amount":"3900","unit":"3","service_date":"2020-08-07","service_time":"04 PM - 08 PM","idfault":"5","fault":"Split AC Installation","lat_code":"26.8590969","lng_code":"75.6704022","idcity":"1","booking_date":"2020-08-07T07:25:33.000000Z"},{"id":330,"order_id":"202008329","default_amount":"1200","amount":"2400","unit":"3","service_date":"2020-08-07","service_time":"04 PM - 08 PM","idfault":"6","fault":"Window AC Installation","lat_code":"26.8590969","lng_code":"75.6704022","idcity":"1","booking_date":"2020-08-07T07:25:33.000000Z"}]
+     * data : [{"id":355,"order_id":"202008329","default_amount":"2000","amount":"3900","unit":"3","service_date":"2020-08-09","service_time":"12 PM - 04 PM","idfault":"5","fault":"Split AC Installation","lat_code":"26.8590969","lng_code":"75.6704022","idcity":"1","booking_date":"2020-08-07T07:25:33.000000Z","qty1_rate":"1300","qty2_rate":"1300","qty3_rate":"1300"},{"id":356,"order_id":"202008329","default_amount":"1200","amount":"2400","unit":"3","service_date":"2020-08-09","service_time":"12 PM - 04 PM","idfault":"6","fault":"Window AC Installation","lat_code":"26.8590969","lng_code":"75.6704022","idcity":"1","booking_date":"2020-08-07T07:25:33.000000Z","qty1_rate":"800","qty2_rate":"800","qty3_rate":"800"}]
      */
 
     private boolean status;
@@ -41,19 +41,22 @@ public class GetOrderFaultsData {
 
     public static class DataBean {
         /**
-         * id : 339
+         * id : 355
          * order_id : 202008329
-         * default_amount : 0
-         * amount : 2500
-         * unit : 1
-         * service_date : 2020-08-07
-         * service_time : 04 PM - 08 PM
-         * idfault : 80
-         * fault : Gas Charging (Full)
+         * default_amount : 2000
+         * amount : 3900
+         * unit : 3
+         * service_date : 2020-08-09
+         * service_time : 12 PM - 04 PM
+         * idfault : 5
+         * fault : Split AC Installation
          * lat_code : 26.8590969
          * lng_code : 75.6704022
          * idcity : 1
-         * booking_date : 2020-08-08T09:41:09.000000Z
+         * booking_date : 2020-08-07T07:25:33.000000Z
+         * qty1_rate : 1300
+         * qty2_rate : 1300
+         * qty3_rate : 1300
          */
 
         private int id;
@@ -69,7 +72,24 @@ public class GetOrderFaultsData {
         private String lng_code;
         private String idcity;
         private String booking_date;
+        private String qty1_rate;
+        private String qty2_rate;
+        private String qty3_rate;
+
         private String qty;
+
+        public String getRowamount() {
+            if(rowamount==null || rowamount.equals("")){
+                rowamount = "0";
+            }
+            return rowamount;
+        }
+
+        public void setRowamount(String rowamount) {
+            this.rowamount = rowamount;
+        }
+
+        private String rowamount;
 
         public String getQty() {
             if(qty==null || qty.equals("")){
@@ -81,7 +101,6 @@ public class GetOrderFaultsData {
         public void setQty(String qty) {
             this.qty = qty;
         }
-
 
         public int getId() {
             return id;
@@ -185,6 +204,30 @@ public class GetOrderFaultsData {
 
         public void setBooking_date(String booking_date) {
             this.booking_date = booking_date;
+        }
+
+        public String getQty1_rate() {
+            return qty1_rate;
+        }
+
+        public void setQty1_rate(String qty1_rate) {
+            this.qty1_rate = qty1_rate;
+        }
+
+        public String getQty2_rate() {
+            return qty2_rate;
+        }
+
+        public void setQty2_rate(String qty2_rate) {
+            this.qty2_rate = qty2_rate;
+        }
+
+        public String getQty3_rate() {
+            return qty3_rate;
+        }
+
+        public void setQty3_rate(String qty3_rate) {
+            this.qty3_rate = qty3_rate;
         }
     }
 }

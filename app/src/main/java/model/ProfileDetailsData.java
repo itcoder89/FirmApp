@@ -1,6 +1,9 @@
 package model;
 
-public class ProfileDetailsData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ProfileDetailsData implements Parcelable {
 
 
     /**
@@ -14,6 +17,24 @@ public class ProfileDetailsData {
     private boolean status;
     private String message;
     private DataBean data;
+
+    protected ProfileDetailsData(Parcel in) {
+        img_path = in.readString();
+        status = in.readByte() != 0;
+        message = in.readString();
+    }
+
+    public static final Creator<ProfileDetailsData> CREATOR = new Creator<ProfileDetailsData>() {
+        @Override
+        public ProfileDetailsData createFromParcel(Parcel in) {
+            return new ProfileDetailsData(in);
+        }
+
+        @Override
+        public ProfileDetailsData[] newArray(int size) {
+            return new ProfileDetailsData[size];
+        }
+    };
 
     public String getImg_path() {
         return img_path;
@@ -47,7 +68,19 @@ public class ProfileDetailsData {
         this.data = data;
     }
 
-    public static class DataBean {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(img_path);
+        parcel.writeByte((byte) (status ? 1 : 0));
+        parcel.writeString(message);
+    }
+
+    public static class DataBean implements Parcelable{
         /**
          * p_name : B.L. Gehlot
          * p_father_name :
@@ -107,6 +140,49 @@ public class ProfileDetailsData {
         private String is_approve;
         private String firm_agreement;
         private String reason;
+
+        protected DataBean(Parcel in) {
+            p_name = in.readString();
+            p_father_name = in.readString();
+            contact_no = in.readString();
+            alt_mob_no = in.readString();
+            email = in.readString();
+            p_image = in.readString();
+            p_signature_file = in.readString();
+            p_address = in.readString();
+            p_pan_no = in.readString();
+            p_aadhar_no = in.readString();
+            f_name = in.readString();
+            f_udhyog_no = in.readString();
+            f_brn_no = in.readString();
+            gst_number = in.readString();
+            f_city_name = in.readString();
+            f_address = in.readString();
+            bank_account_type = in.readString();
+            f_bank_ac = in.readString();
+            f_bank_name = in.readString();
+            account_holder = in.readString();
+            f_ifsc_code = in.readString();
+            branch_address = in.readString();
+            f_paytm_no = in.readString();
+            f_upi_no = in.readString();
+            f_upi_id = in.readString();
+            is_approve = in.readString();
+            firm_agreement = in.readString();
+            reason = in.readString();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public String getP_name() {
             return p_name;
@@ -330,6 +406,43 @@ public class ProfileDetailsData {
 
         public void setReason(String reason) {
             this.reason = reason;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(p_name);
+            parcel.writeString(p_father_name);
+            parcel.writeString(contact_no);
+            parcel.writeString(alt_mob_no);
+            parcel.writeString(email);
+            parcel.writeString(p_image);
+            parcel.writeString(p_signature_file);
+            parcel.writeString(p_address);
+            parcel.writeString(p_pan_no);
+            parcel.writeString(p_aadhar_no);
+            parcel.writeString(f_name);
+            parcel.writeString(f_udhyog_no);
+            parcel.writeString(f_brn_no);
+            parcel.writeString(gst_number);
+            parcel.writeString(f_city_name);
+            parcel.writeString(f_address);
+            parcel.writeString(bank_account_type);
+            parcel.writeString(f_bank_ac);
+            parcel.writeString(f_bank_name);
+            parcel.writeString(account_holder);
+            parcel.writeString(f_ifsc_code);
+            parcel.writeString(branch_address);
+            parcel.writeString(f_paytm_no);
+            parcel.writeString(f_upi_no);
+            parcel.writeString(f_upi_id);
+            parcel.writeString(is_approve);
+            parcel.writeString(firm_agreement);
+            parcel.writeString(reason);
         }
     }
 }

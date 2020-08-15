@@ -59,7 +59,6 @@ class ExpertListAdapter(var cxt: FragmentActivity?) :
             val intent = Intent(cxt, ExpertDetails::class.java)
             intent.putExtra("expertid",feedData!![position].expert_id )
             cxt!!.startActivity(intent)
-            cxt!!.finish()
         }
     }
 

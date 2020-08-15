@@ -3,6 +3,8 @@ package adapter
 import Interfaces.ItemAdapterClick2
 import Interfaces.ItemFaultAdapterClick
 import Interfaces.ItemLabourAdapterClick
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,27 +54,68 @@ class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabo
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvTitle.text = ""+feedData!![position].name
-        holder.edAmount.setText(feedData!![position].amount)
-        holder.tv_quantity.text = "1"
+        //holder.edAmount.setText(feedData!![position].amount)
+        holder.tv_quantity.text = feedData!![position].qty
+
+        if(feedData!![position].row_amount.equals("0")){
+            feedData!![position].row_amount = ""+calCulation(feedData!![position])
+            var amount = calCulation(feedData!![position])
+            holder.edAmount.setText(amount.toString())
+        }else{
+            holder.edAmount.setText(feedData!![position].row_amount.toString())
+        }
+
+        holder.edAmount.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                feedData!![position].row_amount = ""+s
+                finalCalculation(feedData!!)
+                // notifyDataSetChanged()
+            }
+        })
 
         holder.tv_add.setOnClickListener{
             count=holder.tv_quantity.text.toString().toInt()
             count++
+            feedData!![position].qty = ""+count
             holder.tv_quantity.text = count.toString()
+            var amount = calCulation(feedData!![position])
+            feedData!![position].row_amount = ""+amount
+
+            holder.edAmount.setText(""+amount)
+            finalCalculation(feedData!!)
+            notifyDataSetChanged()
             //mListner.onPlusPartItemClick(feedData!![position].id,position,count,feedData!![position].amount.toFloat())
-            mListner.onPlusPartItemClick(feedData!![position].id,position,count,holder.edAmount.text.toString().toFloat())
+          //  mListner.onPlusPartItemClick(feedData!![position].id,position,count,holder.edAmount.text.toString().toFloat())
         }
         holder.tv_less.setOnClickListener{
+
             count=holder.tv_quantity.text.toString().toInt()
             count--
+            feedData!![position].qty = ""+count
             holder.tv_quantity.text = count.toString()
-            if (count > 0) {
-                //mListner.onMinusPartItemClick(feedData!![position].id,position,count,feedData!![position].amount.toFloat())
-                mListner.onMinusPartItemClick(feedData!![position].id,position,count,holder.edAmount.text.toString().toFloat())
-            }else{
-                count=1
-                holder.tv_quantity.text = count.toString()
-            }
+            var amount = calCulation(feedData!![position])
+            feedData!![position].row_amount = ""+amount
+
+            holder.edAmount.setText(""+amount)
+            finalCalculation(feedData!!)
+            notifyDataSetChanged()
+
         }
         holder.ivRemoveItem.setOnClickListener {
             mListner.onRemmovePartItemClick(feedData!![position].idpart.toInt())
@@ -101,6 +144,21 @@ class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabo
             ivRemoveItem = itemView.findViewById<View>(R.id.ivRemoveItem) as ImageView
 
         }
+    }
+
+    private fun finalCalculation(feedData: ArrayList<GetAllSelectedPartListData.DataBean>) {
+        var finlamount = 0
+        for (i in 0 until feedData.size) {
+            finlamount = finlamount + feedData!![i].row_amount.toInt()
+        }
+        //txt.text = finlamount
+        mListner.onFinalPartAmount(finlamount)
+    }
+
+    fun calCulation(item: GetAllSelectedPartListData.DataBean):Int{
+        var total_amount : Int = 0
+        total_amount =  item.qty.toInt() * item.amount.toInt()
+        return total_amount
     }
 
 }

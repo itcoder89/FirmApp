@@ -114,7 +114,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         for (i in faultlist!!.indices) {
             val student1 = JSONObject()
             try {
-                student1.put("id", faultlist!!.get(i).id)
+                student1.put("id", faultlist!!.get(i).idfault)
+                student1.put("amount", faultlist!!.get(i).rowamount)
                 student1.put("quantity", faultlist!!.get(i).qty)
             } catch (e: JSONException) {
                 // TODO Auto-generated catch block
@@ -131,7 +132,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         for (i in partlist!!.indices) {
             val student1 = JSONObject()
             try {
-                student1.put("id", partlist!!.get(i).id)
+                student1.put("id", partlist!!.get(i).idpart)
+                student1.put("amount", faultlist!!.get(i).rowamount)
                 student1.put("quantity", partlist!!.get(i).qty)
             } catch (e: JSONException) {
                 // TODO Auto-generated catch block
@@ -239,9 +241,13 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         faultListAdapter!!.notifyDataSetChanged()
                         var sum=0
                         for (i in 0 until getOrderFaultsData!!.data.size) {
-                            sum=sum+getOrderFaultsData!!.data[i].amount.toInt()
+                            var amount =calCulation(getOrderFaultsData!!.data[i])
+                            getOrderFaultsData!!.data[i].rowamount = ""+amount
+                            //getOrderFaultsData!!.data[i].idfault = ""+amount
+                            //sum=sum+getOrderFaultsData!!.data[i].amount.toInt()
                         }
-                        tvFaultTotalAmount.text=sum.toString()
+                        tvFaultTotalAmount.text=""+finalCalculation(getOrderFaultsData!!.data!!)
+//                        tvFaultTotalAmount.text=sum.toString()
                         Apicall(this)
                             .getOrderPartList(this,"get-order-part", LocalStorage.getCustomerID(this),order_id)
                     }
@@ -258,6 +264,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
 
                         var sum2=0
                         for (i in 0 until getAllSelectedPartListData!!.data.size) {
+
                             sum2=sum2+getAllSelectedPartListData!!.data[i].amount.toInt()
                         }
                         tvPartTotalAmount.text=sum2.toString()
@@ -321,7 +328,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         Log.e("partner-sub-services","size- "+subServiceData!!.data.size+"")
                         subServicelst=subServiceData!!.data
                         //sub services list
-                       // if(subServiceData != null) {
+                        // if(subServiceData != null) {
                         subCustomAdapter = SubCustomAdapter(
                             this,
                             subServicelst,
@@ -373,12 +380,12 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         Log.e("onPlusClick","pos "+pos + "qty "+quantity +" faultid "+faultid)
         var flag = false
         var lastsum=tvFaultTotalAmount.text.toString()
-        tvFaultTotalAmount.text=""+(total_amount + lastsum.toFloat()).toString()
+        tvFaultTotalAmount.text=""+(total_amount)
         //update final estimate amount
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
         for (i in 0 until faultlist!!.size) {
-            if(faultlist!![i].id == faultid) {
+            if(faultlist!![i].idfault.toInt() == faultid) {
                 faultlist!![i].qty=quantity.toString()
             }
         }
@@ -388,12 +395,12 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     override fun onMinusClick(faultid: Int,pos: Int, quantity: Int,total_amount:Float) {
         Log.e("onMinusClick","pos "+pos + "qty "+quantity)
         var lastsum=tvFaultTotalAmount.text.toString()
-        tvFaultTotalAmount.text=""+(lastsum.toFloat() - total_amount).toString()
+        tvFaultTotalAmount.text=""+(total_amount).toString()
         //update final estimate amount
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
         for (i in 0 until faultlist!!.size) {
-            if(faultlist!![i].id == faultid) {
+            if(faultlist!![i].idfault.toInt() == faultid) {
                 faultlist!![i].qty=quantity.toString()
             }
         }
@@ -404,13 +411,25 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         showRemoveItemDialoge(id,this,"falut")
     }
 
+    override fun onFinalFaultAmount(amnt: Int) {
+        tvFaultTotalAmount.text=""+(amnt )
+        tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+    }
+
+    override fun onFinalPartAmount(amnt: Int) {
+        tvPartTotalAmount.text=""+(amnt )
+        tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
+        edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+    }
+
     override fun onPlusPartItemClick(partid: Int,pos: Int, quantity: Int,total_amount:Float) {
         var lastsum=tvPartTotalAmount.text.toString()
-        tvPartTotalAmount.text=""+(total_amount + lastsum.toFloat()).toString()
+        tvPartTotalAmount.text=""+(total_amount)
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
         for (i in 0 until partlist!!.size) {
-            if(partlist!![i].id == partid) {
+            if(partlist!![i].idpart.toInt() == partid) {
                 partlist!![i].qty=quantity.toString()
             }
         }
@@ -420,11 +439,11 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     override fun onMinusPartItemClick(partid: Int,pos: Int, quantity: Int,total_amount:Float) {
         Log.e("onMinusClick","pos "+pos + "qty "+quantity)
         var lastsum=tvPartTotalAmount.text.toString()
-        tvPartTotalAmount.text=""+(lastsum.toFloat() - total_amount).toString()
+        tvPartTotalAmount.text=""+(total_amount).toString()
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
         for (i in 0 until partlist!!.size) {
-            if(partlist!![i].id == partid) {
+            if(partlist!![i].idpart.toInt() == partid) {
                 partlist!![i].qty=quantity.toString()
             }
         }
@@ -481,5 +500,52 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    fun calCulation(item: GetOrderFaultsData.DataBean):Int{
+        var total_amount : Int = 0
+        for (x in 0 until item.qty.toInt()){
+            if(x == 0){
+                if(!item.qty1_rate.equals("") && !item.qty1_rate.equals("0")){
+                    total_amount = total_amount + item.qty1_rate.toInt()
+                }else{
+                    total_amount = total_amount + item.default_amount.toInt()
+                }
+            }else if (x == 1){
+                if(!item.qty2_rate.equals("0")){
+                    total_amount = total_amount + item.qty2_rate.toInt()
+                }else if (item.qty2_rate.equals("0")){
+                    if(!item.qty3_rate.equals("0")){
+                        total_amount = total_amount + item.qty2_rate.toInt()
+                    }else if(!item.qty1_rate.equals("0")){
+                        total_amount = total_amount + item.qty1_rate.toInt()
+                    }else{
+                        total_amount = total_amount + item.default_amount.toInt()
+                    }
+                }
+            }else if(x > 1){
+
+                if(!item.qty3_rate.equals("") && !item.qty3_rate.equals("0")){
+                    total_amount = total_amount + item.qty3_rate.toInt()
+                }else if(!item.qty2_rate.equals("") && !item.qty2_rate.equals("0")){
+                    total_amount = total_amount + item.qty2_rate.toInt()
+                }else if(!item.qty1_rate.equals("") && !item.qty1_rate.equals("0")){
+                    total_amount = total_amount + item.qty1_rate.toInt()
+                }else {
+                    total_amount = total_amount + item.default_amount.toInt()
+                }
+
+            }
+        }
+        return total_amount
+
+    }
+
+    private fun finalCalculation(feedData: List<GetOrderFaultsData.DataBean>):Int {
+        var finlamount = 0
+        for (i in 0 until feedData.size) {
+            finlamount = finlamount + feedData!![i].rowamount.toInt()
+        }
+        return  finlamount
     }
 }

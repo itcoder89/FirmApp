@@ -43,6 +43,13 @@
         <activity android:name="activity.WalletRecharge" />
         <activity android:name="activity.SearchProductTab" />
         <activity android:name="activity.AllLabours" />
+        <activity android:name="activity.EditProfile" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="locale"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.kodpartner.R
@@ -24,7 +25,15 @@ import utils.LocalStorage
 
 class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
 
+    private var ll_new_leads: LinearLayout? = null
+    private var ll_open_leads: LinearLayout? = null
+    private var ll_onhold_leads: LinearLayout? = null
+    private var ll_cancel_leads: LinearLayout? = null
+    private var ll_completed_leads: LinearLayout? = null
+    private var ll_recomplaints: LinearLayout? = null
+
     private var tvAllPendingLeads: TextView? = null
+    private var tvFirmName: TextView? = null
     private var profile_image: CircleImageView? = null
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,11 +44,94 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
             inflater.inflate(R.layout.activity_main, container, false)//activity_main
             Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
 
+            ll_new_leads = fragmentView.findViewById<View>(R.id.ll_new_leads) as LinearLayout
+            ll_open_leads = fragmentView.findViewById<View>(R.id.ll_open_leads) as LinearLayout
+            ll_onhold_leads = fragmentView.findViewById<View>(R.id.ll_onhold_leads) as LinearLayout
+            ll_cancel_leads = fragmentView.findViewById<View>(R.id.ll_cancel_leads) as LinearLayout
+            ll_completed_leads = fragmentView.findViewById<View>(R.id.ll_completed_leads) as LinearLayout
+            ll_recomplaints = fragmentView.findViewById<View>(R.id.ll_recomplaints) as LinearLayout
+
+
             tvAllPendingLeads = fragmentView.findViewById<View>(R.id.tvAllPendingLeads) as TextView
+            tvFirmName = fragmentView.findViewById<View>(R.id.tvFirmName) as TextView
             profile_image = fragmentView.findViewById<View>(R.id.profile_image) as CircleImageView
 
+            tvFirmName!!.text=LocalStorage.getFirmName(activity!!)
             tvAllPendingLeads!!.setOnClickListener {
                 startActivity(Intent(activity!!, AllPendingLeadsActivity::class.java))
+            }
+            ll_new_leads!!.setOnClickListener {
+
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "New Leads")
+                activity!!.sendBroadcast(intent)
+                val newLeadsFragments = NewLeadsFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, newLeadsFragments)
+                    .commit()
+            }
+            ll_open_leads!!.setOnClickListener {
+
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "Open Leads")
+                activity!!.sendBroadcast(intent)
+                val newLeadsFragments = OpenLeadsFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, newLeadsFragments)
+                    .commit()
+            }
+            ll_onhold_leads!!.setOnClickListener {
+
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "On-Hold Leads")
+                activity!!.sendBroadcast(intent)
+                val newLeadsFragments = OnHoldListFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, newLeadsFragments)
+                    .commit()
+            }
+
+            ll_cancel_leads!!.setOnClickListener {
+
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "Cancel Leads")
+                activity!!.sendBroadcast(intent)
+                val newLeadsFragments = CancelLeadsFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, newLeadsFragments)
+                    .commit()
+            }
+            ll_completed_leads!!.setOnClickListener {
+
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "Completed Leads")
+                activity!!.sendBroadcast(intent)
+                val newLeadsFragments = CompletedLeadsFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, newLeadsFragments)
+                    .commit()
+            }
+            ll_recomplaints!!.setOnClickListener {
+
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "Recomplaints")
+                activity!!.sendBroadcast(intent)
+                val fragment = RecomplaintsFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, fragment)
+                    .commit()
             }
 
         if(LocalStorage.getCustomerImage(activity).equals("")){

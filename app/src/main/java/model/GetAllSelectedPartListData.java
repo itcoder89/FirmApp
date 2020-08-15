@@ -55,6 +55,19 @@ public class GetAllSelectedPartListData {
         private String order_id;
         private String qty;
 
+        public String getRow_amount() {
+            if(row_amount==null){
+                row_amount = "0";
+            }
+            return row_amount;
+        }
+
+        public void setRow_amount(String row_amount) {
+            this.row_amount = row_amount;
+        }
+
+        private String row_amount;
+
         public String getQty() {
             if(qty==null || qty.equals("")){
                 qty = "1";

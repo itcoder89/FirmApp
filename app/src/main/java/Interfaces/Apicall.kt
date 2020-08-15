@@ -8,6 +8,7 @@ import com.kodpartner.R
 import com.google.gson.Gson
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.*
+import okhttp3.MultipartBody
 import retrofit.ApiRequest
 import retrofit.RetrofitRequest
 import retrofit2.Call
@@ -1714,6 +1715,94 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
                 }
 
                 override fun onFailure(call: Call<AddFaultSuccessData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+    fun updateProfile(activity: OnResponse<UniverSelObjct>,
+                    mathod: String,
+                    partner_id:String,
+                      p_name:String,
+                      p_father_name:String,
+                      alt_mob_no:String,
+                      p_address:String,
+                      p_pan_no:String,
+                      p_aadhar_no:String) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.updateProfile(partner_id,p_name,p_father_name,alt_mob_no,p_address,p_pan_no,p_aadhar_no)
+            .enqueue(object : Callback<UpdateProfileData> {
+                override fun onResponse(
+                    call: Call<UpdateProfileData>,
+                    response: Response<UpdateProfileData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<UpdateProfileData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+
+
+
+    fun updateProfileNew(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        partner_id: MultipartBody.Part,
+        p_name: MultipartBody.Part,
+        p_father_name: MultipartBody.Part,
+        alt_mob_no: MultipartBody.Part,
+        p_address: MultipartBody.Part,
+        p_pan_no: MultipartBody.Part,
+        p_aadhar_no: MultipartBody.Part,
+        photo: MultipartBody.Part,
+        signature: MultipartBody.Part) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.updateProfileNew(partner_id,p_name,p_father_name,alt_mob_no,p_address,p_pan_no,p_aadhar_no,photo,signature)
+            .enqueue(object : Callback<UpdateProfileData> {
+                override fun onResponse(
+                    call: Call<UpdateProfileData>,
+                    response: Response<UpdateProfileData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<UpdateProfileData>, t: Throwable) {
                     HelperDiloge.hideProgressDialog(mContext)
                     Log.e("", "")
                     activity.onError(t.message.toString())

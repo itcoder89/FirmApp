@@ -8,4 +8,12 @@
     <dimen name="dim_80">80dp</dimen>
     <dimen name="dim_50">50dp</dimen>
     <dimen name="_100dp">100dp</dimen>
+    <dimen name="dimen_25">25dp</dimen>
+    <dimen name="_15sdp">15dp</dimen>
+    <dimen name="_5sdp">5dp</dimen>
+    <dimen name="_4sdp">4dp</dimen>
+    <dimen name="_14ssp">14dp</dimen>
+    <dimen name="_25sdp">25dp</dimen>
+    <dimen name="_320sdp">320dp</dimen>
+    <dimen name="_16ssp">16dp</dimen>
 </resources>
