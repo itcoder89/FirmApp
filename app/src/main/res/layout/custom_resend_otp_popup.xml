@@ -46,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10dp"
                 android:layout_margin="@dimen/_10dp"
+                android:maxLines="1"
+                android:inputType="number"
                 android:background="@color/white"
                 android:hint="Enter OTP here..."/>
 

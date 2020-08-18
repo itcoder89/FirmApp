@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import model.DashboardData
 import utils.CustomDialogue
 import utils.LocalStorage
+import java.text.DecimalFormat
 
 
 class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
@@ -53,15 +54,15 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
 
 
             tvAllPendingLeads = fragmentView.findViewById<View>(R.id.tvAllPendingLeads) as TextView
-            tvFirmName = fragmentView.findViewById<View>(R.id.tvFirmName) as TextView
+           // tvFirmName = fragmentView.findViewById<View>(R.id.tvFirmName) as TextView
             profile_image = fragmentView.findViewById<View>(R.id.profile_image) as CircleImageView
 
-            tvFirmName!!.text=LocalStorage.getFirmName(activity!!)
+            //tvFirmName!!.text=LocalStorage.getFirmName(activity!!)
             tvAllPendingLeads!!.setOnClickListener {
                 startActivity(Intent(activity!!, AllPendingLeadsActivity::class.java))
             }
             ll_new_leads!!.setOnClickListener {
-
+                LocalStorage.setCheckLastFragment(activity!!,"newleads")
                 val intent = Intent()
                 intent.action = "start.fragment.action.replacetitle"
                 intent.putExtra("title", "New Leads")
@@ -73,7 +74,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                     .commit()
             }
             ll_open_leads!!.setOnClickListener {
-
+                LocalStorage.setCheckLastFragment(activity!!,"openleads")
                 val intent = Intent()
                 intent.action = "start.fragment.action.replacetitle"
                 intent.putExtra("title", "Open Leads")
@@ -85,7 +86,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                     .commit()
             }
             ll_onhold_leads!!.setOnClickListener {
-
+                LocalStorage.setCheckLastFragment(activity!!,"onhold")
                 val intent = Intent()
                 intent.action = "start.fragment.action.replacetitle"
                 intent.putExtra("title", "On-Hold Leads")
@@ -98,7 +99,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
             }
 
             ll_cancel_leads!!.setOnClickListener {
-
+                LocalStorage.setCheckLastFragment(activity!!,"cancelleads")
                 val intent = Intent()
                 intent.action = "start.fragment.action.replacetitle"
                 intent.putExtra("title", "Cancel Leads")
@@ -110,7 +111,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                     .commit()
             }
             ll_completed_leads!!.setOnClickListener {
-
+                LocalStorage.setCheckLastFragment(activity!!,"completed")
                 val intent = Intent()
                 intent.action = "start.fragment.action.replacetitle"
                 intent.putExtra("title", "Completed Leads")
@@ -122,7 +123,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                     .commit()
             }
             ll_recomplaints!!.setOnClickListener {
-
+                LocalStorage.setCheckLastFragment(activity!!,"recomplaints")
                 val intent = Intent()
                 intent.action = "start.fragment.action.replacetitle"
                 intent.putExtra("title", "Recomplaints")
@@ -134,7 +135,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                     .commit()
             }
 
-        if(LocalStorage.getCustomerImage(activity).equals("")){
+        /*if(LocalStorage.getCustomerImage(activity).equals("")){
             val path: Uri = Uri.parse("android.resource://com.kodpartner/" + R.mipmap.ic_applogo)
             Picasso
                 .with(activity!!)
@@ -145,7 +146,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                 .with(activity!!)
                 .load(LocalStorage.getCustomerImage(activity))
                 .into(profile_image);
-        }
+        }*/
         return fragmentView
     }
 
@@ -154,10 +155,13 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
             if (response!!.status == "true") {
                 when (response.methodname) {
                     "getDashboardData" -> {
+                        val form = DecimalFormat("0.00")
                         val dashboardData = response.response as DashboardData
                         Log.e("dashboardData"," "+dashboardData.data.rating+"")
-                        tvInWallet.text="Rs. "+dashboardData.data.walletAmount+"/-"
-                        tvWalletAmount.text="Rs. "+dashboardData.data.walletAmount+"/-"
+                        tvInWallet.text="Rs. "+form.format(dashboardData.data.walletAmount)
+
+                        //tvWalletAmount.text=""+dashboardData.data.walletAmount
+                        tvWalletAmount.text=":"+form.format(dashboardData.data.walletAmount)
                         tvNewLeads.text=dashboardData.data.totalNewLeadsBooking.toString()
                         tvOpenLeads.text=dashboardData.data.totalOpenLeadsBooking.toString()
                         tvWorking.text=dashboardData.data.totalWorkingBooking.toString()
@@ -172,9 +176,9 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                         tvFeedbycustomer.text=dashboardData.data.totalCustomerFeedback.toString()
                         tvFeedbyKOD.text=dashboardData.data.totalKodFeedback.toString()
 
-                        tvRatings.text=dashboardData.data.rating.toString()+" *"
-                        tvKODCommission.text=dashboardData.data.kodCommission+"/-"
-                        tvTotalEarningAmount.text=dashboardData.data.totalEarningAmount.toString() + "/-"
+                        tvRatings.text="Rating: "+dashboardData.data.rating.toString()+" "
+                        tvKODCommission.text=form.format(dashboardData.data.kodCommission)+""
+                        tvTotalEarningAmount.text=form.format(dashboardData.data.totalEarningAmount.toString()) + ""
                     }
 
                 }

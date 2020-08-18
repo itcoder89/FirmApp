@@ -26,6 +26,7 @@ import org.json.JSONObject
 import retrofit.AppGlobal
 import utils.CustomDialogue
 import utils.LocalStorage
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -156,7 +157,8 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
                     "partner-wallet-summary" -> {
                         val walletSummaryListData = response.response as WalletSummaryListData
                         Log.e("walletSummaryListData","")
-                        tvWalletBalance.text="Wallet Balance \nRs."+walletSummaryListData.data.walletBalance.toString()+"/-"
+                        val form = DecimalFormat("0.00")
+                        tvWalletBalance.text="Wallet Balance \nRs."+form.format(walletSummaryListData.data.walletBalance.toString())+""
                         walletRechargeListAdapter = WalletRechargeListAdapter(this)
                         recyclerView!!.adapter = walletRechargeListAdapter
                         recyclerView!!.setHasFixedSize(false)

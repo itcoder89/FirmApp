@@ -18,6 +18,7 @@ import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
 import model.RescheduleData
 import model.WorkingLeadsData
+import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 
@@ -58,9 +59,10 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvUnit.text = "Unit "+feedData!![position].unit
         holder.tvFault.text = ""+feedData!![position].fault
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
+        holder.tvAddress.text = feedData!![position].customerDetails.address+""
+      //  holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
@@ -68,7 +70,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
 
             showccancel(position,cxt!!)
         }
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -93,6 +95,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
         var tvCancel: TextView
         var tvUnit: TextView
         var tvFault: TextView
+        var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -104,6 +107,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
             tvCancel = itemView.findViewById<View>(R.id.tvCancel) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }
     }

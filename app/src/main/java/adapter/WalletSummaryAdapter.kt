@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.kodpartner.R
 import model.WalletSummaryData
+import java.text.DecimalFormat
 
 
 class WalletSummaryAdapter(var cxt: FragmentActivity?) :
@@ -45,9 +46,13 @@ class WalletSummaryAdapter(var cxt: FragmentActivity?) :
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
 
-        holder.tvRechargeType.text = feedData!![position].pay_type+" ("+ feedData!![position].transaction_type+")"
+        if(feedData!![position].pay_type.equals("commision"))
+            holder.tvRechargeType.text = "Commission"+" ("+ feedData!![position].transaction_type+")"
+        else
+            holder.tvRechargeType.text = feedData!![position].pay_type+" ("+ feedData!![position].transaction_type+")"
         holder.tvDateTime.text = feedData!![position].payment_date.toString()
-        holder.tvAmount.text = feedData!![position].amount.toString()+"/-"
+        val form = DecimalFormat("0.00")
+        holder.tvAmount.text = form.format(feedData!![position].amount.toDouble())+""
 
         if(feedData!![position].pay_sign.equals("dr")){
             holder.tvRecharge.text = "Deduct"

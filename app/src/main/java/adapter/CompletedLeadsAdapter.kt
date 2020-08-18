@@ -18,6 +18,7 @@ import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
 import model.CompletedLeadsData
 import model.RescheduleData
+import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 
@@ -56,9 +57,10 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Total Amount "+feedData!![position].amount + "/-"
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Total Amount "+form.format(feedData!![position].amount.toDouble()) + ""
         holder.tvAddress.text = feedData!![position].customerDetails.address
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
+       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
         holder.tvDescription.setText(feedData!![position].fault)
@@ -67,7 +69,7 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         else
             holder.tvFeedbackbyCustomer.setText("Feedback by customer - 0.0")
 
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -91,7 +93,7 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         var tvDescription: TextView
         var tvFeedbackbyCustomer: TextView
         var tvFeedbackbykod: TextView
-
+        var btnViewMap: Button
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvServiceId = itemView.findViewById<View>(R.id.tvServiceId) as TextView
@@ -102,6 +104,7 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
             tvDescription = itemView.findViewById<View>(R.id.tvDescription) as TextView
             tvFeedbackbyCustomer = itemView.findViewById<View>(R.id.tvFeedbackbyCustomer) as TextView
             tvFeedbackbykod = itemView.findViewById<View>(R.id.tvFeedbackbykod) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }
     }

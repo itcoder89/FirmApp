@@ -30,6 +30,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/graylight"
                 android:padding="@dimen/dimen_8dp"
+                android:inputType="number"
+                android:maxLines="1"
                 android:layout_marginTop="15dp"
                 android:hint="Enter Amount"
                 android:textSize="12sp"

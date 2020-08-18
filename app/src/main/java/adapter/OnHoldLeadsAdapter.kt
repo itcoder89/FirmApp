@@ -18,6 +18,7 @@ import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.*
 import utils.LocalStorage
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -65,8 +66,9 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvFault.text = ""+feedData!![position].fault
         holder.tvUnit.text = "Unit "+feedData!![position].unit
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Service Amount \n"+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Service Amount \n"+form.format(feedData!![position].amount.toDouble()) + ""
+        holder.tvAddress.text = feedData!![position].customerDetails.address+""
 
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         val outputPattern = "dd-MM-yyyy hh:mm:ss";
@@ -83,12 +85,12 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
             e.printStackTrace();
         }
 
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
         holder.tvVisitDateTime.setText("Visit- "+feedData!![position].service_date+" "+feedData!![position].service_time)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -132,6 +134,7 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
         var tvUnit: TextView
         var tvFault: TextView
         var tvVisitDateTime: TextView
+        var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -146,6 +149,7 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             tvVisitDateTime = itemView.findViewById<View>(R.id.tvVisitDateTime) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
         }
     }
 

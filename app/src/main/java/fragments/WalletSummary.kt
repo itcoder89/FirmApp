@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.wallet_summary_list_layout.*
 import model.WalletSummaryData
 import utils.CustomDialogue
 import utils.LocalStorage
+import java.text.DecimalFormat
 
 class WalletSummary  : Fragment(), OnResponse<UniverSelObjct> {
 
@@ -50,14 +51,15 @@ class WalletSummary  : Fragment(), OnResponse<UniverSelObjct> {
                             walletSummaryAdapter!!.clearData()
                             walletSummaryAdapter!!.notifyDataSetChanged()
                         }else{
-                            tvWalletBalance.text="Wallet Balance \nRs "+walletSummaryData.data.walletBalance.toString()+"/-"
-                            tvTotalEarning.text=walletSummaryData.data.totalEarningAmount.toString()+"/-"
-                            tvTotalCommission.text=walletSummaryData.data.kodCommision.toString()+"/-"
-                            tvTotalRecharge.text=walletSummaryData.data.totalRechargeAmnt.toString()+"/-"
+                            val form = DecimalFormat("0.00")
+                            tvWalletBalance.text="Wallet Balance \nRs "+form.format(walletSummaryData.data.walletBalance.toString())+""
+                            tvTotalEarning.text=form.format(walletSummaryData.data.totalEarningAmount.toString())+""
+                            tvTotalCommission.text=form.format(walletSummaryData.data.kodCommision.toString())+""
+                            tvTotalRecharge.text=form.format(walletSummaryData.data.totalRechargeAmnt.toString())+""
 
-                           walletSummaryAdapter = WalletSummaryAdapter(activity)
-                           recyclerView!!.adapter = walletSummaryAdapter
-                           recyclerView!!.setHasFixedSize(false)
+                            walletSummaryAdapter = WalletSummaryAdapter(activity)
+                            recyclerView!!.adapter = walletSummaryAdapter
+                            recyclerView!!.setHasFixedSize(false)
                             walletSummaryAdapter!!.addData(walletSummaryData.data.paymentSummary)
                             walletSummaryAdapter!!.notifyDataSetChanged()
                         }

@@ -1681,6 +1681,44 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
+    fun workClose(activity: OnResponse<UniverSelObjct>,
+                    mathod: String,
+                    partner_id:String,
+                      order_id:String,
+                      partid:String,
+                      part_amount:String) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.workClose(partner_id,order_id,partid,part_amount)
+            .enqueue(object : Callback<WorkCloseData> {
+                override fun onResponse(
+                    call: Call<WorkCloseData>,
+                    response: Response<WorkCloseData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<WorkCloseData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
     fun addFaultSuccess(activity: OnResponse<UniverSelObjct>,
                     mathod: String,
                     partner_id:String,
@@ -1763,10 +1801,7 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
-
-
-
-    fun updateProfileNew(
+    fun updateProfileWithImage(
         activity: OnResponse<UniverSelObjct>,
         mathod: String,
         partner_id: MultipartBody.Part,
@@ -1781,7 +1816,7 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
         HelperDiloge.showProgressDialog(mContext)
         val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
 
-        weservices.updateProfileNew(partner_id,p_name,p_father_name,alt_mob_no,p_address,p_pan_no,p_aadhar_no,photo,signature)
+        weservices.updateProfileWithImage(partner_id,p_name,p_father_name,alt_mob_no,p_address,p_pan_no,p_aadhar_no,photo,signature)
             .enqueue(object : Callback<UpdateProfileData> {
                 override fun onResponse(
                     call: Call<UpdateProfileData>,

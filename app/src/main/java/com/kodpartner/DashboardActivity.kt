@@ -35,6 +35,13 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        try {
+            tvFragmentTitle.text=LocalStorage.getFirmName(this@DashboardActivity)
+        }catch (e:Exception){e.printStackTrace()}
+    }
+
     fun getData() {
         val mBroadcastReceiverPost = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -68,7 +75,8 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
         nav_img.setOnClickListener(homeOnclickListener)
 
         ll_dashboard.setOnClickListener{
-            tvFragmentTitle.text="KOD Services"
+            tvFragmentTitle.text=LocalStorage.getFirmName(this@DashboardActivity)
+            LocalStorage.setCheckLastFragment(this,"dashboard")
             val homeFragments = HomeFragments()
             supportFragmentManager
                 .beginTransaction()
@@ -81,6 +89,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_new_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"newleads")
             tvFragmentTitle.text="New Leads"
             val newLeadsFragments = NewLeadsFragments()
             supportFragmentManager
@@ -90,6 +99,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_open_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"openleads")
             tvFragmentTitle.text="Open Leads"
             val openLeadsFragments = OpenLeadsFragments()
             supportFragmentManager
@@ -99,6 +109,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_onhold_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"onhold")
             tvFragmentTitle.text="On-Hold Leads"
             val onHoldListFragments = OnHoldListFragments()
             supportFragmentManager
@@ -108,6 +119,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_recomplaints.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"recomplaints")
             tvFragmentTitle.text="Recomplaints"
             val recomplaintsFragments = RecomplaintsFragments()
             supportFragmentManager
@@ -117,6 +129,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_all_pending_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"allpending")
             tvFragmentTitle.text="All Pending Leads"
             val allPendingLeadsFragments = AllPendingLeadsFragments()
             supportFragmentManager
@@ -127,6 +140,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
         }
 
         ll_expert_list.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"expertlist")
             tvFragmentTitle.text="Expert List"
             val expertListFragments = ExpertListFragments()
             supportFragmentManager
@@ -140,6 +154,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_completed_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"completed")
             tvFragmentTitle.text="Completed Leads"
             val completedLeadsFragments = CompletedLeadsFragments()
             supportFragmentManager
@@ -149,6 +164,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_cancel_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"cancelleads")
             tvFragmentTitle.text="Cancel Leads"
             val completedLeadsFragments = CancelLeadsFragments()
             supportFragmentManager
@@ -158,6 +174,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_working_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"workingleads")
             tvFragmentTitle.text="Working Leads"
             val workingLeadsFragments = WorkingLeadsFragments()
             supportFragmentManager
@@ -171,6 +188,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_rate_list.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"ratelist")
             tvFragmentTitle.text="Rate List"
             val rateListFragment = RateListFragment()
             supportFragmentManager
@@ -180,6 +198,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             drawerLayout.closeDrawers()
         }
         ll_wallet_summary.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"walletsummary")
             tvFragmentTitle.text="Wallet Summary"
             val walletSummary = WalletSummary()
             supportFragmentManager
@@ -210,6 +229,8 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
                 editor.remove("setFirstTimeLogin")
                 editor.remove("setCustomerID")
                 editor.remove("setCustomerEmailID")
+                editor.remove("setCustomerImage")
+                editor.remove("setCheckLastFragment")
                 // editor.remove("fcm");
                 editor.commit()
                 Log.e("prefrences", "remove")
@@ -225,7 +246,16 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        ShowDialog.showDialog(this)
+        if(LocalStorage.getCheckLastFragment(this).equals("dashboard")){
+            ShowDialog.showDialog(this)
+        }else{
+            val homeFragments = HomeFragments()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.containerView, homeFragments)
+                .commit()
+            drawerLayout.closeDrawers()
+        }
     }
 
     var homeOnclickListener =

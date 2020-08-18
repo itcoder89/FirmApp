@@ -24,19 +24,24 @@
             android:indeterminate="true"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tvShowLatLng"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:gravity="center_horizontal"
-            android:text="lat-lng" />
+
 
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvShowDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/_14ssp"
+            android:padding="@dimen/_10dp"
+            android:gravity="center_horizontal"
+            android:text="fetching  distance......" />
 
     </RelativeLayout>
 

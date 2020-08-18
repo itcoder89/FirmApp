@@ -50,6 +50,7 @@
                 android:id="@+id/tvBookingDateTime"
                 android:layout_width="0dp"
                 android:layout_weight="1.5"
+                android:visibility="invisible"
                 android:gravity="right"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
@@ -96,10 +97,10 @@
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="22dp"
+            android:textSize="@dimen/_14ssp"
             android:text="AC/Split/Repair/Less Cooling" />
 
         <LinearLayout
@@ -117,7 +118,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:layout_height="wrap_content"
-                android:textColor="@color/green"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:text="Unit 01" />
 
@@ -141,7 +142,10 @@
             android:textColor="@color/colorPrimary"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="22dp"
+            android:background="@color/graylight"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:textSize="@dimen/_14ssp"
             android:text="Visit - 24-07-2020,04-08PM" />
 
         <TextView
@@ -152,7 +156,7 @@
             android:textColor="@color/black"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="18dp"
+            android:textSize="@dimen/_14ssp"
             android:text="Ajmer Road, Bhankrota,Jaipur" />
 
 
@@ -161,10 +165,10 @@
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="18dp"
+            android:textSize="@dimen/_14ssp"
             android:text="Cancelled by - Firm/Customer \nDate &amp; Time-" />
 
 

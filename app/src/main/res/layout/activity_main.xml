@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,560 +7,136 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvFirmName"
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="30dp"
-            android:text="@string/kc_enterprises" />
-
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="96dp"
-            android:src="@drawable/ic_launcher_background"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="30dp"
-            android:text="IN WALLET" />
-
-        <TextView
-            android:id="@+id/tvWalletAmount"
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="30dp"
-            android:text="Rs. 0/-" />
-
-        <!--2*2 column box layout-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvFirmName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="3"
-                android:orientation="horizontal">
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30dp"
+                android:text="@string/kc_enterprises" />
 
-                <LinearLayout
-                    android:id="@+id/ll_new_leads"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="New Leads" />
-
-                    <TextView
-                        android:id="@+id/tvNewLeads"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_open_leads"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="Open Leads" />
-
-                    <TextView
-                        android:id="@+id/tvOpenLeads"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                android:layout_height="96dp"
+                android:src="@drawable/ic_launcher_background"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000" />
 
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14ssp"
+                android:text="Money in your Wallet" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="3"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="Working" />
-
-                    <TextView
-                        android:id="@+id/tvWorking"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_onhold_leads"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="On Hold" />
-
-                    <TextView
-                        android:id="@+id/tvOnHold"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="3"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/ll_cancel_leads"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="Cancelled" />
-
-                    <TextView
-                        android:id="@+id/tvCancelled"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_completed_leads"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="Completed" />
-
-                    <TextView
-                        android:id="@+id/tvCompleted"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="3"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="Rescheduled" />
-
-                    <TextView
-                        android:id="@+id/tvRescheduled"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_recomplaints"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/border_view"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:text="Recomplaints" />
-
-                    <TextView
-                        android:id="@+id/tvReComplaints"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        android:textSize="22dp"
-                        android:text="0" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-        <!--feedback layout-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_view"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
+                android:layout_margin="@dimen/_5sdp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvWalletAmount"
+                    android:layout_width="wrap_content"
                     android:gravity="center_horizontal"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:text="Feedback" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="Pending" />
-
-                    <TextView
-                        android:id="@+id/tvFeedbackPending"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="0" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="Completed" />
-
-                    <TextView
-                        android:id="@+id/tvFeedbackCompleted"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="0" />
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="By customer" />
-
-                    <TextView
-                        android:id="@+id/tvFeedbycustomer"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="3" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="By KOD" />
-
-                    <TextView
-                        android:id="@+id/tvFeedbyKOD"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="6" />
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1.3"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20dp"
-                        android:text="Rating" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="0.0"
-                        android:gravity="center"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20dp"
-                        android:text="-" />
-
-                    <TextView
-                        android:id="@+id/tvRatings"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.3"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20dp"
-                        android:text="0.8 *" />
-
-
-                </LinearLayout>
-
+                    android:textColor="@color/colorPrimary"
+                    android:drawableLeft="@drawable/ic_rupee"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:textSize="@dimen/_14ssp"
+                    android:text="00.00" />
 
             </LinearLayout>
 
-
-        </LinearLayout>
-        <!--account details layout-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_view"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
+            <!--2*2 column box layout-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:text="Account Details" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:weightSum="3"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/ll_new_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="Total Recharged" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="New Leads" />
+
+                        <TextView
+                            android:id="@+id/tvNewLeads"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_open_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="0/-" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Open Leads" />
+
+                        <TextView
+                            android:id="@+id/tvOpenLeads"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="0" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -568,28 +144,66 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:weightSum="3"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="Total Earning" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvTotalEarningAmount"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Working" />
+
+                        <TextView
+                            android:id="@+id/tvWorking"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="0" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_onhold_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="12000/-" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="On Hold" />
+
+                        <TextView
+                            android:id="@+id/tvOnHold"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -597,28 +211,67 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:weightSum="3"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/ll_cancel_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="KOD Commission" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvKODCommission"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Cancelled" />
+
+                        <TextView
+                            android:id="@+id/tvCancelled"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_completed_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="right"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="3200/-" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Completed" />
+
+                        <TextView
+                            android:id="@+id/tvCompleted"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -626,28 +279,423 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:weightSum="3"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
-                        android:gravity="left"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="IN WALLET" />
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Rescheduled" />
+
+                        <TextView
+                            android:id="@+id/tvRescheduled"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_recomplaints"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/border_view"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Recomplaints" />
+
+                        <TextView
+                            android:id="@+id/tvReComplaints"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--feedback layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border_view"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="Feedback" />
+
+                        <TextView
+                            android:id="@+id/tvRatings"
+                            android:layout_width="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@drawable/ic_star"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="4" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Pending" />
+
+                        <TextView
+                            android:id="@+id/tvFeedbackPending"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="0" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Completed" />
+
+                        <TextView
+                            android:id="@+id/tvFeedbackCompleted"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:visibility="gone"
+                        android:background="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="By customer" />
+
+                        <TextView
+                            android:id="@+id/tvFeedbycustomer"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="3" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:text="By KOD" />
+
+                        <TextView
+                            android:id="@+id/tvFeedbyKOD"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="6" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.3"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp"
+                            android:text="Rating" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="0.0"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp"
+                            android:text="-" />
+
+                        <TextView
+
+                            android:layout_width="0dp"
+                            android:layout_weight="1.3"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp"
+                            android:text="" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <!--account details layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border_view"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvInWallet"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:gravity="center_horizontal"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:text="0/-" />
+                        android:textSize="@dimen/_14ssp"
+                        android:text="Account Details" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Total Recharge" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0.00" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Total Earning" />
+
+                        <TextView
+                            android:id="@+id/tvTotalEarningAmount"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0.00" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="KOD Commission" />
+
+                        <TextView
+                            android:id="@+id/tvKODCommission"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0.00" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:weightSum="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="IN WALLET" />
+
+                        <TextView
+                            android:id="@+id/tvInWallet"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="0.00" />
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -655,52 +703,53 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
-        <!--Footer Menu layout-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:weightSum="6"
-            android:background="@color/colorPrimary">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:text="HOME" />
+    </androidx.core.widget.NestedScrollView>
 
+    <!--Footer Menu layout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="6"
+        android:background="@color/colorPrimary">
 
-            <TextView
-                android:id="@+id/tvAllPendingLeads"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:text="ALL PENDING" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:text="CHAT" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="HOME" />
 
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvAllPendingLeads"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="ALL PENDING" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="CHAT" />
+
+
     </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>

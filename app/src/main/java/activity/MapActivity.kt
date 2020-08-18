@@ -20,7 +20,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.kodpartner.BuildConfig
+import com.afollestad.materialdialogs.BuildConfig
 import com.kodpartner.R
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException

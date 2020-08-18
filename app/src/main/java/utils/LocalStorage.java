@@ -60,4 +60,15 @@ public class LocalStorage {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("setCustomerImage", "");
     }
+    public static void setCheckLastFragment(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setCheckLastFragment", key);
+        prefsEditor.commit();
+    }
+
+    public static String getCheckLastFragment(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setCheckLastFragment", "dashboard");
+    }
 }

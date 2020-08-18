@@ -22,6 +22,7 @@ import model.CancelByData
 import model.OpenLeadsData
 import model.RescheduleData
 import model.TimeDateSlabData
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,8 +74,13 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
 
         holder.tvFault.text = ""+feedData!![position].fault
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
+
+        if(feedData!![position].customerDetails.address.isNullOrBlank())
+            holder.tvAddress.text = "Not Available "+" - Map Link"
+        else
+            holder.tvAddress.text = feedData!![position].customerDetails.address+""
         holder.tvVisitDateTime.setText("Visit -"+feedData!![position].service_date +" "+feedData!![position].service_time )
 
 
@@ -94,11 +100,11 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
         }
 
         holder.tvUnit.setText("Unit "+feedData!![position].unit)
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -140,6 +146,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
         var tvMoveToWorking: TextView
         var tvFault: TextView
         var tvUnit: TextView
+        var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -154,6 +161,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
             tvMoveToWorking = itemView.findViewById<View>(R.id.tvMoveToWorking) as TextView
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
         }
     }
 

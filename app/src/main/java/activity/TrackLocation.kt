@@ -21,6 +21,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.akexorcist.googledirection.BuildConfig
 import com.akexorcist.googledirection.DirectionCallback
 import com.akexorcist.googledirection.GoogleDirection
 import com.akexorcist.googledirection.constant.AvoidType
@@ -28,8 +29,6 @@ import com.akexorcist.googledirection.constant.TransportMode
 import com.akexorcist.googledirection.model.Direction
 import com.akexorcist.googledirection.model.Route
 import com.akexorcist.googledirection.util.DirectionConverter
-import com.kodpartner.BuildConfig
-import com.kodpartner.R
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -37,7 +36,12 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.material.snackbar.Snackbar
+import com.kodpartner.R
+import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.comman_top_header.*
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback {
@@ -263,10 +267,21 @@ class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 //if (initialMapLoad == false) {
                    // initialMapLoad = true
                     //Log.e(TAG, "current location");
+                val form = DecimalFormat("0.00")
                     Log.e("currentlocation","lat " + mCurrentLocation!!.getLatitude().toString())
                     Log.e("currentlocation","lng " + mCurrentLocation!!.getLongitude().toString())
                     updateLat = mCurrentLocation!!.getLatitude()
                     updateLng = mCurrentLocation!!.getLongitude()
+
+                     var calDistance=CalculationByDistance(updateLat!!,updateLng!!,to_lat.toDouble(),to_lng.toDouble())
+
+                    val decimal =
+                    BigDecimal(calDistance).setScale(
+                        2,
+                        RoundingMode.HALF_EVEN
+                    )
+                    //tvShowDistance.text=form.format(calDistance.toString())+" Km."
+                    tvShowDistance.text="Distance From Your Location : "+decimal.toString()+" Km."
                      val to_latLng = LatLng(to_lat.toDouble(),to_lng.toDouble())
                     Log.e("currentlocation","to_latLng " +to_latLng)
 
@@ -588,6 +603,7 @@ class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         }
 
     }
+
     fun setCameraWithCoordinationBounds(route: Route) {
         if (googleMap != null) {
             var southwest = route.getBound().getSouthwestCoordination().getCoordination();
@@ -595,5 +611,56 @@ class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             var bounds = LatLngBounds(southwest, northeast);
             googleMap!!.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
         }
+    }
+
+    private fun distance(
+        lat1: Double,
+        lon1: Double,
+        lat2: Double,
+        lon2: Double
+    ): Double {
+        val theta = lon1 - lon2
+        var dist = (Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + (Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta))))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist = dist * 60 * 1.1515
+        return dist
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
+    }
+
+
+    fun CalculationByDistance(
+        initialLat: Double, initialLong: Double,
+        finalLat: Double, finalLong: Double
+    ): Double {
+        var initialLat = initialLat
+        var finalLat = finalLat
+        val R = 6371 // km (Earth radius)
+        val dLat = toRadians(finalLat - initialLat)
+        val dLon = toRadians(finalLong - initialLong)
+        initialLat = toRadians(initialLat)
+        finalLat = toRadians(finalLat)
+        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(
+            initialLat
+        ) * Math.cos(finalLat)
+        val c =
+            2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+        return R * c
+    }
+
+    fun toRadians(deg: Double): Double {
+        return deg * (Math.PI / 180)
     }
 }

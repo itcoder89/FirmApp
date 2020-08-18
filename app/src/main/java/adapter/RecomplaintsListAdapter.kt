@@ -19,6 +19,7 @@ import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CloseByPartnerData
 import model.RecomplaintsListData
 import utils.LocalStorage
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,12 +63,13 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?) :
         holder.tvFault.text = ""+feedData!![position].fault
         holder.tvUnit.text = "Unit "+feedData!![position].unit
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Total Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Total Amount "+form.format(feedData!![position].amount.toDouble()) + ""
+        holder.tvAddress.text = feedData!![position].customerDetails.address+""
 
 
 
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
+        //holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
         holder.tvCompleteDateTime.setText("Revisit -"+feedData!![position].service_date+" "+feedData!![position].service_time)
@@ -117,6 +119,7 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?) :
         var tvFault: TextView
         var tvUnit: TextView
         var tvClose: TextView
+        var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -129,6 +132,7 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?) :
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             tvClose = itemView.findViewById<View>(R.id.tvClose) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
         }
     }
 

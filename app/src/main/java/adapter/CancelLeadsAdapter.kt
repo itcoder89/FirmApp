@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.*
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,7 +57,8 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
 
         holder.tvUnit.text = "Unit "+feedData!![position].unit
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
         holder.tvAddress.text = feedData!![position].customerDetails.address+""
 
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
@@ -74,7 +76,7 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
             e.printStackTrace();
         }
 
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+        //holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname.trim())
         holder.tvDescription.setText(feedData!![position].fault.trim())
         holder.tvCancelbyfirm.setText("Cancelled by- "+feedData!![position].cancel_by.trim() +" / Reason - "+feedData!![position].cancel_reason.trim())

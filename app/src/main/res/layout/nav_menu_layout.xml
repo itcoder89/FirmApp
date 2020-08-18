@@ -442,7 +442,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:padding="@dimen/dimen_8dp"
-                        android:text="Cancel Leads Listing"
+                        android:text="Cancelled Leads Listing"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_16dp" />
                 </LinearLayout>

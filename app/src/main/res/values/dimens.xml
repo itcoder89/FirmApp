@@ -16,4 +16,5 @@
     <dimen name="_25sdp">25dp</dimen>
     <dimen name="_320sdp">320dp</dimen>
     <dimen name="_16ssp">16dp</dimen>
+    <dimen name="_2dp">2dp</dimen>
 </resources>

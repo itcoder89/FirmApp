@@ -40,6 +40,7 @@ import model.TimeDateSlabData;
 import model.UpdateProfileData;
 import model.WalletSummaryData;
 import model.WalletSummaryListData;
+import model.WorkCloseData;
 import model.WorkingAreaData;
 import model.WorkingLeadsData;
 import okhttp3.MultipartBody;
@@ -208,6 +209,13 @@ public interface ApiRequest {
                                           @Field("partid") String partid,
                                           @Field("part_amount") String part_amount);
 
+    @POST("api/closed-partner-booking")
+    @FormUrlEncoded
+    Call<WorkCloseData> workClose(@Field("partner_id") String partner_id,
+                                      @Field("order_id") String order_id,
+                                      @Field("recv_amount") String partid,
+                                      @Field("part_amount") String part_amount);
+
     @POST("api/add-more-faults-inorder")
     @FormUrlEncoded
     Call<AddFaultSuccessData> addFaultSuccess(@Field("partner_id") String partner_id,
@@ -227,17 +235,16 @@ public interface ApiRequest {
                                           @Field("p_address") String p_address,
                                           @Field("p_pan_no") String p_pan_no,
                                           @Field("p_aadhar_no") String p_aadhar_no);
-
-    @POST("api/update-partner-profile")
     @Multipart
-    Call<UpdateProfileData> updateProfileNew(@Part("partner_id") MultipartBody.Part partner_id,
-                                             @Part("p_name") MultipartBody.Part p_name,
-                                             @Part("p_father_name") MultipartBody.Part p_father_name,
-                                             @Part("alt_mob_no") MultipartBody.Part alt_mob_no,
-                                             @Part("p_address") MultipartBody.Part p_address,
-                                             @Part("p_pan_no") MultipartBody.Part p_pan_no,
-                                             @Part("p_aadhar_no") MultipartBody.Part p_aadhar_no,
-                                             @Part("profile_image") MultipartBody.Part photo,
-                                             @Part("signature_file") MultipartBody.Part signature);
+    @POST("api/update-partner-profile")
+    Call<UpdateProfileData> updateProfileWithImage(@Part MultipartBody.Part partner_id,
+                                             @Part MultipartBody.Part p_name,
+                                             @Part MultipartBody.Part p_father_name,
+                                             @Part MultipartBody.Part alt_mob_no,
+                                             @Part MultipartBody.Part p_address,
+                                             @Part MultipartBody.Part p_pan_no,
+                                             @Part MultipartBody.Part p_aadhar_no,
+                                             @Part MultipartBody.Part photo,
+                                             @Part MultipartBody.Part signature);
 
 }

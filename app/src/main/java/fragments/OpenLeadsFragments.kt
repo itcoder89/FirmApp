@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,11 +65,15 @@ class OpenLeadsFragments : Fragment(), OnResponse<UniverSelObjct> {
                     "partner-openleads" -> {
                         val openLeadsData = response.response as OpenLeadsData
                         Log.e("partner-openleads"," "+openLeadsData.isStatus+"")
-                        openLeadsAdapter = OpenLeadsAdapter(activity)
-                        recyclerView!!.adapter = openLeadsAdapter
-                        recyclerView!!.setHasFixedSize(false)
-                        openLeadsAdapter!!.addData(openLeadsData.data)
-                        openLeadsAdapter!!.notifyDataSetChanged()
+                        if(openLeadsData!!.isStatus == false){
+                            Toast.makeText(activity!!,"No Data found!", Toast.LENGTH_SHORT).show()
+                        }else{
+                            openLeadsAdapter = OpenLeadsAdapter(activity)
+                            recyclerView!!.adapter = openLeadsAdapter
+                            recyclerView!!.setHasFixedSize(false)
+                            openLeadsAdapter!!.addData(openLeadsData.data)
+                            openLeadsAdapter!!.notifyDataSetChanged()
+                        }
                     }
 
                 }

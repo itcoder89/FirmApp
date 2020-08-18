@@ -61,7 +61,7 @@ public class DashboardData implements Serializable {
         private int totalCustomerFeedback;
         private int totalFeedbackCompleteBooking;
         private int totalKodFeedback;
-        private int rating;
+        private Float rating;
         private int walletAmount;
         private int totalEarningAmount;
         private String kodCommission;
@@ -162,11 +162,11 @@ public class DashboardData implements Serializable {
             this.totalKodFeedback = totalKodFeedback;
         }
 
-        public int getRating() {
+        public Float getRating() {
             return rating;
         }
 
-        public void setRating(int rating) {
+        public void setRating(Float rating) {
             this.rating = rating;
         }
 

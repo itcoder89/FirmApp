@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.kodpartner.R
 import model.PendingLeadsData
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,8 +52,9 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
-        holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        val form = DecimalFormat("0.00")
+        holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
+        holder.tvAddress.text = feedData!![position].customerDetails.address+""
 
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         val outputPattern = "dd-MM-yyyy hh:mm:ss";
@@ -68,14 +70,14 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
         } catch (e: ParseException) {
             e.printStackTrace();
         }
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
         holder.tvCompleteDateTime.setText("Visit- "+feedData!![position].service_date+" "+feedData!![position].service_time)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
         holder.tvStatus.text="Current Status -"+feedData!![position].current_status
         holder.tvUnit.text="Unit "+feedData!![position].unit
 
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -99,6 +101,7 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
         var tvStatus: TextView
         var tvCompleteDateTime: TextView
         var tvUnit: TextView
+        var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -110,6 +113,7 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
             tvStatus = itemView.findViewById<View>(R.id.tvStatus) as TextView
             tvCompleteDateTime = itemView.findViewById<View>(R.id.tvCompleteDateTime) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
         }
     }
 
