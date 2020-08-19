@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import model.DashboardData
+import retrofit.AppGlobal
 import utils.CustomDialogue
 import utils.LocalStorage
 import java.text.DecimalFormat
@@ -32,6 +33,8 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
     private var ll_cancel_leads: LinearLayout? = null
     private var ll_completed_leads: LinearLayout? = null
     private var ll_recomplaints: LinearLayout? = null
+    private var ll_working_leads: LinearLayout? = null
+    private var ll_reschedule_leads: LinearLayout? = null
 
     private var tvAllPendingLeads: TextView? = null
     private var tvFirmName: TextView? = null
@@ -51,6 +54,8 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
             ll_cancel_leads = fragmentView.findViewById<View>(R.id.ll_cancel_leads) as LinearLayout
             ll_completed_leads = fragmentView.findViewById<View>(R.id.ll_completed_leads) as LinearLayout
             ll_recomplaints = fragmentView.findViewById<View>(R.id.ll_recomplaints) as LinearLayout
+            ll_working_leads = fragmentView.findViewById<View>(R.id.ll_working_leads) as LinearLayout
+            ll_reschedule_leads = fragmentView.findViewById<View>(R.id.ll_reschedule_leads) as LinearLayout
 
 
             tvAllPendingLeads = fragmentView.findViewById<View>(R.id.tvAllPendingLeads) as TextView
@@ -83,6 +88,30 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                 activity!!.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.containerView, newLeadsFragments)
+                    .commit()
+            }
+            ll_working_leads!!.setOnClickListener {
+                LocalStorage.setCheckLastFragment(activity!!,"workingleads")
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "Working Leads")
+                activity!!.sendBroadcast(intent)
+                val workingLeadsFragments = WorkingLeadsFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, workingLeadsFragments)
+                    .commit()
+            }
+            ll_reschedule_leads!!.setOnClickListener {
+                LocalStorage.setCheckLastFragment(activity!!,"rescheduleleads")
+                val intent = Intent()
+                intent.action = "start.fragment.action.replacetitle"
+                intent.putExtra("title", "Reschedule Leads")
+                activity!!.sendBroadcast(intent)
+                val rescheduleListFragments = RescheduleListFragments()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.containerView, rescheduleListFragments)
                     .commit()
             }
             ll_onhold_leads!!.setOnClickListener {
@@ -155,13 +184,12 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
             if (response!!.status == "true") {
                 when (response.methodname) {
                     "getDashboardData" -> {
-                        val form = DecimalFormat("0.00")
                         val dashboardData = response.response as DashboardData
                         Log.e("dashboardData"," "+dashboardData.data.rating+"")
-                        tvInWallet.text="Rs. "+form.format(dashboardData.data.walletAmount)
+                        tvInWallet.text="Rs. "+AppGlobal.setTwoDecimalValue(dashboardData.data.walletAmount)
 
                         //tvWalletAmount.text=""+dashboardData.data.walletAmount
-                        tvWalletAmount.text=":"+form.format(dashboardData.data.walletAmount)
+                        tvWalletAmount.text=": "+AppGlobal.setTwoDecimalValue(dashboardData.data.walletAmount)
                         tvNewLeads.text=dashboardData.data.totalNewLeadsBooking.toString()
                         tvOpenLeads.text=dashboardData.data.totalOpenLeadsBooking.toString()
                         tvWorking.text=dashboardData.data.totalWorkingBooking.toString()
@@ -177,8 +205,10 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                         tvFeedbyKOD.text=dashboardData.data.totalKodFeedback.toString()
 
                         tvRatings.text="Rating: "+dashboardData.data.rating.toString()+" "
-                        tvKODCommission.text=form.format(dashboardData.data.kodCommission)+""
-                        tvTotalEarningAmount.text=form.format(dashboardData.data.totalEarningAmount.toString()) + ""
+                        tvKODCommission.text=AppGlobal.setTwoDecimalValue(dashboardData.data.kodCommission)+""
+                        tvTotalEarningAmount.text=AppGlobal.setTwoDecimalValue(dashboardData.data.totalEarningAmount) + ""
+                        tvTotalRecharge.text=AppGlobal.setTwoDecimalValue(dashboardData.data.totalRechargeAmount) + ""
+                        LocalStorage.setFirmName(activity!!,dashboardData.data.f_name)
                     }
 
                 }

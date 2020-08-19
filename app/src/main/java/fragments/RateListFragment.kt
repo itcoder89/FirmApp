@@ -97,8 +97,7 @@ class RateListFragment : Fragment(), OnResponse<UniverSelObjct>, AdapterView.OnI
                         customAdapter = CustomAdapter(
                             activity,
                             lst,
-                            R.layout.view_services_item_layout
-                        )
+                            R.layout.view_services_item_layout)
                         spinner!!.setAdapter(customAdapter)
                     }
 

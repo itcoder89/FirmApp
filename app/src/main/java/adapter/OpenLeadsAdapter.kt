@@ -1,22 +1,30 @@
 package adapter
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
 import Interfaces.OnResponse
+import activity.Dummy
 import activity.MoveToWorking
 import activity.TrackLocation
-import android.content.Context
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.afollestad.materialdialogs.MaterialDialog
-import com.kodpartner.R
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
 import model.OpenLeadsData
@@ -29,9 +37,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class OpenLeadsAdapter(var cxt: FragmentActivity?) :
+class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
     RecyclerView.Adapter<OpenLeadsAdapter.ViewHolder>(), OnResponse<UniverSelObjct> {
-    var material : MaterialDialog? = null
+    private val REQUEST_PHONE_CALL = 100
     var feedData: ArrayList<OpenLeadsData.DataBean>? = ArrayList()
 
     var onItemClick: ((pos: Int, view: View) -> Unit)? = null
@@ -103,7 +111,36 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
        // holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
-
+        holder.tvCustomerMobile.setOnClickListener{
+            if (ContextCompat.checkSelfPermission(
+                    cxt!!,
+                    Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    cxt!!,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    REQUEST_PHONE_CALL
+                )
+            }else{
+                val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+91"+ feedData!![position].customerDetails.contact_no))
+                if (ActivityCompat.checkSelfPermission(
+                        cxt!!,
+                        Manifest.permission.CALL_PHONE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return@setOnClickListener
+                }
+                cxt!!.startActivity(callIntent)
+            }
+        }
         holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
@@ -118,8 +155,8 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
             cxt!!.startActivity(intent)
         }
         holder.tvCancel.setOnClickListener{
-
-            showccancel(position,cxt!!)
+            mListner.onClick(position)
+            //showccancel(position,cxt!!)
             //cxt.finish()
         }
         holder.tvRescheduledLeads.setOnClickListener{
@@ -165,18 +202,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?) :
         }
     }
 
-    fun showccancel(pos: Int,cxt:Context) {
-        material = MaterialDialog.Builder(cxt)
-            .customView(R.layout.cancel_booking_layout, true)
-            .show()
-        val btn_done = material!!.findViewById(R.id.btn_done) as Button
-        val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
-        btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
-
-        }
-    }
 
     override fun onSucess(response: UniverSelObjct?) {
         try {

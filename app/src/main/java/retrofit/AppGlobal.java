@@ -1,5 +1,6 @@
 package retrofit;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -352,6 +353,19 @@ public class AppGlobal {
             }
         }
         return 0;
+    }
+
+    //set two decimal point funcation
+    @SuppressLint("DefaultLocale")
+    public static String setTwoDecimalValue(Float value){
+        String s="0";
+        try {
+            s = String.format("%.2f", value);
+            return s;
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        return s;
     }
 
     /**

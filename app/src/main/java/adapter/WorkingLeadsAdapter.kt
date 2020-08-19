@@ -1,6 +1,8 @@
 package adapter
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
+import Interfaces.ItemAdapterClick2
 import Interfaces.OnResponse
 import activity.TrackLocation
 import android.content.Context
@@ -22,9 +24,9 @@ import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 
-class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
+class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick,var mListner1 : ItemAdapterClick2) :
     RecyclerView.Adapter<WorkingLeadsAdapter.ViewHolder>(), OnResponse<UniverSelObjct> {
-    var material : MaterialDialog? = null
+
     var feedData: ArrayList<WorkingLeadsData.DataBean>? = ArrayList()
 
     var onItemClick: ((pos: Int, view: View) -> Unit)? = null
@@ -67,8 +69,12 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
         holder.tvCancel.setOnClickListener{
+            mListner.onClick(position)
 
-            showccancel(position,cxt!!)
+        }
+        holder.tvMoveToClose.setOnClickListener{
+            mListner1.onLabourClick(position)
+
         }
         holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
@@ -95,6 +101,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
         var tvCancel: TextView
         var tvUnit: TextView
         var tvFault: TextView
+        var tvMoveToClose: TextView
         var btnViewMap: Button
 
         init {
@@ -107,23 +114,13 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?) :
             tvCancel = itemView.findViewById<View>(R.id.tvCancel) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
+            tvMoveToClose = itemView.findViewById<View>(R.id.tvMoveToClose) as TextView
             btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }
     }
 
-    fun showccancel(pos: Int,cxt:Context) {
-        material = MaterialDialog.Builder(cxt)
-            .customView(R.layout.cancel_booking_layout, true)
-            .show()
-        val btn_done = material!!.findViewById(R.id.btn_done) as Button
-        val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
-        btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
-
-        }
-    }
 
     override fun onSucess(response: UniverSelObjct?) {
         try {

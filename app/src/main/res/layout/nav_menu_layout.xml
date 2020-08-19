@@ -394,6 +394,37 @@
                     android:background="@color/white" />
 
                 <LinearLayout
+                    android:id="@+id/ll_reschedule_leads"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_13ssp"
+                        android:text=""
+                        android:textSize="@dimen/dimen_16dp"
+                         />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dimen_8dp"
+                        android:text="Reschedule Leads Listing"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_16dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:visibility="gone"
+                    android:background="@color/white" />
+
+
+                <LinearLayout
                     android:id="@+id/ll_completed_leads"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -563,6 +594,36 @@
                         android:gravity="center_vertical"
                         android:padding="@dimen/dimen_8dp"
                         android:text="Wallet Summary"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_16dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:visibility="gone"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/ll_AboutApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_13ssp"
+                        android:text=""
+                        android:textSize="@dimen/dimen_16dp"
+                         />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dimen_8dp"
+                        android:text="About App"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_16dp" />
                 </LinearLayout>

@@ -82,9 +82,10 @@
                 android:id="@+id/tvCustomerMobile"
                 android:layout_width="0dp"
                 android:layout_weight="1.5"
+                android:drawableRight="@android:drawable/sym_call_outgoing"
                 android:gravity="right"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:text="Mobile No." />
 

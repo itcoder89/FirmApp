@@ -67,6 +67,25 @@ public class GetOrderFaultsData {
         private String service_date;
         private String service_time;
         private String idfault;
+        private String service;
+
+        public String getService() {
+            return service;
+        }
+
+        public void setService(String service) {
+            this.service = service;
+        }
+
+        public String getSubservice() {
+            return subservice;
+        }
+
+        public void setSubservice(String subservice) {
+            this.subservice = subservice;
+        }
+
+        private String subservice;
         private String fault;
         private String lat_code;
         private String lng_code;

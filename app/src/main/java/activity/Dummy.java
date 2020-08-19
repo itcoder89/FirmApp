@@ -1,5 +1,7 @@
 package activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.kodpartner.R;
 
@@ -19,13 +23,16 @@ import model.ServiceModel;
 
 public class Dummy extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final int REQUEST_PHONE_CALL = 100;
     Spinner spinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rate_list_layout);
 
-
+        if (ContextCompat.checkSelfPermission(Dummy.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(Dummy.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+        }
         ServiceModel serviceModel=new ServiceModel();
         // Spinner element
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);

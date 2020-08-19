@@ -51,6 +51,26 @@ public class GetAllSelectedPartListData {
         private int id;
         private String idpart;
         private String name;
+
+        public Float getPart_amount() {
+            return part_amount;
+        }
+
+        public void setPart_amount(Float part_amount) {
+            this.part_amount = part_amount;
+        }
+
+        private Float part_amount;
+
+        public Float getLabour() {
+            return labour;
+        }
+
+        public void setLabour(Float labour) {
+            this.labour = labour;
+        }
+
+        private Float labour;
         private String amount;
         private String order_id;
         private String qty;

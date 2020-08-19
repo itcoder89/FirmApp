@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,6 +140,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/ll_working_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
                         android:background="@drawable/border_view"
@@ -277,12 +270,14 @@
                 </LinearLayout>
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:weightSum="3"
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/ll_reschedule_leads"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
                         android:background="@drawable/border_view"
@@ -476,7 +471,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp"
-                            android:text="3" />
+                            android:text="0" />
 
 
                     </LinearLayout>
@@ -599,6 +594,7 @@
                             android:text="Total Recharge" />
 
                         <TextView
+                            android:id="@+id/tvTotalRecharge"
                             android:layout_width="0dp"
                             android:layout_weight="1.5"
                             android:gravity="right"
@@ -703,53 +699,60 @@
 
             </LinearLayout>
 
+            <!--Footer Menu layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:gravity="center"
+                android:weightSum="6"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:background="@color/colorPrimary"
+                    android:textSize="14dp"
+                    android:text="HOME" />
+
+
+                <TextView
+                    android:id="@+id/tvAllPendingLeads"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/_2dp"
+                    android:layout_marginRight="@dimen/_2dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_14ssp"
+                    android:text="ALL PENDING" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:background="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_14ssp"
+                    android:text="CHAT" />
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <!--Footer Menu layout-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:weightSum="6"
-        android:background="@color/colorPrimary">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:text="HOME" />
-
-
-        <TextView
-            android:id="@+id/tvAllPendingLeads"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:text="ALL PENDING" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:text="CHAT" />
-
-
-    </LinearLayout>
-</RelativeLayout>

@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.comman_top_header.*
 import kotlinx.android.synthetic.main.wallet_recharge_layout.*
 import model.RechargeWalletData
 import model.ServiceListForRateData
+import model.WalletRechargeSummaryData
 import model.WalletSummaryListData
 import org.json.JSONObject
 import retrofit.AppGlobal
@@ -55,7 +56,7 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView!!.layoutManager = layoutManager
 
-        AppGlobal.hideKeyboard(this)
+ //       AppGlobal.hideKeyboard(this)
 
 
         iv_back.setOnClickListener(this)
@@ -152,18 +153,22 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
 
     override fun onSucess(response: UniverSelObjct?) {
         try {
-            if (response!!.status == "true") {
-                when (response.methodname) {
+            //if (response!!.status == "true") {
+                when (response!!.methodname) {
                     "partner-wallet-summary" -> {
-                        val walletSummaryListData = response.response as WalletSummaryListData
-                        Log.e("walletSummaryListData","")
-                        val form = DecimalFormat("0.00")
-                        tvWalletBalance.text="Wallet Balance \nRs."+form.format(walletSummaryListData.data.walletBalance.toString())+""
-                        walletRechargeListAdapter = WalletRechargeListAdapter(this)
-                        recyclerView!!.adapter = walletRechargeListAdapter
-                        recyclerView!!.setHasFixedSize(false)
-                        walletRechargeListAdapter!!.addData(walletSummaryListData.data.paymentSummary)
-                        walletRechargeListAdapter!!.notifyDataSetChanged()
+                        val walletRechargeSummaryData = response.response as WalletSummaryListData
+                        Log.e("walletRechaSummData","isStatus "+walletRechargeSummaryData.isStatus)
+                        if(walletRechargeSummaryData.isStatus == false){
+                            AppGlobal.showToast(this,walletRechargeSummaryData.message)
+                        }else{
+                            val form = DecimalFormat("0.00")
+                            tvWalletBalance.text="Wallet Balance \nRs."+AppGlobal.setTwoDecimalValue(walletRechargeSummaryData.data.walletBalance)+""
+                            walletRechargeListAdapter = WalletRechargeListAdapter(this)
+                            recyclerView!!.adapter = walletRechargeListAdapter
+                            recyclerView!!.setHasFixedSize(false)
+                            walletRechargeListAdapter!!.addData(walletRechargeSummaryData.data.paymentSummary)
+                            walletRechargeListAdapter!!.notifyDataSetChanged()
+                        }
                     }
                     "wallet-recharge-by-partner" -> {
                         val rechargeWalletData = response.response as RechargeWalletData
@@ -175,14 +180,15 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
                                 LocalStorage.getCustomerID(this))
                     }
                 }
-            }
+            //}
         }catch (e:Exception){
             e.printStackTrace()
         }
     }
 
     override fun onError(error: String?) {
-        CustomDialogue.showcustomblank(this!!, "Alert", error.toString())
+        Log.e("onError","error "+error)
+       // CustomDialogue.showcustomblank(this!!, "Alert", error.toString())
     }
 
 

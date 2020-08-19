@@ -1,6 +1,7 @@
 package adapter
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
 import Interfaces.OnResponse
 import activity.TrackLocation
 import android.app.Dialog
@@ -26,8 +27,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class RecomplaintsListAdapter(var cxt: FragmentActivity?) :
-    RecyclerView.Adapter<RecomplaintsListAdapter.ViewHolder>(), OnResponse<UniverSelObjct> {
+class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
+    RecyclerView.Adapter<RecomplaintsListAdapter.ViewHolder>() {
 
     var feedData: ArrayList<RecomplaintsListData.DataBean>? = ArrayList()
 
@@ -95,11 +96,10 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?) :
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
             cxt!!.startActivity(intent)
-           // cxt!!.finish()
         }
 
         holder.tvClose.setOnClickListener{
-            showDialoge(feedData!![position].order_id,cxt!!)
+            mListner.onClick(position)
         }
     }
 
@@ -136,49 +136,5 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?) :
         }
     }
 
-
-    override fun onSucess(response: UniverSelObjct?) {
-        try {
-            //if (response!!.status == "true") {
-            when (response!!.methodname) {
-                "close-by-partner" -> {
-                    val closeByPartnerData = response!!.response as CloseByPartnerData
-                    Log.e("closeByPartnerData", " " + closeByPartnerData.message)
-                    Toast.makeText(cxt,""+closeByPartnerData.message,Toast.LENGTH_SHORT).show()
-                }
-
-            }
-            //}
-        }catch (e:Exception){e.printStackTrace()}
-
-
-    }
-
-    override fun onError(error: String?) {
-
-    }
-
-
-
-    fun showDialoge(order_id: String,cxt: Context) {
-        val dialog = Dialog(cxt)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.custom_cancel_order_popup)
-        dialog.setCanceledOnTouchOutside(false)
-        val tvUpdateContent = dialog.findViewById<View>(R.id.tvUpdateContent) as TextView
-        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
-        val tvYesCancel =
-            dialog.findViewById<View>(R.id.tvYesCancel) as TextView
-
-        tvUpdateContent.text="Are you sure you want to close this order?"
-        tvNo.setOnClickListener { dialog.dismiss() }
-        tvYesCancel.setOnClickListener {
-            Log.e("acceptOrderParam","ptnr_id: "+ LocalStorage.getCustomerID(cxt)+" order_id:"+order_id)
-            Apicall(cxt).closebyPartner(this,"close-by-partner",
-                LocalStorage.getCustomerID(cxt),order_id)
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
 
 }

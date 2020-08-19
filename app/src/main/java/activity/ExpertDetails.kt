@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.comman_top_header.*
 import kotlinx.android.synthetic.main.expert_profile_layout.*
 import model.ExpertDetailsData
@@ -38,6 +39,13 @@ class ExpertDetails : AppCompatActivity(), OnResponse<UniverSelObjct> {
                         tvContact.text=expertDetailsData.data.contact_no
                         tvEmail.text=expertDetailsData.data.email.toString()
                         tvAddress.text=expertDetailsData.data.address.toString()
+                        tvAadharNo.text=expertDetailsData.data.aadhar_no.toString()
+                        tvPanno.text=expertDetailsData.data.pan_no.toString()
+
+                        Picasso
+                            .with(this@ExpertDetails)
+                            .load(expertDetailsData.img_path+expertDetailsData.img_path)
+                            .into(profile_image);
                     }
 
                 }

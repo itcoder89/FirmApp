@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() , OnResponse<UniverSelObjct> {
                             val dada = gson.toJson(SubmitData)
                             LocalStorage.setCustomerID(this,SubmitData.data.user.refrenceid.toString())
                             LocalStorage.setCustomerEmailID(this,SubmitData.data.user.email.toString())
-                            LocalStorage.setFirmName(this,SubmitData.data.user.username.toString())
+                            //LocalStorage.setFirmName(this,SubmitData.data.user.username.toString())
                             Log.e("userid","resID:"+ SubmitData.data.user.refrenceid.toString())
                             SessionManager.getInstance(this).setSharedPreferences(dada,getString(R.string.LoginData_key))
 

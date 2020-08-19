@@ -1318,6 +1318,40 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
+    fun getAboutApp(activity: OnResponse<UniverSelObjct>,
+                        mathod: String) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.getAboutApp()
+            .enqueue(object : Callback<AboutAppData> {
+                override fun onResponse(
+                    call: Call<AboutAppData>,
+                    response: Response<AboutAppData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<AboutAppData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
 
     fun rescheduleBooking(activity: OnResponse<UniverSelObjct>,
                           mathod: String,id:String,feedback_message:String,service_date:String,service_time:String,idstatus:String){

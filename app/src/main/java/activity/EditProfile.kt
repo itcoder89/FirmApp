@@ -7,6 +7,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
@@ -380,6 +381,7 @@ class EditProfile : AppCompatActivity(), OnResponse<UniverSelObjct>, View.OnClic
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_profile_layout)
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (intent.hasExtra("result"))
             result = intent.getParcelableExtra("result")
 

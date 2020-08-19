@@ -17,6 +17,7 @@ import com.kodpartner.R
 import model.GetAllSelectedPartListData
 import model.GetOrderFaultsData
 import model.RecomplaintsListData
+import retrofit.AppGlobal
 
 
 class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabourAdapterClick) :
@@ -54,6 +55,7 @@ class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabo
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvTitle.text = ""+feedData!![position].name
+        holder.tvServiceName.text = "Rate:"+AppGlobal.setTwoDecimalValue(feedData!![position].part_amount).toString()
         //holder.edAmount.setText(feedData!![position].amount)
         holder.tv_quantity.text = feedData!![position].qty
 
@@ -129,6 +131,7 @@ class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabo
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var tvTitle: TextView
+        var tvServiceName: TextView
         var edAmount: EditText
         var tv_quantity: TextView
         var tv_add: TextView
@@ -137,6 +140,7 @@ class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabo
 
         init {
             tvTitle = itemView.findViewById<View>(R.id.tvTitle) as TextView
+            tvServiceName = itemView.findViewById<View>(R.id.tvServiceName) as TextView
             edAmount = itemView.findViewById<View>(R.id.edAmount) as EditText
             tv_quantity = itemView.findViewById<View>(R.id.tv_quantity) as TextView
             tv_add = itemView.findViewById<View>(R.id.tv_add) as TextView

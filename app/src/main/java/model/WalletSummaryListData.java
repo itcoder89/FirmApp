@@ -11,6 +11,19 @@ public class WalletSummaryListData {
      */
 
     private boolean status;
+
+    public String getMessage() {
+        if(message==null || message.equals("")){
+            message = "";
+        }
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
     private DataBean data;
 
     public boolean isStatus() {
@@ -38,17 +51,17 @@ public class WalletSummaryListData {
          * totalEarningAmount : 8479
          */
 
-        private int walletBalance;
+        private Float walletBalance;
         private String kodCommision;
         private int totalRechargeAmnt;
         private String totalEarningAmount;
         private List<PaymentSummaryBean> paymentSummary;
 
-        public int getWalletBalance() {
+        public Float getWalletBalance() {
             return walletBalance;
         }
 
-        public void setWalletBalance(int walletBalance) {
+        public void setWalletBalance(Float walletBalance) {
             this.walletBalance = walletBalance;
         }
 

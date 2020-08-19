@@ -2,6 +2,7 @@ package retrofit;
 
 
 
+import model.AboutAppData;
 import model.AcceptLeadData;
 import model.AddFaultSuccessData;
 import model.CancelByData;
@@ -163,6 +164,9 @@ public interface ApiRequest {
 
     @GET("api/get-time-laps")
     Call<TimeDateSlabData> getTimeDateSlab();
+
+    @GET("api/about-this-app")
+    Call<AboutAppData> getAboutApp();
 
     @POST("api/create-orders")
     @FormUrlEncoded

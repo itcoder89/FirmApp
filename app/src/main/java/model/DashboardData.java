@@ -62,9 +62,28 @@ public class DashboardData implements Serializable {
         private int totalFeedbackCompleteBooking;
         private int totalKodFeedback;
         private Float rating;
-        private int walletAmount;
-        private int totalEarningAmount;
-        private String kodCommission;
+        private Float walletAmount;
+        private Float totalEarningAmount;
+        private Float kodCommission;
+
+        public Float getTotalRechargeAmount() {
+            return totalRechargeAmount;
+        }
+
+        public void setTotalRechargeAmount(Float totalRechargeAmount) {
+            this.totalRechargeAmount = totalRechargeAmount;
+        }
+
+        public String getF_name() {
+            return f_name;
+        }
+
+        public void setF_name(String f_name) {
+            this.f_name = f_name;
+        }
+
+        private Float totalRechargeAmount;
+        private String f_name;
 
         public int getTotalOpenLeadsBooking() {
             return totalOpenLeadsBooking;
@@ -170,27 +189,27 @@ public class DashboardData implements Serializable {
             this.rating = rating;
         }
 
-        public int getWalletAmount() {
+        public Float getWalletAmount() {
             return walletAmount;
         }
 
-        public void setWalletAmount(int walletAmount) {
+        public void setWalletAmount(Float walletAmount) {
             this.walletAmount = walletAmount;
         }
 
-        public int getTotalEarningAmount() {
+        public Float getTotalEarningAmount() {
             return totalEarningAmount;
         }
 
-        public void setTotalEarningAmount(int totalEarningAmount) {
+        public void setTotalEarningAmount(Float totalEarningAmount) {
             this.totalEarningAmount = totalEarningAmount;
         }
 
-        public String getKodCommission() {
+        public Float getKodCommission() {
             return kodCommission;
         }
 
-        public void setKodCommission(String kodCommission) {
+        public void setKodCommission(Float kodCommission) {
             this.kodCommission = kodCommission;
         }
     }

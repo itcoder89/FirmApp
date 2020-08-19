@@ -269,6 +269,8 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
                     Log.e("currentlocation","lng " + mCurrentLocation!!.getLongitude().toString())
                     updateLat = mCurrentLocation!!.getLatitude()
                     updateLng = mCurrentLocation!!.getLongitude()
+                    val coordinates = LatLng(mCurrentLocation!!.getLatitude(),mCurrentLocation!!.getLongitude())
+                    drawCircle(coordinates)
                    /* val coordinates = LatLng(mCurrentLocation!!.getLatitude(),mCurrentLocation!!.getLongitude())
                     // For zooming automatically to the location of the marker
                     val cameraPosition =
@@ -537,6 +539,7 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
                         val cameraPosition =
                             CameraPosition.Builder().target(coordinates).zoom(18f).build()
                         googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                        drawCircle(coordinates)
                     }
 
                 }
@@ -550,4 +553,6 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
     override fun onError(error: String?) {
         CustomDialogue.showcustomblank(this, "Alert", error.toString())
     }
+
+
 }

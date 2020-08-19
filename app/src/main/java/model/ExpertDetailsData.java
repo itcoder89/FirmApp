@@ -11,6 +11,19 @@ public class ExpertDetailsData implements Serializable {
      */
 
     private boolean status;
+
+    public String getImg_path() {
+        if(img_path==null || img_path.equals("")){
+            img_path = "";
+        }
+        return img_path;
+    }
+
+    public void setImg_path(String img_path) {
+        this.img_path = img_path;
+    }
+
+    private String img_path;
     private DataBean data;
 
     public boolean isStatus() {
@@ -58,13 +71,13 @@ public class ExpertDetailsData implements Serializable {
         private String email;
         private String password;
         private Object e_image;
-        private Object signature_file;
+        private String signature_file;
         private Object expert_agreement;
         private String address;
         private String is_approve;
         private String reason;
         private String aadhar_no;
-        private Object pan_no;
+        private String pan_no;
         private String created_at;
         private String updated_at;
 
@@ -132,11 +145,14 @@ public class ExpertDetailsData implements Serializable {
             this.e_image = e_image;
         }
 
-        public Object getSignature_file() {
+        public String getSignature_file() {
+            if(signature_file==null || signature_file.equals("")){
+                signature_file = "";
+            }
             return signature_file;
         }
 
-        public void setSignature_file(Object signature_file) {
+        public void setSignature_file(String signature_file) {
             this.signature_file = signature_file;
         }
 
@@ -173,6 +189,9 @@ public class ExpertDetailsData implements Serializable {
         }
 
         public String getAadhar_no() {
+            if(aadhar_no==null || aadhar_no.equals("")){
+                aadhar_no = "Not Available";
+            }
             return aadhar_no;
         }
 
@@ -180,11 +199,14 @@ public class ExpertDetailsData implements Serializable {
             this.aadhar_no = aadhar_no;
         }
 
-        public Object getPan_no() {
+        public String getPan_no() {
+            if(pan_no==null || pan_no.equals("")){
+                pan_no = "Not Available";
+            }
             return pan_no;
         }
 
-        public void setPan_no(Object pan_no) {
+        public void setPan_no(String pan_no) {
             this.pan_no = pan_no;
         }
 

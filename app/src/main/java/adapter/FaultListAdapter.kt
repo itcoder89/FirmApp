@@ -50,6 +50,7 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvTitle.text = ""+feedData!![position].fault
+        holder.tvServiceName.text = "("+feedData!![position].service+" >> "+feedData!![position].subservice+")"
        // holder.edAmount.setText(feedData!![position].amount)
         holder.tv_quantity.text = feedData!![position].qty
 
@@ -174,6 +175,7 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var tvTitle: TextView
+        var tvServiceName: TextView
         var edAmount: EditText
         var tv_quantity: TextView
         var tv_add: TextView
@@ -181,6 +183,7 @@ class FaultListAdapter(var cxt: FragmentActivity?,var mListner : ItemFaultAdapte
         var ivRemoveItem: ImageView
         init {
             tvTitle = itemView.findViewById<View>(R.id.tvTitle) as TextView
+            tvServiceName = itemView.findViewById<View>(R.id.tvServiceName) as TextView
             edAmount = itemView.findViewById<View>(R.id.edAmount) as EditText
             tv_quantity = itemView.findViewById<View>(R.id.tv_quantity) as TextView
             tv_add = itemView.findViewById<View>(R.id.tv_add) as TextView

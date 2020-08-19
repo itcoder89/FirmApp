@@ -1,9 +1,6 @@
 package com.kodpartner
 
-import activity.LoginActivity
-import activity.MapActivity
-import activity.ProfileDetails
-import activity.WalletRecharge
+import activity.*
 import android.content.*
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -88,6 +85,10 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             startActivity(Intent(this, WalletRecharge::class.java))
             drawerLayout.closeDrawers()
         }
+        ll_AboutApp.setOnClickListener{
+            startActivity(Intent(this, AboutApp::class.java))
+            drawerLayout.closeDrawers()
+        }
         ll_new_leads.setOnClickListener{
             LocalStorage.setCheckLastFragment(this,"newleads")
             tvFragmentTitle.text="New Leads"
@@ -95,6 +96,16 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.containerView, newLeadsFragments)
+                .commit()
+            drawerLayout.closeDrawers()
+        }
+        ll_reschedule_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"rescheduleleads")
+            tvFragmentTitle.text="Reschedule Leads"
+            val rescheduleListFragments = RescheduleListFragments()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.containerView, rescheduleListFragments)
                 .commit()
             drawerLayout.closeDrawers()
         }

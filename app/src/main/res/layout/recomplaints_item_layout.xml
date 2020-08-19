@@ -234,7 +234,7 @@
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white"
                 android:textSize="14dp"
-                android:text="Cancel" />
+                android:text="Close" />
         </LinearLayout>
     </LinearLayout>
 

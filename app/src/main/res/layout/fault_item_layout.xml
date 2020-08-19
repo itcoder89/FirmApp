@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
@@ -23,6 +25,14 @@
                 android:textSize="14dp"
                 android:text="Split Ac-Installation"
                 android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvServiceName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="11dp"
+                android:text="Split Ac-Installation"
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/edAmount"

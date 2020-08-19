@@ -306,13 +306,20 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         Log.e("send-order-estimate","size- "+estimateSentData.message)
                         Log.e("send-order-estimate","received_otp "+estimateSentData.data.otp)
                         Toast.makeText(this,""+estimateSentData.message,Toast.LENGTH_SHORT).show()
+                        if(estimateSentData.isStatus == true)
+                            btnReSendOTP.visibility=View.VISIBLE
+                        else
+                            btnReSendOTP.visibility=View.GONE
+
                         received_otp=estimateSentData.data.otp.toString()
                     }
                     "save-complete-work" -> {
                         val orderPlaceData = response.response as OrderPlaceData
                         Log.e("save-complete-work","size- "+orderPlaceData.message)
                         Toast.makeText(this,""+orderPlaceData.message,Toast.LENGTH_SHORT).show()
-                        showCloseDialoge(order_id,this)
+                        //showCloseDialoge(order_id,this)
+                        startActivity(Intent(this, DashboardActivity::class.java))
+                        finish()
                     }
                     "closed-partner-booking" -> {
                         val workCloseData = response.response as WorkCloseData

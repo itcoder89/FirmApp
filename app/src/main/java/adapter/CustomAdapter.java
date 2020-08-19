@@ -38,8 +38,8 @@ public class CustomAdapter extends ArrayAdapter<ServiceListForRateData.DataBean>
     @Override
     public int getCount() {
         int count = super.getCount();
-
-        return count > 0 ? count - 1 : count;
+        //return count > 0 ? count - 1 : count;
+        return count;
     }
 
     @Override

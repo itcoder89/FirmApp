@@ -18,6 +18,7 @@ import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.AcceptLeadData
 import model.NewLeadsData
+import retrofit.AppGlobal
 import utils.LocalStorage
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -62,10 +63,10 @@ class NewLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick
         try {
             holder.tvOrderId.text = "Order ID-"+feedData!![position].order_id + ""
             holder.tvUnit.text = "Unit "+feedData!![position].unit + ""
-            val form = DecimalFormat("0.00")
-            holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
-            holder.tvCommission.text = "Commission\n"+form.format(feedData!![position].commission.toDouble()) + ""
-            holder.tvFault.text = ""+form.format(feedData!![position].fault) + ""
+          //  val form = DecimalFormat("0.00")
+            holder.tvServiceAmount.text = "Service Amount "+AppGlobal.setTwoDecimalValue(feedData!![position].amount.toFloat()) + ""
+            holder.tvCommission.text = "Commission "+AppGlobal.setTwoDecimalValue(feedData!![position].commission.toFloat()) + ""
+            holder.tvFault.text = ""+feedData!![position].fault + ""
             holder.tvAddress.text = feedData!![position].customerDetails.address
             //holder.tvBookingDateTime.text = feedData!![position].service_date +", "+ feedData!![position].service_time
             //holder.tvBookingDateTime.text = feedData!![position].booking_date
