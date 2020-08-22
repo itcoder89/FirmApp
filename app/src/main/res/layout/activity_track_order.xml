@@ -1,50 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorBackground">
 
     <include
         android:id="@+id/toolbarLayout"
         layout="@layout/comman_top_header" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tvShowDistance"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/_14ssp"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center_horizontal"
+        android:text="fetching  distance......" />
 
-        <ProgressBar
-            android:id="@+id/progress_horizontal"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dim_50"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-
-
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/tvShowDistance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_alignParentBottom="true"
-            android:textSize="@dimen/_14ssp"
-            android:padding="@dimen/_10dp"
-            android:gravity="center_horizontal"
-            android:text="fetching  distance......" />
-
-    </RelativeLayout>
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
 

@@ -59,7 +59,11 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Total Amount "+form.format(feedData!![position].amount.toDouble()) + ""
-        holder.tvAddress.text = feedData!![position].customerDetails.address
+        //holder.tvAddress.text = feedData!![position].customerDetails.address
+        if(feedData!![position].address.isNullOrBlank())
+            holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        else
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
        // holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)

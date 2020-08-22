@@ -36,6 +36,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
     private var ll_working_leads: LinearLayout? = null
     private var ll_reschedule_leads: LinearLayout? = null
 
+    private var tvHomeFragment: TextView? = null
     private var tvAllPendingLeads: TextView? = null
     private var tvFirmName: TextView? = null
     private var profile_image: CircleImageView? = null
@@ -59,10 +60,14 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
 
 
             tvAllPendingLeads = fragmentView.findViewById<View>(R.id.tvAllPendingLeads) as TextView
+            tvHomeFragment = fragmentView.findViewById<View>(R.id.tvHomeFragment) as TextView
            // tvFirmName = fragmentView.findViewById<View>(R.id.tvFirmName) as TextView
             profile_image = fragmentView.findViewById<View>(R.id.profile_image) as CircleImageView
 
             //tvFirmName!!.text=LocalStorage.getFirmName(activity!!)
+            tvHomeFragment!!.setOnClickListener {
+                Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
+            }
             tvAllPendingLeads!!.setOnClickListener {
                 startActivity(Intent(activity!!, AllPendingLeadsActivity::class.java))
             }

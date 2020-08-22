@@ -3,30 +3,46 @@ package activity
 import Interfaces.Apicall
 import Interfaces.OnResponse
 import adapter.WalletRechargeListAdapter
+import android.Manifest
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.kodpartner.R
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import com.social.ekchat.Interfaces.UniverSelObjct
 import kotlinx.android.synthetic.main.comman_top_header.*
+import kotlinx.android.synthetic.main.custom_offline_recharge_popup.*
 import kotlinx.android.synthetic.main.wallet_recharge_layout.*
-import model.RechargeWalletData
-import model.ServiceListForRateData
-import model.WalletRechargeSummaryData
-import model.WalletSummaryListData
+import kotlinx.android.synthetic.main.wallet_recharge_layout.edEnterAmount
+import model.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
 import org.json.JSONObject
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
 import retrofit.AppGlobal
 import utils.CustomDialogue
 import utils.LocalStorage
+import utils.RetrofitUtils
+import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,6 +54,7 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
     private var layoutManager: LinearLayoutManager? = null
     private var recyclerView: RecyclerView? = null
     var rzorid=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.wallet_recharge_layout)
@@ -50,8 +67,7 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
 
         tvTitle.text="Wallet/Recharge"
 
-        Apicall(this)
-            .getWalletRechargeSummaryList(this,"partner-wallet-summary",LocalStorage.getCustomerID(this))
+
 
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView!!.layoutManager = layoutManager
@@ -61,7 +77,15 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
 
         iv_back.setOnClickListener(this)
         btnSubmitRecharge.setOnClickListener(this)
+        btnOfflineRecharge.setOnClickListener(this)
     }
+
+    override fun onResume() {
+        super.onResume()
+        Apicall(this)
+            .getWalletRechargeSummaryList(this,"partner-wallet-summary",LocalStorage.getCustomerID(this))
+    }
+
     override fun onPaymentError(code: Int, response: String?) {
         try {
             Log.e("onPaymentError", "code:$code response=$response")
@@ -98,6 +122,9 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
         when (v?.id) {
             R.id.iv_back -> {
                 finish()
+            }
+            R.id.btnOfflineRecharge -> {
+                startActivity(Intent(this, OfflineRecharge::class.java))
             }
             R.id.btnSubmitRecharge -> {
                 if(edEnterAmount.text.toString().length > 0)
@@ -179,6 +206,7 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
                                 "partner-wallet-summary",
                                 LocalStorage.getCustomerID(this))
                     }
+
                 }
             //}
         }catch (e:Exception){
@@ -190,6 +218,129 @@ class WalletRecharge : AppCompatActivity(), PaymentResultListener,View.OnClickLi
         Log.e("onError","error "+error)
        // CustomDialogue.showcustomblank(this!!, "Alert", error.toString())
     }
+
+
+   /* fun showOfflineRechargeDialoge(cxt: Context) {
+        val dialog = Dialog(cxt)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_offline_recharge_popup)
+        dialog.setCanceledOnTouchOutside(false)
+        val edEnterReceiptNo = dialog.findViewById<View>(R.id.edEnterReceiptNo) as EditText
+        val et_other_info = dialog.findViewById<View>(R.id.et_other_info) as EditText
+        val edEnterCheckNo = dialog.findViewById<View>(R.id.edEnterCheckNo) as EditText
+        val edEnterTransactionNo = dialog.findViewById<View>(R.id.edEnterTransactionNo) as EditText
+        val edEnterAmount = dialog.findViewById<View>(R.id.edEnterAmount) as EditText
+        val edEnterCheckBankName = dialog.findViewById<View>(R.id.edEnterCheckBankName) as EditText
+
+        val tvSetChequeDate = dialog.findViewById<View>(R.id.tvSetChequeDate) as TextView
+        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
+        val tvYesCancel =  dialog.findViewById<View>(R.id.tvYesCancel) as TextView
+        val spinner =  dialog.findViewById<View>(R.id.spinner) as Spinner
+        val ivUploadProof =  dialog.findViewById<View>(R.id.ivUploadProof) as ImageView
+        val paymentmode = resources.getStringArray(R.array.paymentmode)
+
+        if (spinner != null) {
+            val adapter = ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, paymentmode)
+            spinner.adapter = adapter
+
+            spinner.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>,
+                                            view: View, position: Int, id: Long) {
+                    Toast.makeText(this@WalletRecharge,
+                        getString(R.string.selected_item) + " " +
+                                "" + paymentmode[position], Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
+                }
+            }
+        }
+
+
+        tvSetChequeDate.setOnClickListener {
+            val myDateListener =
+                DatePickerDialog.OnDateSetListener { arg0, year, monthOfYear, dayOfMonth ->
+                    Log.e(
+                        "onDateSet()",
+                        "arg0 = [$arg0], year = [$year], monthOfYear = [$monthOfYear], dayOfMonth = [$dayOfMonth]"
+                    )
+                    tvSetChequeDate.setText(
+                        year.toString() + "-" + monthOfYear + "-"
+                                + dayOfMonth
+                    )
+                    strChequeDate=tvSetChequeDate.text.toString()
+                }
+
+            val calendar = Calendar.getInstance()
+            val mYear = calendar[Calendar.YEAR]
+            val mMonth = calendar[Calendar.MONTH]
+            val mDay = calendar[Calendar.DAY_OF_MONTH]
+
+            val dpDialog =
+                DatePickerDialog(this, myDateListener, mYear, mMonth, mDay)
+            dpDialog.datePicker.maxDate = calendar.timeInMillis
+
+            dpDialog.show()
+        }
+        ivUploadProof.setOnClickListener { selectImage() }
+        tvNo.setOnClickListener { dialog.dismiss() }
+        tvYesCancel.setOnClickListener {
+            if(et_other_info.text.toString().length <= 0){
+                AppGlobal.showToast(this,"Please enter other info")
+            }else if(edEnterReceiptNo.text.toString().length <= 0){
+                AppGlobal.showToast(this,"please enter receipt no")
+            }else if(edEnterCheckNo.text.toString().length <= 0){
+                AppGlobal.showToast(this,"please enter cheque no")
+            }else if(edEnterTransactionNo.text.toString().length <= 0){
+                AppGlobal.showToast(this,"please enter transaction no")
+            }else if(edEnterAmount.text.toString().length <= 0){
+                AppGlobal.showToast(this,"please enter amount")
+            }else if(edEnterCheckBankName.text.toString().length <= 0){
+                AppGlobal.showToast(this,"please enter cheque bank name")
+            }else{
+                //Log.e("request","order_id"+order_id+" reason "+et_other_info.text.toString()+" time "+strTime+" date "+strDateTime)
+                val partner_id = MultipartBody.Part.createFormData("partner_id",LocalStorage.getCustomerID(this))
+                val receipt_no = MultipartBody.Part.createFormData("receipt_number",edEnterReceiptNo.text.toString().trim())
+                val other_info = MultipartBody.Part.createFormData("other_details",et_other_info.text.toString().trim())
+                val trns_no = MultipartBody.Part.createFormData("transaction_number",edEnterTransactionNo.text.toString().trim())
+                val cheque_no = MultipartBody.Part.createFormData("cheque_number",edEnterCheckNo.text.toString().trim())
+                val amount = MultipartBody.Part.createFormData("amount",edEnterAmount.text.toString().trim())
+                val cheque_bank_name = MultipartBody.Part.createFormData("cheque_bank_name",edEnterCheckBankName.text.toString().trim())
+                val payment_mode = MultipartBody.Part.createFormData("payment_mode","cash")
+                val cheque_date = MultipartBody.Part.createFormData("cheque_date",strChequeDate)
+
+                if (imgUrl != null) {
+                    Log.e("file",imgUrl!!.getAbsolutePath());
+                    val type: String = RetrofitUtils.getMimeType(this, Uri.fromFile(imgUrl))
+                    if (type == null) {
+                        Log.e("filetype", "Nothing to do")
+                    }
+                    val body = RetrofitUtils.createFilePart(
+                        "profile_image",
+                        imgUrl!!.getAbsolutePath(),
+                        MediaType.parse("profile_image")
+                    )
+                    Apicall(cxt)
+                        .offlineRecharge(this,"partner-offline-recharge",
+                            partner_id,
+                            receipt_no,
+                            payment_mode,
+                            cheque_no,
+                            trns_no,
+                            amount,
+                            cheque_bank_name,
+                            cheque_date,
+                            other_info,
+                            body)
+                }
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
+    }*/
 
 
 }

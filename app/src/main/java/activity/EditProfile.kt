@@ -667,7 +667,7 @@ class EditProfile : AppCompatActivity(), OnResponse<UniverSelObjct>, View.OnClic
         }
         tt_address.isErrorEnabled = false
 
-        if (et_PanNo.text.toString().isEmpty()) {
+        /*if (et_PanNo.text.toString().isEmpty()) {
             tt_pan_no.error = getString(R.string.empty_pan_no)
             tt_pan_no.requestFocus()
             return false
@@ -679,7 +679,7 @@ class EditProfile : AppCompatActivity(), OnResponse<UniverSelObjct>, View.OnClic
             tt_adharno.requestFocus()
             return false
         }
-        tt_adharno.isErrorEnabled = false
+        tt_adharno.isErrorEnabled = false*/
 
         return true
     }

@@ -2,10 +2,13 @@ package fragments
 
 import Interfaces.Apicall
 import Interfaces.ItemAdapterClick
+import Interfaces.ItemStringAdapterClick
 import Interfaces.OnResponse
 import adapter.RecomplaintsListAdapter
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,7 +27,9 @@ import model.RecomplaintsListData
 import utils.CustomDialogue
 import utils.LocalStorage
 
-class RecomplaintsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterClick {
+
+class RecomplaintsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterClick,
+    ItemStringAdapterClick {
 
     private var recomplaintsListAdapter: RecomplaintsListAdapter? = null
     private var layoutManager: LinearLayoutManager? = null
@@ -54,12 +59,12 @@ class RecomplaintsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
             if (response!!.status == "true") {
                 when (response.methodname) {
                     "partner-recomplaint" -> {
-                        val recomplaintsListData = response.response as RecomplaintsListData
-                        Log.e("partner-openleads"," "+recomplaintsListData.isStatus+"")
-                        recomplaintsListAdapter = RecomplaintsListAdapter(activity,this)
+                        recomplaintsListData = response.response as RecomplaintsListData
+                        Log.e("partner-openleads"," "+recomplaintsListData!!.isStatus+"")
+                        recomplaintsListAdapter = RecomplaintsListAdapter(activity,this,this)
                         recyclerView!!.adapter = recomplaintsListAdapter
                         recyclerView!!.setHasFixedSize(false)
-                        recomplaintsListAdapter!!.addData(recomplaintsListData.data)
+                        recomplaintsListAdapter!!.addData(recomplaintsListData!!.data)
                         recomplaintsListAdapter!!.notifyDataSetChanged()
                     }
                     "close-by-partner" -> {
@@ -104,5 +109,12 @@ class RecomplaintsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
     override fun onClick(pos: Int) {
         showDialoge(recomplaintsListData!!.data[pos].order_id,activity!!)
     }
+
+    override fun onItemStringClick(order_id: String) {
+        //https://kodservices.in/payment-receipt/20200839
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://kodservices.in/payment-receipt/"+order_id))
+        startActivity(browserIntent)
+    }
+
 
 }

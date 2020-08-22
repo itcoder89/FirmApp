@@ -1,8 +1,6 @@
 package adapter
 
-import Interfaces.Apicall
-import Interfaces.ItemAdapterClick
-import Interfaces.OnResponse
+import Interfaces.*
 import activity.TrackLocation
 import android.app.Dialog
 import android.content.Context
@@ -27,7 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
+class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick,var mListner2 : ItemStringAdapterClick) :
     RecyclerView.Adapter<RecomplaintsListAdapter.ViewHolder>() {
 
     var feedData: ArrayList<RecomplaintsListData.DataBean>? = ArrayList()
@@ -66,8 +64,11 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdap
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Total Amount "+form.format(feedData!![position].amount.toDouble()) + ""
-        holder.tvAddress.text = feedData!![position].customerDetails.address+""
-
+        ///holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        if(feedData!![position].address.isNullOrBlank())
+            holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        else
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
 
 
         //holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
@@ -89,9 +90,9 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdap
         } catch (e: ParseException) {
             e.printStackTrace();
         }
-        holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
 
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -100,6 +101,9 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdap
 
         holder.tvClose.setOnClickListener{
             mListner.onClick(position)
+        }
+        holder.tvViewBill.setOnClickListener{
+            mListner2.onItemStringClick(feedData!![position].order_id)
         }
     }
 
@@ -119,6 +123,7 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdap
         var tvFault: TextView
         var tvUnit: TextView
         var tvClose: TextView
+        var tvViewBill: TextView
         var btnViewMap: Button
 
         init {
@@ -132,6 +137,7 @@ class RecomplaintsListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdap
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             tvClose = itemView.findViewById<View>(R.id.tvClose) as TextView
+            tvViewBill = itemView.findViewById<View>(R.id.tvViewBill) as TextView
             btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
         }
     }

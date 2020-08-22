@@ -5,7 +5,7 @@ public class WorkingAreaData {
 
     /**
      * status : true
-     * data : {"id":3,"f_city_name":"Nagaur","lat_codes":"27.2009026","lng_codes":"73.73853319999999"}
+     * data : {"id":16,"f_city_name":"Jaipur","lat_codes":26.9059167,"lng_codes":75.772732,"working_radius":12}
      */
 
     private boolean status;
@@ -29,16 +29,18 @@ public class WorkingAreaData {
 
     public static class DataBean {
         /**
-         * id : 3
-         * f_city_name : Nagaur
-         * lat_codes : 27.2009026
-         * lng_codes : 73.73853319999999
+         * id : 16
+         * f_city_name : Jaipur
+         * lat_codes : 26.9059167
+         * lng_codes : 75.772732
+         * working_radius : 12
          */
 
         private int id;
         private String f_city_name;
-        private String lat_codes;
-        private String lng_codes;
+        private double lat_codes;
+        private double lng_codes;
+        private double working_radius;
 
         public int getId() {
             return id;
@@ -56,20 +58,28 @@ public class WorkingAreaData {
             this.f_city_name = f_city_name;
         }
 
-        public String getLat_codes() {
+        public double getLat_codes() {
             return lat_codes;
         }
 
-        public void setLat_codes(String lat_codes) {
+        public void setLat_codes(double lat_codes) {
             this.lat_codes = lat_codes;
         }
 
-        public String getLng_codes() {
+        public double getLng_codes() {
             return lng_codes;
         }
 
-        public void setLng_codes(String lng_codes) {
+        public void setLng_codes(double lng_codes) {
             this.lng_codes = lng_codes;
+        }
+
+        public double getWorking_radius() {
+            return working_radius;
+        }
+
+        public void setWorking_radius(double working_radius) {
+            this.working_radius = working_radius;
         }
     }
 }

@@ -1,11 +1,10 @@
 package fragments
 
-import Interfaces.Apicall
-import Interfaces.ItemAdapterClick
-import Interfaces.ItemAdapterClick2
-import Interfaces.OnResponse
+import Interfaces.*
 import adapter.WorkingLeadsAdapter
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -23,22 +22,27 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.kodpartner.DashboardActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import kotlinx.android.synthetic.main.custom_on_hold_popup.*
 import model.CancelByData
+import model.HoldByPartnerData
 import model.WorkCloseData
 import model.WorkingLeadsData
 import retrofit.AppGlobal
 import utils.CustomDialogue
 import utils.LocalStorage
+import java.util.*
 
 class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterClick,
-    ItemAdapterClick2 {
-
+    ItemAdapterClick2, ItemOnHoldAdapterClick {
+    var picker: TimePickerDialog? = null
     private var workingLeadsAdapter: WorkingLeadsAdapter? = null
     private var layoutManager: LinearLayoutManager? = null
     private var recyclerView: RecyclerView? = null
     private var workingLeadsData: WorkingLeadsData? = null
     var material : MaterialDialog? = null
     var strPaymentType = ""
+    var strTime = ""
+    var strDateTime = ""
     var isTouched = false
     var isOfficeTouched = false
     override fun onCreateView(
@@ -67,7 +71,7 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
                     "partner-working" -> {
                         workingLeadsData = response.response as WorkingLeadsData
                         Log.e("partner-working"," "+workingLeadsData!!.isStatus+"")
-                        workingLeadsAdapter = WorkingLeadsAdapter(activity,this,this)
+                        workingLeadsAdapter = WorkingLeadsAdapter(activity,this,this,this)
                         recyclerView!!.adapter = workingLeadsAdapter
                         recyclerView!!.setHasFixedSize(false)
                         workingLeadsAdapter!!.addData(workingLeadsData!!.data)
@@ -77,6 +81,12 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
                         val cancelByData = response.response as CancelByData
                         Log.e("partner-openleads", " " + cancelByData.message + "")
                         AppGlobal.showToast(activity!!,cancelByData.message)
+                        Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
+                    }
+                    "hold-by-partner" -> {
+                        val holdByPartnerData = response.response as HoldByPartnerData
+                        Log.e("holdByPartnerData", " " + holdByPartnerData.message + "")
+                        AppGlobal.showToast(activity!!,holdByPartnerData.message)
                         Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
                     }
                     "closed-partner-booking" -> {
@@ -182,6 +192,103 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    override fun onHoldClick(pos: Int) {
+        showOnHoldDialoge(workingLeadsData!!.data[pos].order_id,activity!!)
+    }
+
+    fun showOnHoldDialoge(order_id: String,cxt: Context) {
+        val dialog = Dialog(cxt)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_on_hold_popup)
+        dialog.setCanceledOnTouchOutside(false)
+        val et_reason = dialog.findViewById<View>(R.id.et_reason) as EditText
+        val tvSetVisitTime = dialog.findViewById<View>(R.id.tvSetVisitTime) as TextView
+        val tvSetVisitDate = dialog.findViewById<View>(R.id.tvSetVisitDate) as TextView
+        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
+        val tvYesCancel =  dialog.findViewById<View>(R.id.tvYesCancel) as TextView
+
+        tvSetVisitTime.setOnClickListener {
+
+            val cldr = Calendar.getInstance()
+            val hour = cldr[Calendar.HOUR_OF_DAY]
+            val minutes = cldr[Calendar.MINUTE]
+            // time picker dialog
+            picker = TimePickerDialog(
+                activity!!,
+                TimePickerDialog.OnTimeSetListener { tp, sHour, sMinute -> //  edtOpenTime.setText(String.format("%02d:%02d",sHour,sMinute));
+                    val isPM = sHour >= 12
+                    tvSetVisitTime.setText(
+                        String.format(
+                            "%02d:%02d %s",
+                            if (sHour == 12 || sHour == 0) 12 else sHour % 12,
+                            sMinute,
+                            if (isPM) "PM" else "AM"
+                        )
+                    )
+                    //getInputValueFromTime()
+                    strTime=tvSetVisitTime.text.toString()
+                }, hour, minutes, false
+            )
+            picker!!.show()
+        }
+        tvSetVisitDate.setOnClickListener {
+            val myDateListener =
+                DatePickerDialog.OnDateSetListener { arg0, year, monthOfYear, dayOfMonth ->
+                    Log.e(
+                        "onDateSet()",
+                        "arg0 = [$arg0], year = [$year], monthOfYear = [$monthOfYear], dayOfMonth = [$dayOfMonth]"
+                    )
+                    tvSetVisitDate.setText(
+                        year.toString() + "-" + monthOfYear + "-"
+                                + dayOfMonth
+                    )
+                    //getInputValueFromDate()
+                    strDateTime=tvSetVisitDate.text.toString()
+                }
+
+            val calendar = Calendar.getInstance()
+            val mYear = calendar[Calendar.YEAR]
+            val mMonth = calendar[Calendar.MONTH]
+            val mDay = calendar[Calendar.DAY_OF_MONTH]
+
+            val dpDialog =
+                DatePickerDialog(activity!!, myDateListener, mYear, mMonth, mDay)
+            dpDialog.datePicker.maxDate = calendar.timeInMillis
+
+            dpDialog.show()
+        }
+        tvNo.setOnClickListener { dialog.dismiss() }
+        tvYesCancel.setOnClickListener {
+            if(et_reason.text.toString().length <= 0){
+                AppGlobal.showToast(activity,"Please enter other info")
+            }else if(strTime.equals("")){
+                AppGlobal.showToast(activity,"please select visit time")
+            }else if(strDateTime.equals("")){
+                AppGlobal.showToast(activity,"please select visit date")
+            }else{
+                Log.e("request","order_id"+order_id+" reason "+et_reason.text.toString()+" time "+strTime+" date "+strDateTime)
+                //AppGlobal.showToast(activity,"call api")
+                Apicall(cxt)
+                    .holdByPartner(this,"hold-by-partner",
+                        LocalStorage.getCustomerID(activity),
+                        order_id,
+                        et_reason.text.toString(),
+                        strTime,
+                        strDateTime)
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    private fun getInputValueFromTime() {
+
+    }
+
+    private fun getInputValueFromDate() {
+
     }
 
 }

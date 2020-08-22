@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/comman_top_header"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Offline Recharge " />
+
+            <TextView
+                android:id="@+id/tvUpdateContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:padding="10dp"
+                android:gravity="left"
+                android:textSize="12sp"
+                android:text="Please enter customer OTP" />
+
+            <EditText
+                android:id="@+id/edEnterReceiptNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:background="@drawable/border_view"
+                android:padding="@dimen/_5sdp"
+                android:hint="Enter Receipt Number"/>
+
+            <EditText
+                android:id="@+id/edEnterCheckNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:background="@drawable/border_view"
+                android:padding="@dimen/_5sdp"
+                android:hint="Enter Cheque Number"/>
+
+            <EditText
+                android:id="@+id/edEnterTransactionNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:background="@drawable/border_view"
+                android:padding="@dimen/_5sdp"
+                android:hint="Enter Transaction Number"/>
+
+            <EditText
+                android:id="@+id/edEnterAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:inputType="number"
+                android:background="@drawable/border_view"
+                android:padding="@dimen/_5sdp"
+                android:hint="Enter Amount"/>
+
+            <EditText
+                android:id="@+id/edEnterCheckBankName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:background="@drawable/border_view"
+                android:padding="@dimen/_5sdp"
+                android:hint="Enter Cheque Bank Name"/>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvSetVisitTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10dp"
+                    android:visibility="gone"
+                    android:background="@color/graylight"
+                    android:text="Set Visit Time"/>
+
+                <TextView
+                    android:id="@+id/tvSetChequeDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10dp"
+                    android:background="@color/graylight"
+                    android:text="Set Cheque Date"/>
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Payment Mode:"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:textSize = "14dp" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_alignBottom="@id/txtView"/>
+
+            <EditText
+                android:id="@+id/et_other_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border_view"
+                android:gravity="top"
+                android:hint="ENTER Other info"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:padding="10dp"
+                android:scrollbars="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="left"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Payment Proof"
+
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/_10dp"
+                    android:textSize = "14dp" />
+
+                <ImageView
+                    android:id="@+id/ivUploadProof"
+                    android:layout_width="@dimen/_100dp"
+                    android:layout_height="@dimen/_100dp"
+                    android:src="@drawable/ic_notfound"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10dp"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10dp"
+                android:weightSum="2"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="@dimen/_10dp">
+
+                <TextView
+                    android:id="@+id/tvNo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="@string/submit"
+                    android:id="@+id/tvYesCancel"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:padding="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

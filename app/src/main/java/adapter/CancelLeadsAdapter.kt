@@ -59,7 +59,11 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
-        holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        //holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        if(feedData!![position].address.isNullOrBlank())
+            holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        else
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
 
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         val outputPattern = "dd-MM-yyyy hh:mm:ss";

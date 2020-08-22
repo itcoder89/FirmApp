@@ -18,9 +18,11 @@ import model.GetAllSelectedPartListData;
 import model.GetMoreFaultsData;
 import model.GetOrderFaultsData;
 import model.GetPartListByOrderIdData;
+import model.HoldByPartnerData;
 import model.HoldReasonData;
 import model.LoginData;
 import model.NewLeadsData;
+import model.OfflineRechargeData;
 import model.OnHoldLeadsListData;
 import model.OpenLeadsData;
 import model.OrderPlaceData;
@@ -220,6 +222,16 @@ public interface ApiRequest {
                                       @Field("recv_amount") String partid,
                                       @Field("part_amount") String part_amount);
 
+    @POST("api/hold-by-partner")
+    @FormUrlEncoded
+    Call<HoldByPartnerData> holdByPartner(@Field("partner_id") String partner_id,
+                                          @Field("order_id") String order_id,
+                                          @Field("hold_reason") String hold_reason,
+                                          @Field("visit_time") String visit_time,
+                                          @Field("visit_date") String visit_date);
+
+
+
     @POST("api/add-more-faults-inorder")
     @FormUrlEncoded
     Call<AddFaultSuccessData> addFaultSuccess(@Field("partner_id") String partner_id,
@@ -250,5 +262,18 @@ public interface ApiRequest {
                                              @Part MultipartBody.Part p_aadhar_no,
                                              @Part MultipartBody.Part photo,
                                              @Part MultipartBody.Part signature);
+
+    @Multipart
+    @POST("api/partner-offline-recharge")
+    Call<OfflineRechargeData> offlineRecharge(@Part MultipartBody.Part partner_id,
+                                              @Part MultipartBody.Part receipt_number,
+                                              @Part MultipartBody.Part payment_mode,
+                                              @Part MultipartBody.Part cheque_number,
+                                              @Part MultipartBody.Part transaction_number,
+                                              @Part MultipartBody.Part amount,
+                                              @Part MultipartBody.Part cheque_bank_name,
+                                              @Part MultipartBody.Part cheque_date,
+                                              @Part MultipartBody.Part other_details,
+                                              @Part MultipartBody.Part payment_image);
 
 }

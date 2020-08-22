@@ -49,6 +49,7 @@ class LabourListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterCli
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvTitle.text = ""+feedData!![position].part_name
+        holder.tvRate.text = "Rate:"+feedData!![position].labour
 
         holder.tvAddLabour.setOnClickListener{
             mListner.onLabourClick(position)
@@ -63,10 +64,12 @@ class LabourListAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterCli
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var tvTitle: TextView
+        var tvRate: TextView
         var tvAddLabour: TextView
 
         init {
             tvTitle = itemView.findViewById<View>(R.id.tvTitle) as TextView
+            tvRate = itemView.findViewById<View>(R.id.tvRate) as TextView
             tvAddLabour = itemView.findViewById<View>(R.id.tvAddLabour) as TextView
 
         }

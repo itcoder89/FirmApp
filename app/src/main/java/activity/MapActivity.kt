@@ -21,7 +21,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.afollestad.materialdialogs.BuildConfig
-import com.kodpartner.R
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -33,6 +32,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
+import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import kotlinx.android.synthetic.main.comman_top_header.*
 import kotlinx.android.synthetic.main.current_location_layout.*
@@ -64,6 +64,8 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
     private var mRequestingLocationUpdates: Boolean? = null
     private var updateLat: Double? = null
     private var updateLng: Double? = null
+    private var dupdateLat: Double? = null
+    private var dupdateLng: Double? = null
     private var strAddress: String? = null
     private var btnsetlocation: Button? = null
     var mMapView: MapView? = null
@@ -99,6 +101,13 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
     private fun init() {
         iv_back.setOnClickListener {
             finish()
+        }
+        tvCurrentLocation.setOnClickListener {
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + updateLat.toString() + "," + updateLng.toString() + "&daddr=" + dupdateLat.toString() + "," + dupdateLng
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
+            //startActivity(Intent.createChooser(intent, "Select an application"))
+            startActivity(intent)
         }
         tvTitle.text="Working Area Details"
         //btnsetlocation = findViewById(R.id.btnsetlocation) as Button
@@ -270,7 +279,7 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
                     updateLat = mCurrentLocation!!.getLatitude()
                     updateLng = mCurrentLocation!!.getLongitude()
                     val coordinates = LatLng(mCurrentLocation!!.getLatitude(),mCurrentLocation!!.getLongitude())
-                    drawCircle(coordinates)
+                   // drawCircle(coordinates)
                    /* val coordinates = LatLng(mCurrentLocation!!.getLatitude(),mCurrentLocation!!.getLongitude())
                     // For zooming automatically to the location of the marker
                     val cameraPosition =
@@ -508,13 +517,14 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
         return strAdd
     }
 
-    private fun drawCircle(point: LatLng) {
+    private fun drawCircle(point: LatLng,radius:Double) {
         // Instantiating CircleOptions to draw a circle around the marker
         val circleOptions = CircleOptions()
         // Specifying the center of the circle
         circleOptions.center(point)
         // Radius of the circle
-        circleOptions.radius(50.0)
+        //circleOptions.radius(50.0)
+        circleOptions.radius(radius)
         // Border color of the circle
         //circleOptions.strokeColor(Color.BLACK)
         // Fill color of the circle
@@ -532,6 +542,8 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
                     "partner-working-area" -> {
                         val workingAreaData = response.response as WorkingAreaData
                         Log.e("expertDetailsData"," "+workingAreaData.isStatus+"")
+                        dupdateLat=workingAreaData.data.lat_codes
+                        dupdateLng=workingAreaData.data.lng_codes
                         tvCurrentLocation.text="Working Area\n"+workingAreaData.data.f_city_name
 
                         val coordinates = LatLng(workingAreaData.data.lat_codes.toDouble(),workingAreaData.data.lng_codes.toDouble())
@@ -539,7 +551,7 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
                         val cameraPosition =
                             CameraPosition.Builder().target(coordinates).zoom(18f).build()
                         googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-                        drawCircle(coordinates)
+                        drawCircle(coordinates,workingAreaData.data.working_radius)
                     }
 
                 }

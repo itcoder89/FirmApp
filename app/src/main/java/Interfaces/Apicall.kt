@@ -1753,6 +1753,45 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
+    fun holdByPartner(activity: OnResponse<UniverSelObjct>,
+                    mathod: String,
+                    partner_id:String,
+                      order_id:String,
+                      hold_reason:String,
+                      visit_time:String,
+                      visit_date:String) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.holdByPartner(partner_id,order_id,hold_reason,visit_time,visit_date)
+            .enqueue(object : Callback<HoldByPartnerData> {
+                override fun onResponse(
+                    call: Call<HoldByPartnerData>,
+                    response: Response<HoldByPartnerData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<HoldByPartnerData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
     fun addFaultSuccess(activity: OnResponse<UniverSelObjct>,
                     mathod: String,
                     partner_id:String,
@@ -1872,6 +1911,52 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
                 }
 
                 override fun onFailure(call: Call<UpdateProfileData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+
+    fun offlineRecharge(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        partner_id: MultipartBody.Part,
+        receipt_number: MultipartBody.Part,
+        payment_mode: MultipartBody.Part,
+        cheque_number: MultipartBody.Part,
+        transaction_number: MultipartBody.Part,
+        amount: MultipartBody.Part,
+        cheque_bank_name: MultipartBody.Part,
+        cheque_date: MultipartBody.Part,
+        other_details: MultipartBody.Part,
+        payment_image: MultipartBody.Part) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.offlineRecharge(partner_id,receipt_number,payment_mode,cheque_number,transaction_number,amount,cheque_bank_name,cheque_date,other_details,payment_image)
+            .enqueue(object : Callback<OfflineRechargeData> {
+                override fun onResponse(
+                    call: Call<OfflineRechargeData>,
+                    response: Response<OfflineRechargeData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<OfflineRechargeData>, t: Throwable) {
                     HelperDiloge.hideProgressDialog(mContext)
                     Log.e("", "")
                     activity.onError(t.message.toString())

@@ -53,6 +53,7 @@
             android:configChanges="locale"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name="activity.AboutApp" />
+        <activity android:name="activity.OfflineRecharge" />
 
         <meta-data
             android:name="com.google.android.gms.version"

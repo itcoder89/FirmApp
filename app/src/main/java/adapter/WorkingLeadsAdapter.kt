@@ -1,9 +1,7 @@
 package adapter
 
-import Interfaces.Apicall
-import Interfaces.ItemAdapterClick
-import Interfaces.ItemAdapterClick2
-import Interfaces.OnResponse
+import Interfaces.*
+import activity.MoveToWorking
 import activity.TrackLocation
 import android.content.Context
 import android.content.Intent
@@ -24,7 +22,8 @@ import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 
-class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick,var mListner1 : ItemAdapterClick2) :
+class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick,
+                          var mListner1 : ItemAdapterClick2,var mListnerhold : ItemOnHoldAdapterClick) :
     RecyclerView.Adapter<WorkingLeadsAdapter.ViewHolder>(), OnResponse<UniverSelObjct> {
 
     var feedData: ArrayList<WorkingLeadsData.DataBean>? = ArrayList()
@@ -63,10 +62,19 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterC
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
-        holder.tvAddress.text = feedData!![position].customerDetails.address+""
+       // holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        if(feedData!![position].address.isNullOrBlank())
+            holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        else
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
       //  holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
+
+        if(feedData!![position].isEstimateSentFlag == true)
+            holder.tvMoveToClose.visibility=View.VISIBLE
+        else
+            holder.tvMoveToClose.visibility=View.GONE
 
         holder.tvCancel.setOnClickListener{
             mListner.onClick(position)
@@ -75,6 +83,17 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterC
         holder.tvMoveToClose.setOnClickListener{
             mListner1.onLabourClick(position)
 
+        }
+        holder.tvOnHold.setOnClickListener{
+            mListnerhold.onHoldClick(position)
+
+        }
+        holder.tvMoveToWorking.setOnClickListener{
+            val intent = Intent(cxt, MoveToWorking::class.java)
+            intent.putExtra("city_id",feedData!![position].idcity )
+            intent.putExtra("service_id",feedData!![position].order_id )
+            intent.putExtra("booking_dt",feedData!![position].service_date )
+            cxt!!.startActivity(intent)
         }
         holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
@@ -95,26 +114,30 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterC
         var tvServiceAmount: TextView
         var tvServiceId: TextView
         var tvAddress: TextView
-        var tvBookingDateTime: TextView
+        //var tvBookingDateTime: TextView
         var tvCustomerName: TextView
         var tvCustomerMobile: TextView
         var tvCancel: TextView
         var tvUnit: TextView
         var tvFault: TextView
         var tvMoveToClose: TextView
+        var tvOnHold: TextView
+        var tvMoveToWorking: TextView
         var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvServiceId = itemView.findViewById<View>(R.id.tvServiceId) as TextView
             tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
-            tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
+           // tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
             tvCustomerName = itemView.findViewById<View>(R.id.tvCustomerName) as TextView
             tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
             tvCancel = itemView.findViewById<View>(R.id.tvCancel) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             tvMoveToClose = itemView.findViewById<View>(R.id.tvMoveToClose) as TextView
+            tvOnHold = itemView.findViewById<View>(R.id.tvOnHold) as TextView
+            tvMoveToWorking = itemView.findViewById<View>(R.id.tvMoveToWorking) as TextView
             btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }

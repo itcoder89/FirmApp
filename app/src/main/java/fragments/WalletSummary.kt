@@ -74,7 +74,7 @@ class WalletSummary  : Fragment(), OnResponse<UniverSelObjct> {
     }
 
     override fun onError(error: String?) {
-        CustomDialogue.showcustomblank(activity!!, "Alert", error.toString())
+        //CustomDialogue.showcustomblank(activity!!, "Alert", error.toString())
     }
 
 

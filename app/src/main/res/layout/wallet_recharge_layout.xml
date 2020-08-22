@@ -16,16 +16,52 @@
         <include
             layout="@layout/comman_top_header"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="Transfer/Cash/UPI/Other" />
+
+            <Button
+                android:id="@+id/btnOfflineRecharge"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_marginLeft="30dp"
+                android:padding="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:text="Offline Recharge"/>
+
+
+
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvWalletBalance"
             android:layout_width="match_parent"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/black"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:textStyle="bold"
             android:text="Wallet Balance\n Rs 0/-" />
+
 
 
         <TextView
@@ -34,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:textStyle="bold"
             android:text="Recharge Now" />
 
@@ -46,7 +82,7 @@
             android:layout_marginTop="@dimen/_10dp"
             android:layout_marginLeft="@dimen/_10dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="18dp"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             android:text="Enter Amount" />
 
@@ -65,8 +101,8 @@
         <Button
             android:id="@+id/btnSubmitRecharge"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/colorAccent"
+            android:layout_height="30dp"
+            android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
@@ -80,6 +116,8 @@
             android:layout_marginTop="5dp"
             android:background="@color/gray"/>
 
+
+
         <TextView
             android:layout_width="match_parent"
             android:gravity="left"
@@ -87,7 +125,7 @@
             android:layout_marginTop="@dimen/_10dp"
             android:layout_marginLeft="@dimen/_10dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="18dp"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             android:text="Recharge Summary" />
 

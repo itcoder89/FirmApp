@@ -237,7 +237,30 @@
                     android:text="" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="left"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14dp"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:text="Signature" />
+
+            <ImageView
+                android:id="@+id/ivSignature"
+                android:layout_width="@dimen/_100dp"
+                android:layout_height="@dimen/_100dp"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:src="@drawable/ic_notfound"/>
+
+
         </LinearLayout>
+
+
 
     </LinearLayout>
 

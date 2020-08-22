@@ -67,7 +67,11 @@ class NewLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick
             holder.tvServiceAmount.text = "Service Amount "+AppGlobal.setTwoDecimalValue(feedData!![position].amount.toFloat()) + ""
             holder.tvCommission.text = "Commission "+AppGlobal.setTwoDecimalValue(feedData!![position].commission.toFloat()) + ""
             holder.tvFault.text = ""+feedData!![position].fault + ""
-            holder.tvAddress.text = feedData!![position].customerDetails.address
+            if(feedData!![position].address.isNullOrBlank())
+                holder.tvAddress.text = feedData!![position].customerDetails.address+""
+            else
+                holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
+            //holder.tvAddress.text = feedData!![position].customerDetails.address
             //holder.tvBookingDateTime.text = feedData!![position].service_date +", "+ feedData!![position].service_time
             //holder.tvBookingDateTime.text = feedData!![position].booking_date
             holder.tvAcceptJobs.setOnClickListener{

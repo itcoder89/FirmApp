@@ -85,10 +85,13 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
 
-        if(feedData!![position].customerDetails.address.isNullOrBlank())
-            holder.tvAddress.text = "Not Available "+" - Map Link"
-        else
+        if(feedData!![position].address.isNullOrBlank())
             holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        else
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
+
+
+
         holder.tvVisitDateTime.setText("Visit -"+feedData!![position].service_date +" "+feedData!![position].service_time )
 
 
@@ -217,6 +220,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
                         val rescheduleData = response.response as RescheduleData
                         Log.e("rescheduler", " " + rescheduleData.message + "")
                         Toast.makeText(cxt,"Your service request has been rescheduled. Thank you.!!",Toast.LENGTH_LONG).show()
+
                     }
                     "TimeDateSlot" -> {
                         subServiceData = response.response as TimeDateSlabData

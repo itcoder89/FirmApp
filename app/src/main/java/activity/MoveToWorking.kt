@@ -2,7 +2,11 @@ package activity
 
 import Interfaces.*
 import adapter.*
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -61,6 +65,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     var strPaymentType = ""
     var isTouched = false
     var isOfficeTouched = false
+
     override fun onResume() {
         super.onResume()
         Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
@@ -494,7 +499,9 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         dialog.show()
     }
 
-    fun showCloseDialoge(order_id: String,cxt: Context) {
+    fun showCloseDialoge(order_id: String,cxt: Context)
+
+    {
         val dialog = Dialog(cxt)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.custom_close_popup)
@@ -555,6 +562,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         }
         dialog.show()
     }
+
+
 
     //Remove Item From List Dialoge
     fun showRemoveItemDialoge(_id: Int,cxt: Context,type:String) {

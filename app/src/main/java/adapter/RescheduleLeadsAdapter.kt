@@ -48,6 +48,11 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
             var sizeNew = this.feedData!!.size
             notifyItemRangeChanged(size, sizeNew)
         }
+        getTimeDateSlot()
+    }
+
+    fun getTimeDateSlot(){
+        Apicall(cxt!!).gettimeDateSlab(this,"TimeDateSlot")
     }
 
     fun clearData() {
@@ -66,7 +71,11 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvFault.text = ""+feedData!![position].fault
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         holder.tvServiceAmount.text = "Service Amount "+feedData!![position].amount + "/-"
-        holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        //holder.tvAddress.text = feedData!![position].customerDetails.address+" - Map Link"
+        if(feedData!![position].address.isNullOrBlank())
+            holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        else
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
         holder.tvVisitDateTime.setText("Visit -"+feedData!![position].service_date +" "+feedData!![position].service_time )
 
 
@@ -88,9 +97,10 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvUnit.setText("Unit "+feedData!![position].unit)
         holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
+        holder.tvCustomerMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
-        holder.tvAddress.setOnClickListener{
+        holder.btnViewMap.setOnClickListener{
             val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
@@ -132,6 +142,7 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
         var tvMoveToWorking: TextView
         var tvFault: TextView
         var tvUnit: TextView
+        var btnViewMap: Button
 
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
@@ -146,6 +157,7 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
             tvMoveToWorking = itemView.findViewById<View>(R.id.tvMoveToWorking) as TextView
             tvFault = itemView.findViewById<View>(R.id.tvFault) as TextView
             tvUnit = itemView.findViewById<View>(R.id.tvUnit) as TextView
+            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
         }
     }
 
@@ -174,7 +186,31 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
                     "rescheduler" -> {
                         val rescheduleData = response.response as RescheduleData
                         Log.e("rescheduler", " " + rescheduleData.message + "")
+                        Toast.makeText(cxt,"Your service request has been rescheduled. Thank you.!!",Toast.LENGTH_LONG).show()
+                    }
+                    "TimeDateSlot" -> {
+                        subServiceData = response.response as TimeDateSlabData
 
+                        if(subServiceData!!.data.size>0){
+                            select_date = subServiceData!!.data[0].date
+                            select_time = subServiceData!!.data[0].time[0]
+
+                            val inputPattern = "yyyy-MM-dd";
+                            val outputPattern = "dd-MMM";
+                            var inputFormat =  SimpleDateFormat(inputPattern);
+                            val outputFormat =  SimpleDateFormat(outputPattern);
+
+                            var date1: Date? = null;
+                            var str : String?= null;
+
+                            try {
+                                date1 = inputFormat.parse(select_date);
+                                str = outputFormat.format(date1);
+                            } catch (e: ParseException) {
+                                e.printStackTrace();
+                            }
+
+                        }
                     }
                 }
             }

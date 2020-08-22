@@ -260,6 +260,7 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
         if(LocalStorage.getCheckLastFragment(this).equals("dashboard")){
             ShowDialog.showDialog(this)
         }else{
+            LocalStorage.setCheckLastFragment(this,"dashboard")
             val homeFragments = HomeFragments()
             supportFragmentManager
                 .beginTransaction()

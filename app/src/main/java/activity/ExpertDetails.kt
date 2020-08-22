@@ -44,8 +44,13 @@ class ExpertDetails : AppCompatActivity(), OnResponse<UniverSelObjct> {
 
                         Picasso
                             .with(this@ExpertDetails)
-                            .load(expertDetailsData.img_path+expertDetailsData.img_path)
+                            .load(expertDetailsData.img_path+expertDetailsData.data.e_image)
                             .into(profile_image);
+
+                        Picasso
+                            .with(this@ExpertDetails)
+                            .load(expertDetailsData.img_path+expertDetailsData.data.signature_file)
+                            .into(ivSignature);
                     }
 
                 }

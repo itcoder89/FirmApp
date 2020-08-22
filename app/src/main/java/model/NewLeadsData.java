@@ -61,6 +61,37 @@ public class NewLeadsData {
 
         private String booking_date;
         private CustomerDetailsBean customerDetails;
+        private String customerName;
+        private String address;
+
+        public String getCustomerName() {
+            return customerName;
+        }
+
+        public void setCustomerName(String customerName) {
+            this.customerName = customerName;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getStreet() {
+            if(street==null || street.equals("")){
+                street = "";
+            }
+            return street;
+        }
+
+        public void setStreet(String street) {
+            this.street = street;
+        }
+
+        private String street;
 
         public int getId() {
             return id;
