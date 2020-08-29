@@ -10,8 +10,8 @@ android {
         applicationId "com.kodpartner"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 10
-        versionName "1.9"
+        versionCode 12
+        versionName "1.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,4 +62,9 @@ dependencies {
     implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
     implementation project(path: ':ucrop-2.2.0')
     implementation 'com.github.jkwiecien:EasyImage:1.3.1'
+    //Google Login
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 }
+apply plugin: 'com.google.gms.google-services'

@@ -71,4 +71,15 @@ public class LocalStorage {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("setCheckLastFragment", "dashboard");
     }
+    public static void setFCMToken(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setFCMToken", key);
+        prefsEditor.commit();
+    }
+
+    public static String getFCMToken(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setFCMToken", "token not generated");
+    }
 }

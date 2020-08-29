@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.AcceptLeadData
 import model.NewLeadsData
 import utils.CustomDialogue
@@ -39,7 +41,11 @@ class NewLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterCli
             inflater.inflate(R.layout.new_leads_list_layout, container, false)
         recyclerView = fragmentView.findViewById<View>(R.id.recyclerView) as RecyclerView
        // Apicall(activity!!).getNewLeadsData(this,"partner-newleads", LocalStorage.getCustomerID(activity!!))
-        Apicall(activity!!).getNewLeadsData(this,"partner-newleads",LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getNewLeadsData(this,"partner-newleads",LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView!!.layoutManager = layoutManager
         return fragmentView

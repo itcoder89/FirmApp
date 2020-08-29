@@ -288,7 +288,7 @@ class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                      val coordinates = LatLng(mCurrentLocation!!.getLatitude(),mCurrentLocation!!.getLongitude())
                     Log.e("currentlocation","frm_latLng " +coordinates)
 
-                    createRoutesOfPickUpDropOff("Delivery Boy", "Home", coordinates, to_latLng)
+                    createRoutesOfPickUpDropOff("Expert", "Home", coordinates, to_latLng)
                     /*strAddress = getCompleteAddressString(
                         mCurrentLocation!!.getLatitude(),
                         mCurrentLocation!!.getLongitude()
@@ -466,7 +466,8 @@ class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
     override fun onMapReady(map: GoogleMap?) {
         googleMap = map
         Log.e("onMapReady", "ready!")
-
+        //UiSettings.setZoomControlsEnabled(true)
+        //googleMap!!.uiSettings.isZoomControlsEnabled = true
     }
 
     private fun getCompleteAddressString(
@@ -531,7 +532,7 @@ class TrackLocation : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             val to_latLng = LatLng(homeLat, homeLong)//destination customer
             Log.e("CreateRoutePath","from_latLng: "+from_latLng)
             Log.e("CreateRoutePath","to_latLng: "+to_latLng)
-            createRoutesOfPickUpDropOff("Delivery Boy", "Home", from_latLng, to_latLng)
+            createRoutesOfPickUpDropOff("Expert", "Home", from_latLng, to_latLng)
             Handler().postDelayed(Runnable {
                 //  Log.e("postDelayed","post-delay-call: "+deliveryboy_id);
                 //Log.e("postDelayed", "cancelHandler: " + cancelHandler);

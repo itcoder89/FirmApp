@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import com.squareup.picasso.Picasso
+import connection.CheckNetwork
+import connection.MyDialog
 import kotlinx.android.synthetic.main.myaccount_top_header.*
 import kotlinx.android.synthetic.main.profile_layout.*
 import model.ProfileDetailsData
@@ -37,7 +39,12 @@ class ProfileDetails : AppCompatActivity(), OnResponse<UniverSelObjct> {
 
     override fun onResume() {
         super.onResume()
-        Apicall(this).getProfileData(this,"partner-profile",LocalStorage.getCustomerID(this))
+        if (CheckNetwork.isConnected(this)) {
+            Apicall(this).getProfileData(this,"partner-profile",LocalStorage.getCustomerID(this))
+
+        }else{
+            MyDialog(this).getNoInternetDialog().show()
+        }
     }
 
     override fun onSucess(response: UniverSelObjct?) {

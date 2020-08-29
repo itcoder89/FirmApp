@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import com.squareup.picasso.Picasso
+import connection.CheckNetwork
+import connection.MyDialog
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import model.DashboardData
@@ -47,7 +49,11 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
     ): View? {
         val fragmentView =
             inflater.inflate(R.layout.activity_main, container, false)//activity_main
-            Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
+            if (CheckNetwork.isConnected(activity!!)) {
+                Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
+            }else{
+                MyDialog(activity!!).getNoInternetDialog().show()
+            }
 
             ll_new_leads = fragmentView.findViewById<View>(R.id.ll_new_leads) as LinearLayout
             ll_open_leads = fragmentView.findViewById<View>(R.id.ll_open_leads) as LinearLayout
@@ -66,7 +72,11 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
 
             //tvFirmName!!.text=LocalStorage.getFirmName(activity!!)
             tvHomeFragment!!.setOnClickListener {
-                Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
+                if (CheckNetwork.isConnected(activity!!)) {
+                    Apicall(activity!!).getDashboardData(this,"getDashboardData",LocalStorage.getCustomerID(activity!!))
+                }else{
+                    MyDialog(activity!!).getNoInternetDialog().show()
+                }
             }
             tvAllPendingLeads!!.setOnClickListener {
                 startActivity(Intent(activity!!, AllPendingLeadsActivity::class.java))

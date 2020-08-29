@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import kotlinx.android.synthetic.main.wallet_summary_list_layout.*
 import model.WalletSummaryData
 import utils.CustomDialogue
@@ -33,7 +35,12 @@ class WalletSummary  : Fragment(), OnResponse<UniverSelObjct> {
         val fragmentView =
             inflater.inflate(R.layout.wallet_summary_list_layout, container, false)
         recyclerView = fragmentView.findViewById<View>(R.id.recyclerView) as RecyclerView
-        Apicall(activity!!).getWalletSummary(this,"partner-wallet-summary", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getWalletSummary(this,"partner-wallet-summary", LocalStorage.getCustomerID(activity!!))
+
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView!!.layoutManager = layoutManager
 

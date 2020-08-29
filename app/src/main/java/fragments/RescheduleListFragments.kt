@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.RescheduleLeadsData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -47,7 +49,12 @@ class RescheduleListFragments : Fragment(), OnResponse<UniverSelObjct> {
         tvTommorrowLeads!!.setOnClickListener {
             Apicall(activity!!).getReschedueLeadsListFilter(this,"partner-reschedule", LocalStorage.getCustomerID(activity!!),"tomorrow")
         }
-        Apicall(activity!!).getReschedueLeadsList(this,"partner-reschedule", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getReschedueLeadsList(this,"partner-reschedule", LocalStorage.getCustomerID(activity!!))
+
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

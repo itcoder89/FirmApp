@@ -28,9 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.CircleOptions
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
@@ -102,13 +100,13 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
         iv_back.setOnClickListener {
             finish()
         }
-        tvCurrentLocation.setOnClickListener {
+        /*tvCurrentLocation.setOnClickListener {
             val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + updateLat.toString() + "," + updateLng.toString() + "&daddr=" + dupdateLat.toString() + "," + dupdateLng
             val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             intent.setPackage("com.google.android.apps.maps");
             //startActivity(Intent.createChooser(intent, "Select an application"))
             startActivity(intent)
-        }
+        }*/
         tvTitle.text="Working Area Details"
         //btnsetlocation = findViewById(R.id.btnsetlocation) as Button
       //  tvCurrentLocation = findViewById(R.id.tvCurrentLocation) as TextView
@@ -466,6 +464,7 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
 
     override fun onMapReady(map: GoogleMap?) {
         googleMap = map
+        googleMap!!.uiSettings.isZoomControlsEnabled = true
         // googleMap.setMyLocationEnabled(true);
         // googleMap.setMyLocationEnabled(true);
         Log.e("onMapReady", "ready!")
@@ -524,7 +523,8 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
         circleOptions.center(point)
         // Radius of the circle
         //circleOptions.radius(50.0)
-        circleOptions.radius(radius)
+
+        circleOptions.radius(radius*1000)
         // Border color of the circle
         //circleOptions.strokeColor(Color.BLACK)
         // Fill color of the circle
@@ -544,12 +544,21 @@ class MapActivity : AppCompatActivity(),View.OnClickListener,OnMapReadyCallback,
                         Log.e("expertDetailsData"," "+workingAreaData.isStatus+"")
                         dupdateLat=workingAreaData.data.lat_codes
                         dupdateLng=workingAreaData.data.lng_codes
-                        tvCurrentLocation.text="Working Area\n"+workingAreaData.data.f_city_name
+                        tvCurrentLocation.text="Working radius "+workingAreaData.data.working_radius+" Km"
 
                         val coordinates = LatLng(workingAreaData.data.lat_codes.toDouble(),workingAreaData.data.lng_codes.toDouble())
+                        //googleMap!!.addMarker()
+                        googleMap!!.addMarker(
+                            MarkerOptions()
+                                .position(coordinates)
+                                .icon(
+                                    BitmapDescriptorFactory
+                                        .fromResource(R.drawable.ic_home_marker)
+                                )
+                        )
                         // For zooming automatically to the location of the marker
                         val cameraPosition =
-                            CameraPosition.Builder().target(coordinates).zoom(18f).build()
+                            CameraPosition.Builder().target(coordinates).zoom(11f).build()
                         googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
                         drawCircle(coordinates,workingAreaData.data.working_radius)
                     }

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.PendingLeadsData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -48,8 +50,12 @@ class AllPendingLeadsFragments : Fragment(), OnResponse<UniverSelObjct> {
         tvTommorrowLeads!!.setOnClickListener {
             Apicall(activity!!).getallPendingLeadsFilter(this,"partner-all-pending-leads", LocalStorage.getCustomerID(activity!!),"all")
         }
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getallPendingLeads(this,"partner-all-pending-leads", LocalStorage.getCustomerID(activity!!))
 
-        Apicall(activity!!).getallPendingLeads(this,"partner-all-pending-leads", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

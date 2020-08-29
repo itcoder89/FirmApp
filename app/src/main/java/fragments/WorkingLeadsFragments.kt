@@ -22,6 +22,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.kodpartner.DashboardActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import kotlinx.android.synthetic.main.custom_on_hold_popup.*
 import model.CancelByData
 import model.HoldByPartnerData
@@ -53,8 +55,11 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
         val fragmentView =
             inflater.inflate(R.layout.working_leads_list_layout, container, false)
         recyclerView = fragmentView.findViewById<View>(R.id.recyclerView) as RecyclerView
-
-        Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -176,11 +181,12 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
 
         tvNo.setOnClickListener { dialog.dismiss() }
         tvYesCancel.setOnClickListener {
-            if(edEnterCustomerOTP.text.toString().equals("Please enter received amount")){
-                AppGlobal.showToast(activity!!,"")
+            if(edEnterCustomerOTP.text.toString().equals("")){
+                AppGlobal.showToast(activity!!,"Please enter received amount")
             }else if(strPaymentType.equals("")){
                 AppGlobal.showToast(activity!!,"Please select payment mode")
             }else{
+                //AppGlobal.showToast(activity!!,"call api")
                 Apicall(cxt)
                     .workClose(this,"closed-partner-booking",
                         LocalStorage.getCustomerID(activity!!),
@@ -188,8 +194,9 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
                         edEnterCustomerOTP.text.toString(),
                         strPaymentType
                     )
+                dialog.dismiss()
             }
-            dialog.dismiss()
+
         }
         dialog.show()
     }

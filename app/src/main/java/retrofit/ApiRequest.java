@@ -26,6 +26,7 @@ import model.OfflineRechargeData;
 import model.OnHoldLeadsListData;
 import model.OpenLeadsData;
 import model.OrderPlaceData;
+import model.PendingFeedbackListData;
 import model.PendingLeadsData;
 import model.ProfileDetailsData;
 import model.RateListData;
@@ -64,10 +65,13 @@ public interface ApiRequest {
 
     @POST("api/partner-login")
     @FormUrlEncoded
-    Call<LoginData> getLogin(@Field("contact_no") String phone);
+    Call<LoginData> getLogin(@Field("contact_no") String phone,@Field("fcm_token") String fcm_token);
 
     @GET("api/partner-dashboard")
     Call<DashboardData> getDashboardData(@Query("partner_id") String query);
+
+    @GET("api/partner-pending-feedback-leads")
+    Call<PendingFeedbackListData> pendingFeedbackList(@Query("partner_id") String query);
 
     @GET("api/get-hold-reason")
     Call<HoldReasonData> getHoldReason(@Query("partner_id") String query, @Query("order_id") String lead);

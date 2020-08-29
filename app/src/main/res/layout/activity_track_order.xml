@@ -12,22 +12,28 @@
         android:id="@+id/toolbarLayout"
         layout="@layout/comman_top_header" />
 
-    <TextView
-        android:id="@+id/tvShowDistance"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        android:textSize="@dimen/_14ssp"
-        android:padding="@dimen/_5sdp"
-        android:gravity="center_horizontal"
-        android:text="fetching  distance......" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
 
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvShowDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/_14ssp"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center_horizontal"
+            android:text="fetching  distance......" />
+
+    </FrameLayout>
 </LinearLayout>
 

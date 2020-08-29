@@ -218,6 +218,16 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
                 .commit()
             drawerLayout.closeDrawers()
         }
+        ll_pending_feedback_leads.setOnClickListener{
+            LocalStorage.setCheckLastFragment(this,"feedbacklist")
+            tvFragmentTitle.text="Pending Feedback List"
+            val pendingFeedbackLeadsFragments = PendingFeedbackLeadsFragments()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.containerView, pendingFeedbackLeadsFragments)
+                .commit()
+            drawerLayout.closeDrawers()
+        }
         ll_logout.setOnClickListener {
             logout()
         }

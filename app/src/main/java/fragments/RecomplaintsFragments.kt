@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.CloseByPartnerData
 import model.RecomplaintsListData
 import utils.CustomDialogue
@@ -43,8 +45,12 @@ class RecomplaintsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
         val fragmentView =
             inflater.inflate(R.layout.recomplaints_list_layout, container, false)
         recyclerView = fragmentView.findViewById<View>(R.id.recyclerView) as RecyclerView
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getRecomplaintsData(this,"partner-recomplaint", LocalStorage.getCustomerID(activity!!))
 
-        Apicall(activity!!).getRecomplaintsData(this,"partner-recomplaint", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.CancelLeadsData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -42,7 +44,11 @@ class CancelLeadsFragments : Fragment(), OnResponse<UniverSelObjct> {
         tvThisMonths!!.setOnClickListener {
             Apicall(activity!!).getallCancelLeadsFilter(this,"partner-cancel", LocalStorage.getCustomerID(activity!!),"month")
         }
-        Apicall(activity!!).getallCancelLeads(this,"partner-cancel", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getallCancelLeads(this,"partner-cancel", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

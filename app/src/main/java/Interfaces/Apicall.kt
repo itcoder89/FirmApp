@@ -15,6 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import utils.HelperDiloge
+import utils.LocalStorage
 import utils.SessionManager
 
 class Apicall(activity_: Context) : ProgressBar(activity_) {
@@ -51,7 +52,7 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
         HelperDiloge.showProgressDialog(mContext)
         val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
 
-        weservices.getLogin(PhoneNumber)
+        weservices.getLogin(PhoneNumber,LocalStorage.getFCMToken(mContext))
             .enqueue(object : retrofit2.Callback<LoginData> {
                 override fun onResponse(
                     call: retrofit2.Call<LoginData>,
@@ -149,6 +150,43 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
                 }
 
                 override fun onFailure(call: retrofit2.Call<DashboardData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+    fun pendingFeedbackList(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        city: String
+    ) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.pendingFeedbackList(city)
+            .enqueue(object : retrofit2.Callback<PendingFeedbackListData> {
+                override fun onResponse(
+                    call: retrofit2.Call<PendingFeedbackListData>,
+                    response: Response<PendingFeedbackListData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<PendingFeedbackListData>, t: Throwable) {
                     HelperDiloge.hideProgressDialog(mContext)
                     Log.e("", "")
                     activity.onError(t.message.toString())

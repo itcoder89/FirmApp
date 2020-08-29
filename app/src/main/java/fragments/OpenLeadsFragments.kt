@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.CancelByData
 import model.OpenLeadsData
 import retrofit.AppGlobal
@@ -57,7 +59,11 @@ class OpenLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterCl
         tvTommorrowLeads!!.setOnClickListener {
             Apicall(activity!!).getAllOpenLeadsData(this,"partner-openleads", LocalStorage.getCustomerID(activity!!),"tomorrow")
         }
-        Apicall(activity!!).getOpenLeadsData(this,"partner-openleads", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getOpenLeadsData(this,"partner-openleads", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

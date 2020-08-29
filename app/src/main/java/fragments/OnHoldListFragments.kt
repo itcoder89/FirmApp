@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.OnHoldLeadsListData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -47,7 +49,12 @@ class OnHoldListFragments : Fragment(), OnResponse<UniverSelObjct> {
         tvTommorrowLeads!!.setOnClickListener {
             Apicall(activity!!).getOnHoldLeadsListFilter(this,"partner-on-hold", LocalStorage.getCustomerID(activity!!),"tomorrow")
         }
-        Apicall(activity!!).getOnHoldLeadsList(this,"partner-on-hold", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getOnHoldLeadsList(this,"partner-on-hold", LocalStorage.getCustomerID(activity!!))
+
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

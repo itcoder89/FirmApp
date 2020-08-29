@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.CompletedLeadsData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -42,7 +44,11 @@ class CompletedLeadsFragments : Fragment(), OnResponse<UniverSelObjct> {
         tvThisMonths!!.setOnClickListener {
             Apicall(activity!!).getallCompletedLeadsFilter(this,"partner-completed", LocalStorage.getCustomerID(activity!!),"month")
         }
-        Apicall(activity!!).getallCompletedLeads(this,"partner-completed", LocalStorage.getCustomerID(activity!!))
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getallCompletedLeads(this,"partner-completed", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

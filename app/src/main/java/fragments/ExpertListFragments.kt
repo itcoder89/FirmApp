@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
+import connection.CheckNetwork
+import connection.MyDialog
 import model.ExpertListData
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -30,8 +32,12 @@ class ExpertListFragments : Fragment(), OnResponse<UniverSelObjct> {
         val fragmentView =
             inflater.inflate(R.layout.recomplaints_list_layout, container, false)
         recyclerView = fragmentView.findViewById<View>(R.id.recyclerView) as RecyclerView
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getExpertList(this,"get-partner-expert", LocalStorage.getCustomerID(activity!!))
 
-        Apicall(activity!!).getExpertList(this,"get-partner-expert", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

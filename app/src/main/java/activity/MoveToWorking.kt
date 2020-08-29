@@ -163,6 +163,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         mainjsonOBj.put("total_fault",tvFaultTotalAmount.text.toString())
         mainjsonOBj.put("total_part", tvPartTotalAmount.text.toString())
         mainjsonOBj.put("total_estimate",tvTotalEstimateAmount.text.toString())
+        mainjsonOBj.put("working_title",edEnterReason.text.toString().trim())
+        mainjsonOBj.put("working_amount",edEnterExtraCharge.text.toString().trim())
         mainjsonOBj.put("fault_list",jsonArray)
         mainjsonOBj.put("part_list",jsonArray2)
         Log.e("CreateOrderRequest",mainjsonOBj.toString())
@@ -490,10 +492,13 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
             dialog.findViewById<View>(R.id.tvYesCancel) as TextView
         tvNo.setOnClickListener { dialog.dismiss() }
         tvYesCancel.setOnClickListener {
-            if(edEnterCustomerOTP.text.toString().equals(cust_otp))
+            if(edEnterCustomerOTP.text.toString().equals(cust_otp)) {
                 callSubmitAPI()
-            else
-                Toast.makeText(this,"Invalid OTP Entered!",Toast.LENGTH_SHORT).show()
+            }/*else if(){
+
+            }*/else {
+                Toast.makeText(this, "Invalid OTP Entered!", Toast.LENGTH_SHORT).show()
+            }
             dialog.dismiss()
         }
         dialog.show()

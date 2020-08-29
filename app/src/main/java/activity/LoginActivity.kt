@@ -15,6 +15,8 @@ import android.view.WindowManager
 import com.google.gson.Gson
 
 import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.kodpartner.DashboardActivity
 import com.kodpartner.R
 import model.LoginData
@@ -67,8 +69,21 @@ class LoginActivity : AppCompatActivity() , OnResponse<UniverSelObjct> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
-
-
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    // Log.w(TAG, "getInstanceId failed", task.getException());
+                    Log.e(
+                        "onComplete",
+                        "getInstanceId failed: " + task.exception
+                    )
+                    return@OnCompleteListener
+                }
+                // Get new Instance ID token
+                val token = task.result!!.token
+                Log.e("FCMTOKEN", "" + token)
+                LocalStorage.setFCMToken(this@LoginActivity, token);
+            })
     //    getAppSignatures()
 
 //        OTPManager.OTPManagerBuilder(this).setListener(object : OTPBroadcastReceiver.OTPReceiverListener {

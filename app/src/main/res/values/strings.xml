@@ -10,7 +10,7 @@
     <string name="nonetworkdiscription">No network please connect with internet</string>
     <string name="networkerror">Network Error</string>
     <string name="LoginData_key">LoginData</string>
-
+    <string name="default_notification_channel_id">default</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="booking">My Booking</string>
