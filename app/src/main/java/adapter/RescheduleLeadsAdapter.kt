@@ -1,12 +1,14 @@
 package adapter
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
 import Interfaces.OnResponse
 import activity.MoveToWorking
 import activity.TrackLocation
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +21,14 @@ import com.kodpartner.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.*
+import utils.LocalStorage
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
+class RescheduleLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
     RecyclerView.Adapter<RescheduleLeadsAdapter.ViewHolder>(), OnResponse<UniverSelObjct> {
     var material : MaterialDialog? = null
     var feedData: ArrayList<RescheduleLeadsData.DataBean>? = ArrayList()
@@ -101,9 +104,13 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
         holder.btnViewMap.setOnClickListener{
-            val intent = Intent(cxt, TrackLocation::class.java)
+            /*val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
+            cxt!!.startActivity(intent)*/
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + LocalStorage.getLatitude(cxt!!)  + "," +  LocalStorage.getLongitude(cxt!!) + "&daddr=" + feedData!![position].lat_code + "," + feedData!![position].lng_code
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
             cxt!!.startActivity(intent)
         }
         holder.tvMoveToWorking.setOnClickListener{
@@ -169,8 +176,10 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
-
+            //Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",
+                LocalStorage.getCustomerID(cxt!!),feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            material!!.dismiss()
         }
     }
 
@@ -181,11 +190,11 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
                     "cancel-by-partner" -> {
                         val cancelByData = response.response as CancelByData
                         Log.e("partner-openleads", " " + cancelByData.message + "")
-
+                        mListner.onClick(0)//refresh api
                     }
-                    "rescheduler" -> {
+                    "reschedule-by-partner" -> {
                         val rescheduleData = response.response as RescheduleData
-                        Log.e("rescheduler", " " + rescheduleData.message + "")
+                        Log.e("reschedule-by-partner", " " + rescheduleData.message + "")
                         Toast.makeText(cxt,"Your service request has been rescheduled. Thank you.!!",Toast.LENGTH_LONG).show()
                     }
                     "TimeDateSlot" -> {
@@ -269,7 +278,11 @@ class RescheduleLeadsAdapter(var cxt: FragmentActivity?) :
                 e.printStackTrace();
             }
 
-            Apicall(cxt!!).rescheduleBooking(this,"reschedule",feedData!![message].order_id,edt_feedback_msg.text.toString(),select_date!!,select_time!!,idsatuts)
+            Apicall(cxt!!).rescheduleBooking(this,"reschedule-by-partner",
+                LocalStorage.getCustomerID(cxt!!),
+                feedData!![message].order_id,
+                select_date!!,
+                select_time!!)
             mBottomSheetDialog.dismiss()
         }
 

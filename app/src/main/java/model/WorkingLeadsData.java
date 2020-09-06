@@ -60,6 +60,31 @@ public class WorkingLeadsData {
         private String customerName;
         private String address;
 
+        public String getExtra_work_details() {
+            if(extra_work_details==null || extra_work_details.equals("")){
+                extra_work_details = "";
+            }
+            return extra_work_details;
+        }
+
+        public void setExtra_work_details(String extra_work_details) {
+            this.extra_work_details = extra_work_details;
+        }
+
+        public Float getExtraWorkAmount() {
+            if(extraWorkAmount==null || extraWorkAmount.equals("")){
+                extraWorkAmount = 0f;
+            }
+            return extraWorkAmount;
+        }
+
+        public void setExtraWorkAmount(Float extraWorkAmount) {
+            this.extraWorkAmount = extraWorkAmount;
+        }
+
+        private String extra_work_details;
+        private Float extraWorkAmount;
+
         public boolean isEstimateSentFlag() {
             return estimateSentFlag;
         }

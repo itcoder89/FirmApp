@@ -72,7 +72,7 @@ class NewLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick
             else
                 holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
             //holder.tvAddress.text = feedData!![position].customerDetails.address
-            //holder.tvBookingDateTime.text = feedData!![position].service_date +", "+ feedData!![position].service_time
+            holder.tvBookingDateTime.text = "Service Date&Time "+feedData!![position].service_date +", "+ feedData!![position].service_time
             //holder.tvBookingDateTime.text = feedData!![position].booking_date
             holder.tvAcceptJobs.setOnClickListener{
                 mListner.onClick(position)
@@ -86,7 +86,7 @@ class NewLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick
 
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-       // var tvBookingDateTime: TextView
+        var tvBookingDateTime: TextView
         var tvServiceAmount: TextView
         var tvAddress: TextView
         var tvAcceptJobs: TextView
@@ -97,7 +97,7 @@ class NewLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick
 
         init {
             tvAcceptJobs = itemView.findViewById<View>(R.id.tvAcceptJobs) as TextView
-            //tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
+            tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
             tvCommission = itemView.findViewById<View>(R.id.tvCommission) as TextView

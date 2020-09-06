@@ -8,6 +8,9 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +27,7 @@ import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import connection.CheckNetwork
 import connection.MyDialog
+import kotlinx.android.synthetic.main.custom_close_popup.*
 import kotlinx.android.synthetic.main.custom_on_hold_popup.*
 import model.CancelByData
 import model.HoldByPartnerData
@@ -47,6 +51,7 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
     var strDateTime = ""
     var isTouched = false
     var isOfficeTouched = false
+    var finalAmount=""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,6 +81,7 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
                     "partner-working" -> {
                         workingLeadsData = response.response as WorkingLeadsData
                         Log.e("partner-working"," "+workingLeadsData!!.isStatus+"")
+                        //tvFinalAmount.text=workingLeadsData.data[]
                         workingLeadsAdapter = WorkingLeadsAdapter(activity,this,this,this)
                         recyclerView!!.adapter = workingLeadsAdapter
                         recyclerView!!.setHasFixedSize(false)
@@ -125,16 +131,18 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
+
             Apicall(cxt).cancelBy(this,"cancel-by-partner",
                 LocalStorage.getCustomerID(activity!!),
                 workingLeadsData!!.data[pos].order_id,
                 edt_feedback_msg.text.toString())
+            material!!.dismiss()
 
         }
     }
 
     override fun onLabourClick(pos: Int) {
-        showCloseDialoge(workingLeadsData!!.data[pos].order_id,activity!!)
+       // showCloseDialoge(workingLeadsData!!.data[pos].order_id,activity!!)
     }
 
     fun showCloseDialoge(order_id: String,cxt: Context) {
@@ -148,6 +156,30 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
         val swtHome =  dialog.findViewById<View>(R.id.swtHome) as SwitchCompat
         val swtOffice =  dialog.findViewById<View>(R.id.swtOffice) as SwitchCompat
 
+
+        edEnterCustomerOTP.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (!TextUtils.isEmpty(s)) {
+
+                }
+            }
+        })
         swtHome.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
             isTouched = true
             false

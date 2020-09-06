@@ -1392,11 +1392,15 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
 
 
     fun rescheduleBooking(activity: OnResponse<UniverSelObjct>,
-                          mathod: String,id:String,feedback_message:String,service_date:String,service_time:String,idstatus:String){
+                          mathod: String,
+                          partner_id:String,
+                          order_id:String,
+                          visit_date:String,
+                          visit_time:String){
         HelperDiloge.showProgressDialog(mContext)
         val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
 
-        weservices.rescheduleBooking(""+getLoginData().data.user.id,id,feedback_message,service_date,service_time,idstatus)
+        weservices.rescheduleBooking(partner_id,order_id,visit_date,visit_time)
             .enqueue(object : retrofit2.Callback<RescheduleData> {
                 override fun onResponse(
                     call: retrofit2.Call<RescheduleData>,
@@ -1571,11 +1575,14 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
                     mathod: String,
                     partner_id:String,
                     order_id:String,
-                    amount:String) {
+                    amount:String,
+                    working_amount:String,
+                    working_title:String
+                    ) {
         HelperDiloge.showProgressDialog(mContext)
         val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
 
-        weservices.sendEstimateValue(partner_id,order_id,amount)
+        weservices.sendEstimateValue(partner_id,order_id,amount,working_amount,working_title)
             .enqueue(object : Callback<EstimateSentData> {
                 override fun onResponse(
                     call: Call<EstimateSentData>,

@@ -82,4 +82,26 @@ public class LocalStorage {
         android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("setFCMToken", "token not generated");
     }
+    public static void setLatitude(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setLatitude", key);
+        prefsEditor.commit();
+    }
+
+    public static String getLatitude(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setLatitude", "0.0");
+    }
+    public static void setLongitude(Context context, String key) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        android.content.SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("setLongitude", key);
+        prefsEditor.commit();
+    }
+
+    public static String getLongitude(Context context) {
+        android.content.SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("setLongitude", "0.0");
+    }
 }

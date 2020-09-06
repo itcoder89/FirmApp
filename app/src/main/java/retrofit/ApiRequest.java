@@ -164,9 +164,12 @@ public interface ApiRequest {
     @FormUrlEncoded
     Call<CancelByData> cancelBy(@Field("partner_id") String partner_id, @Field("order_id") String order_id, @Field("reason") String reason);
 
-    @POST("api/reschedule-booking")
+    @POST("api/reschedule-by-partner")
     @FormUrlEncoded
-    Call<RescheduleData> rescheduleBooking(@Field("user_id") String user_id, @Field("id") String id, @Field("message") String message, @Field("service_date") String service_date, @Field("service_time") String service_time, @Field("statusid") String idstatus);
+    Call<RescheduleData> rescheduleBooking(@Field("partner_id") String partner_id,
+                                           @Field("order_id") String order_id,
+                                           @Field("visit_date") String visit_date,
+                                           @Field("visit_time") String visit_time);
 
     @GET("api/get-time-laps")
     Call<TimeDateSlabData> getTimeDateSlab();
@@ -195,7 +198,9 @@ public interface ApiRequest {
     @GET("api/send-order-estimate")
     Call<EstimateSentData> sendEstimateValue(@Query("partner_id") String partner_id,
                                           @Query("order_id") String order_id,
-                                          @Query("amount") String amount);
+                                          @Query("amount") String amount,
+                                          @Query("working_amount") String working_amount,
+                                          @Query("working_title") String working_title);
 
     @GET("api/get-rate-card-by-order-id")
     Call<GetPartListByOrderIdData> getPartListByOrderID(@Query("partner_id") String partner_id,

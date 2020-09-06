@@ -67,7 +67,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
 
             tvAllPendingLeads = fragmentView.findViewById<View>(R.id.tvAllPendingLeads) as TextView
             tvHomeFragment = fragmentView.findViewById<View>(R.id.tvHomeFragment) as TextView
-           // tvFirmName = fragmentView.findViewById<View>(R.id.tvFirmName) as TextView
+            tvFirmName = fragmentView.findViewById<View>(R.id.tvFirmName) as TextView
             profile_image = fragmentView.findViewById<View>(R.id.profile_image) as CircleImageView
 
             //tvFirmName!!.text=LocalStorage.getFirmName(activity!!)
@@ -202,7 +202,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                         val dashboardData = response.response as DashboardData
                         Log.e("dashboardData"," "+dashboardData.data.rating+"")
                         tvInWallet.text="Rs. "+AppGlobal.setTwoDecimalValue(dashboardData.data.walletAmount)
-
+                        tvFirmName!!.text=dashboardData.data.f_name
                         //tvWalletAmount.text=""+dashboardData.data.walletAmount
                         tvWalletAmount.text=": "+AppGlobal.setTwoDecimalValue(dashboardData.data.walletAmount)
                         tvNewLeads.text=dashboardData.data.totalNewLeadsBooking.toString()
@@ -223,7 +223,7 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
                         tvKODCommission.text=AppGlobal.setTwoDecimalValue(dashboardData.data.kodCommission)+""
                         tvTotalEarningAmount.text=AppGlobal.setTwoDecimalValue(dashboardData.data.totalEarningAmount) + ""
                         tvTotalRecharge.text=AppGlobal.setTwoDecimalValue(dashboardData.data.totalRechargeAmount) + ""
-                        LocalStorage.setFirmName(activity!!,dashboardData.data.f_name)
+                       // LocalStorage.setFirmName(activity!!,dashboardData.data.f_name)
                     }
 
                 }
@@ -235,6 +235,6 @@ class HomeFragments: Fragment(), OnResponse<UniverSelObjct> {
     }
 
     override fun onError(error: String?) {
-        CustomDialogue.showcustomblank(activity!!, "Alert", error.toString())
+        //CustomDialogue.showcustomblank(activity!!, "Alert", error.toString())
     }
 }

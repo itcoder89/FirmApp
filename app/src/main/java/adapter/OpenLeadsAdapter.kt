@@ -24,12 +24,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kodpartner.DashboardActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
 import model.OpenLeadsData
 import model.RescheduleData
 import model.TimeDateSlabData
+import utils.LocalStorage
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -145,9 +147,13 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
             }
         }
         holder.btnViewMap.setOnClickListener{
-            val intent = Intent(cxt, TrackLocation::class.java)
+            /*val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
+            cxt!!.startActivity(intent)*/
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + LocalStorage.getLatitude(cxt!!)  + "," +  LocalStorage.getLongitude(cxt!!) + "&daddr=" + feedData!![position].lat_code + "," + feedData!![position].lng_code
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
             cxt!!.startActivity(intent)
         }
         holder.tvMoveToWorking.setOnClickListener{
@@ -216,11 +222,11 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
                         Log.e("partner-openleads", " " + cancelByData.message + "")
 
                     }
-                    "reschedule" -> {
+                    "reschedule-by-partner" -> {
                         val rescheduleData = response.response as RescheduleData
-                        Log.e("rescheduler", " " + rescheduleData.message + "")
+                        Log.e("reschedule-by-partner", " " + rescheduleData.message + "")
                         Toast.makeText(cxt,"Your service request has been rescheduled. Thank you.!!",Toast.LENGTH_LONG).show()
-
+                        cxt!!.startActivity(Intent(cxt!!, DashboardActivity::class.java))
                     }
                     "TimeDateSlot" -> {
                         subServiceData = response.response as TimeDateSlabData
@@ -274,6 +280,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
         val txt_time2 = sheetView.findViewById<View>(R.id.txt_time2) as TextView
         val txt_time3 = sheetView.findViewById<View>(R.id.txt_time3) as TextView
         val edt_feedback_msg = sheetView.findViewById<View>(R.id.edt_feedback_msg) as EditText
+        edt_feedback_msg.visibility=View.INVISIBLE
         val btn_confirm = sheetView.findViewById<View>(R.id.btn_confirm) as Button
 
         btn_confirm.setOnClickListener {
@@ -303,7 +310,11 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
                 e.printStackTrace();
             }
 
-            Apicall(cxt!!).rescheduleBooking(this,"reschedule",feedData!![message].order_id,edt_feedback_msg.text.toString(),select_date!!,select_time!!,idsatuts)
+            Apicall(cxt!!).rescheduleBooking(this,"reschedule-by-partner",
+                LocalStorage.getCustomerID(cxt!!),
+                feedData!![message].order_id,
+                select_date!!,
+                select_time!!)
             mBottomSheetDialog.dismiss()
         }
 

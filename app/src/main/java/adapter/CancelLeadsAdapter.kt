@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
 import model.*
+import utils.LocalStorage
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -60,10 +61,10 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
         //holder.tvAddress.text = feedData!![position].customerDetails.address+""
-        if(feedData!![position].address.isNullOrBlank())
+        /*if(feedData!![position].address.isNullOrBlank())
             holder.tvAddress.text = feedData!![position].customerDetails.address+""
         else
-            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address*/
 
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         val outputPattern = "dd-MM-yyyy hh:mm:ss";
@@ -104,7 +105,7 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         RecyclerView.ViewHolder(itemView) {
         var tvServiceAmount: TextView
         var tvServiceId: TextView
-        var tvAddress: TextView
+        //var tvAddress: TextView
         var tvBookingDateTime: TextView
         var tvCustomerName: TextView
         var tvUnit: TextView
@@ -117,7 +118,7 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvServiceId = itemView.findViewById<View>(R.id.tvServiceId) as TextView
-            tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
+           // tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
             tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
             tvCustomerName = itemView.findViewById<View>(R.id.tvCustomerName) as TextView
             //tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
@@ -137,8 +138,10 @@ class CancelLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
-
+            //Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",
+                LocalStorage.getCustomerID(cxt!!),feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            material!!.dismiss()
         }
     }
 

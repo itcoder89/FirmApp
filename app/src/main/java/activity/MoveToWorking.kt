@@ -10,6 +10,9 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +50,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     var subservice_id: String = ""
     var serviceID: String = ""
     var booking_dt: String = ""
+    var extraAmount: Float = 0f
+    var extraReason: String = ""
     var subspinner: Spinner? = null
     private var layoutManager: LinearLayoutManager? = null
     private var layoutManager2: LinearLayoutManager? = null
@@ -65,7 +70,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
     var strPaymentType = ""
     var isTouched = false
     var isOfficeTouched = false
-
+    var sum=0f
     override fun onResume() {
         super.onResume()
         Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
@@ -76,6 +81,16 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         city_id = intent.getStringExtra("city_id")
         order_id = intent.getStringExtra("service_id")
         booking_dt = intent.getStringExtra("booking_dt")
+        if (intent.hasExtra("extra_amount"))
+            extraAmount = intent.getFloatExtra("extra_amount",0f)
+        if (intent.hasExtra("reason"))
+            //if(intent.hasExtra("reason") != null)
+            //{
+                //do here
+                extraReason = intent.getStringExtra("reason")
+                //values = if (intent.getStringExtra("values")==null) "" else intent.getStringExtra("values")
+            ////}
+
 
         rv_part_list = findViewById<View>(R.id.rv_part_list) as RecyclerView
         rv_fault_list = findViewById<View>(R.id.rv_fault_list) as RecyclerView
@@ -88,16 +103,20 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
 
 
 
+        if(!extraReason.isNullOrEmpty())
+            edEnterReason.setText(extraReason)
 
         tvServiceId.text="Service ID-"+order_id
         tvBookingDateTime.text="Booking Date & Time\n"+booking_dt
         tvTitle.text="Move To Working"
         iv_back.setOnClickListener { finish() }
+        tvAddPart.visibility=View.GONE
+        /*
         tvAddPart.setOnClickListener {
             val intent = Intent(this, AllLabours::class.java)
             intent.putExtra("order_id",order_id)
             startActivity(intent)
-        }
+        }*/
         btnReSendOTP.setOnClickListener {
             if(!received_otp.isNullOrBlank())
                 showDialoge(received_otp,this)
@@ -108,13 +127,48 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
             Apicall(this)
                 .getServiceListForRate(this,"partner-part-assigned-services", LocalStorage.getCustomerID(this))
         }
+
+
+        edEnterExtraCharge.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (!TextUtils.isEmpty(s)) {
+                    sum=edEnterEstimate.text.toString().toFloat()+s.toString().toFloat()
+                    tvGrandTotal.text="Grand Total: "+sum.toString()
+                    edEnterEstimate.setText(tvGrandTotal.text.toString())
+                }else{
+                    tvGrandTotal.text="Grand Total: "+edEnterEstimate.text.toString()
+                    edEnterEstimate.setText(tvGrandTotal.text.toString())
+                }
+            }
+        })
         btnSubmitOrder.setOnClickListener {
+           // Log.e("finalcalculation","sum:"+(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString())
+            //Log.e("finalcalculation","extra:"+edEnterExtraCharge.text.toString().trim())
+            //Log.e("finalcalculation","reason:"+edEnterReason.text.toString().trim())
+
             Apicall(this)
                 .sendEstimateValue(this,"send-order-estimate",
                     LocalStorage.getCustomerID(this),
-                    order_id,edEnterEstimate.text.toString())
-            //callSubmitAPI()
-
+                    order_id,
+                    (edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString(),
+                    edEnterExtraCharge.text.toString().trim(),
+                    edEnterReason.text.toString().trim())
         }
     }
 
@@ -145,7 +199,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
             val student1 = JSONObject()
             try {
                 student1.put("id", partlist!!.get(i).idpart)
-                student1.put("amount", faultlist!!.get(i).rowamount)
+                student1.put("amount", partlist!!.get(i).row_amount)
                 student1.put("quantity", partlist!!.get(i).qty)
             } catch (e: JSONException) {
                 // TODO Auto-generated catch block
@@ -163,8 +217,6 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         mainjsonOBj.put("total_fault",tvFaultTotalAmount.text.toString())
         mainjsonOBj.put("total_part", tvPartTotalAmount.text.toString())
         mainjsonOBj.put("total_estimate",tvTotalEstimateAmount.text.toString())
-        mainjsonOBj.put("working_title",edEnterReason.text.toString().trim())
-        mainjsonOBj.put("working_amount",edEnterExtraCharge.text.toString().trim())
         mainjsonOBj.put("fault_list",jsonArray)
         mainjsonOBj.put("part_list",jsonArray2)
         Log.e("CreateOrderRequest",mainjsonOBj.toString())
@@ -253,6 +305,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         rv_fault_list!!.setHasFixedSize(false)
                         faultListAdapter!!.addData(getOrderFaultsData!!.data)
                         faultListAdapter!!.notifyDataSetChanged()
+
+
                         var sum=0
                         for (i in 0 until getOrderFaultsData!!.data.size) {
                             var amount =calCulation(getOrderFaultsData!!.data[i])
@@ -280,11 +334,17 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         for (i in 0 until getAllSelectedPartListData!!.data.size) {
 
                             sum2=sum2+getAllSelectedPartListData!!.data[i].amount.toInt()
+                         //   getAllSelectedPartListData!!.data[i].row_amount = ""+sum2
                         }
                         tvPartTotalAmount.text=sum2.toString()
                         //tvTotalEstimateAmount.text = "Total Estimate Amount "+(tvFaultTotalAmount.text.toString().toInt() + tvPartTotalAmount.text.toString().toInt()).toString()+"/-"
                         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
                         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+
+                        if(!extraAmount.toString().isNullOrEmpty()) {
+                            edEnterExtraCharge.setText(extraAmount.toString())
+                            tvGrandTotal.text="Grand Total: "+(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString()
+                        }
                     }
                     "remove-order-part" -> {
                         val removeOrderPartData = response.response as RemoveOrderPartData
@@ -448,6 +508,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         tvPartTotalAmount.text=""+(amnt )
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
+        tvGrandTotal.text="Grand Total: "+(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString()
+
     }
 
     override fun onPlusPartItemClick(partid: Int,pos: Int, quantity: Int,total_amount:Float) {

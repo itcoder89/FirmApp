@@ -5,6 +5,7 @@ import Interfaces.OnResponse
 import activity.TrackLocation
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.social.ekchat.Interfaces.UniverSelObjct
 import model.CancelByData
 import model.CompletedLeadsData
 import model.RescheduleData
+import retrofit.AppGlobal
+import utils.LocalStorage
 import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
@@ -59,26 +62,32 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Total Amount "+form.format(feedData!![position].amount.toDouble()) + ""
+        holder.tvCommission.text = "Commission Rs."+AppGlobal.setTwoDecimalValue(feedData!![position].commision.toFloat())
         //holder.tvAddress.text = feedData!![position].customerDetails.address
-        if(feedData!![position].address.isNullOrBlank())
+        /*if(feedData!![position].address.isNullOrBlank())
             holder.tvAddress.text = feedData!![position].customerDetails.address+""
         else
-            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address
-       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].service_date)
+            holder.tvAddress.text = feedData!![position].street+" "+feedData!![position].address*/
+        holder.tvBookingDateTime.setText("Booking Date & Time \n"+feedData!![position].booking_date)
+        holder.tvCloseDateTime.setText("Close Date & Time "+feedData!![position].completed_date)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
-        holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
+        holder.tvCustomerMobile.setText("Warrenty Days "+feedData!![position].warrenty_day)
         holder.tvDescription.setText(feedData!![position].fault)
         if(feedData!![position].rating != null)
             holder.tvFeedbackbyCustomer.setText("Feedback by customer - "+feedData!![position].rating)
         else
             holder.tvFeedbackbyCustomer.setText("Feedback by customer - 0.0")
 
-        holder.btnViewMap.setOnClickListener{
-            val intent = Intent(cxt, TrackLocation::class.java)
+        /*holder.btnViewMap.setOnClickListener{
+            *//*val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
+            cxt!!.startActivity(intent)*//*
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + LocalStorage.getLatitude(cxt!!) + "," + LocalStorage.getLongitude(cxt!!) + "&daddr=" + feedData!![position].lat_code + "," + feedData!![position].lng_code
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
             cxt!!.startActivity(intent)
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
@@ -89,26 +98,30 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         RecyclerView.ViewHolder(itemView) {
         var tvServiceAmount: TextView
         var tvServiceId: TextView
-        var tvAddress: TextView
+       // var tvAddress: TextView
         var tvBookingDateTime: TextView
         var tvCustomerName: TextView
         var tvCustomerMobile: TextView
+        var tvCloseDateTime: TextView
 
         var tvDescription: TextView
         var tvFeedbackbyCustomer: TextView
         var tvFeedbackbykod: TextView
-        var btnViewMap: Button
+        var tvCommission: TextView
+        //var btnViewMap: Button
         init {
             tvServiceAmount = itemView.findViewById<View>(R.id.tvServiceAmount) as TextView
             tvServiceId = itemView.findViewById<View>(R.id.tvServiceId) as TextView
-            tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
+          //  tvAddress = itemView.findViewById<View>(R.id.tvAddress) as TextView
             tvBookingDateTime = itemView.findViewById<View>(R.id.tvBookingDateTime) as TextView
             tvCustomerName = itemView.findViewById<View>(R.id.tvCustomerName) as TextView
             tvCustomerMobile = itemView.findViewById<View>(R.id.tvCustomerMobile) as TextView
+            tvCloseDateTime = itemView.findViewById<View>(R.id.tvCloseDateTime) as TextView
             tvDescription = itemView.findViewById<View>(R.id.tvDescription) as TextView
             tvFeedbackbyCustomer = itemView.findViewById<View>(R.id.tvFeedbackbyCustomer) as TextView
             tvFeedbackbykod = itemView.findViewById<View>(R.id.tvFeedbackbykod) as TextView
-            btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
+            tvCommission = itemView.findViewById<View>(R.id.tvCommission) as TextView
+            //btnViewMap = itemView.findViewById<View>(R.id.btnViewMap) as Button
             //tvRescheduledLeads = itemView.findViewById<View>(R.id.tvRescheduledLeads) as TextView
         }
     }
@@ -121,8 +134,10 @@ class CompletedLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
-
+            //Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",
+                LocalStorage.getCustomerID(cxt!!),feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            material!!.dismiss()
         }
     }
 

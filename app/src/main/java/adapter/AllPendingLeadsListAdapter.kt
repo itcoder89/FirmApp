@@ -1,15 +1,17 @@
 package adapter
 
-import activity.TrackLocation
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.kodpartner.R
 import model.PendingLeadsData
+import utils.LocalStorage
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -49,12 +51,17 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
         return ViewHolder(v)
     }
 
+    private fun getDisplayText(input: String): String? {
+        return input.substring(15)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder,position: Int) {
 
         holder.tvServiceId.text = "Service ID - "+feedData!![position].order_id
         val form = DecimalFormat("0.00")
         holder.tvServiceAmount.text = "Service Amount "+form.format(feedData!![position].amount.toDouble()) + ""
-        holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        //holder.tvAddress.text = feedData!![position].customerDetails.address+""
+        holder.tvAddress.text = getDisplayText(feedData!![position].customerDetails.address)
 
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         val outputPattern = "dd-MM-yyyy hh:mm:ss";
@@ -70,7 +77,7 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
         } catch (e: ParseException) {
             e.printStackTrace();
         }
-       // holder.tvBookingDateTime.setText("Booking Date & Time \n"+str)
+        holder.tvBookingDateTime.setText("Service Date & Time \n"+feedData!![position].service_date +"-"+feedData!![position].service_time)
         holder.tvCompleteDateTime.setText("Visit- "+feedData!![position].service_date+" "+feedData!![position].service_time)
         holder.tvCustomerName.setText("Customer Name \n"+feedData!![position].customerDetails.firstname)
         holder.tvCustomerMobile.setText("Mobile \n"+feedData!![position].customerDetails.contact_no)
@@ -78,11 +85,14 @@ class AllPendingLeadsListAdapter(var cxt: FragmentActivity?) :
         holder.tvUnit.text="Unit "+feedData!![position].unit
 
         holder.btnViewMap.setOnClickListener{
-            val intent = Intent(cxt, TrackLocation::class.java)
+           /* val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
+            cxt!!.startActivity(intent)*/
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + LocalStorage.getLatitude(cxt!!)  + "," +  LocalStorage.getLongitude(cxt!!) + "&daddr=" + feedData!![position].lat_code + "," + feedData!![position].lng_code
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
             cxt!!.startActivity(intent)
-            //cxt!!.finish()
         }
     }
 

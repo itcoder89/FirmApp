@@ -4,6 +4,7 @@ import Interfaces.ItemAdapterClick2
 import Interfaces.ItemFaultAdapterClick
 import Interfaces.ItemLabourAdapterClick
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -85,9 +86,10 @@ class SavedLabourListAdapter(var cxt: FragmentActivity?, var mListner : ItemLabo
             }
 
             override fun afterTextChanged(s: Editable) {
-                feedData!![position].row_amount = ""+s
-                finalCalculation(feedData!!)
-                // notifyDataSetChanged()
+                if (!TextUtils.isEmpty(s)) {
+                    feedData!![position].row_amount = ""+s
+                    finalCalculation(feedData!!)
+                }
             }
         })
 

@@ -2,6 +2,7 @@ package adapter
 
 import activity.TrackLocation
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import com.kodpartner.R
 import model.PendingFeedbackListData
 import model.PendingLeadsData
+import utils.LocalStorage
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -79,9 +81,13 @@ class PendingFeedbackLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvUnit.text="Unit "+feedData!![position].unit
 
         holder.btnViewMap.setOnClickListener{
-            val intent = Intent(cxt, TrackLocation::class.java)
+            /*val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
+            cxt!!.startActivity(intent)*/
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + LocalStorage.getLatitude(cxt!!)  + "," +  LocalStorage.getLongitude(cxt!!) + "&daddr=" + feedData!![position].lat_code + "," + feedData!![position].lng_code
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
             cxt!!.startActivity(intent)
             //cxt!!.finish()
         }

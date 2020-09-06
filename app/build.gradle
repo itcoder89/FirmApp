@@ -10,8 +10,8 @@ android {
         applicationId "com.kodpartner"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 12
-        versionName "1.11"
+        versionCode 17
+        versionName "1.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

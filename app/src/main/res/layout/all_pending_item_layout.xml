@@ -51,11 +51,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="1.5"
                 android:gravity="right"
-                android:visibility="invisible"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16dp"
-                android:text="Booking Date &amp; Time" />
+                android:textSize="@dimen/_14ssp"
+                android:text="Service Date &amp; Time" />
 
 
         </LinearLayout>

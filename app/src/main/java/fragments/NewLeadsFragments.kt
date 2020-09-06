@@ -58,15 +58,15 @@ class NewLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterCli
                     "partner-newleads" -> {
                         newLeadsData = response.response as NewLeadsData
                         Log.e("partner-newleads"," "+newLeadsData!!.isStatus+"")
-                        if(newLeadsData!!.isStatus == false){
-                            Toast.makeText(activity!!,"Order not found.", Toast.LENGTH_SHORT).show()
-                        }else{
+                        //if(newLeadsData!!.isStatus == false){
+                            //Toast.makeText(activity!!,"Order not found.", Toast.LENGTH_SHORT).show()
+                        //}else{
                             newLeadsAdapter = NewLeadsAdapter(activity,this)
                             recyclerView!!.adapter = newLeadsAdapter
                             recyclerView!!.setHasFixedSize(false)
                             newLeadsAdapter!!.addData(newLeadsData!!.data)
                             newLeadsAdapter!!.notifyDataSetChanged()
-                        }
+                        //}
                     }
                     "partner-accept-leads" -> {
                         val acceptLeadData = response!!.response as AcceptLeadData

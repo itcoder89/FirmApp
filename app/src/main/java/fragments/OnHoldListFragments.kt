@@ -1,6 +1,7 @@
 package fragments
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
 import Interfaces.OnResponse
 import adapter.OnHoldLeadsAdapter
 import android.os.Bundle
@@ -20,7 +21,7 @@ import model.OnHoldLeadsListData
 import utils.CustomDialogue
 import utils.LocalStorage
 
-class OnHoldListFragments : Fragment(), OnResponse<UniverSelObjct> {
+class OnHoldListFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterClick {
 
     private var onHoldLeadsAdapter: OnHoldLeadsAdapter? = null
     private var layoutManager: LinearLayoutManager? = null
@@ -71,7 +72,7 @@ class OnHoldListFragments : Fragment(), OnResponse<UniverSelObjct> {
                     "partner-on-hold" -> {
                         val onHoldLeadsListData = response.response as OnHoldLeadsListData
                         Log.e("partner-on-hold"," "+onHoldLeadsListData.isStatus+"")
-                        onHoldLeadsAdapter = OnHoldLeadsAdapter(activity)
+                        onHoldLeadsAdapter = OnHoldLeadsAdapter(activity,this)
                         recyclerView!!.adapter = onHoldLeadsAdapter
                         recyclerView!!.setHasFixedSize(false)
                         onHoldLeadsAdapter!!.addData(onHoldLeadsListData.data)
@@ -88,6 +89,15 @@ class OnHoldListFragments : Fragment(), OnResponse<UniverSelObjct> {
 
     override fun onError(error: String?) {
         CustomDialogue.showcustomblank(activity!!, "Alert", error.toString())
+    }
+
+    override fun onClick(pos: Int) {
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getOnHoldLeadsList(this,"partner-on-hold", LocalStorage.getCustomerID(activity!!))
+
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
     }
 
 }

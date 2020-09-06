@@ -1,11 +1,13 @@
 package adapter
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
 import Interfaces.OnResponse
 import activity.MoveToWorking
 import activity.TrackLocation
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +27,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
+class OnHoldLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClick) :
     RecyclerView.Adapter<OnHoldLeadsAdapter.ViewHolder>(), OnResponse<UniverSelObjct> {
     var material : MaterialDialog? = null
     var feedData: ArrayList<OnHoldLeadsListData.DataBean>? = ArrayList()
@@ -91,11 +93,14 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
         holder.tvCustomerMobile.setText("Mobile No \n"+feedData!![position].customerDetails.contact_no)
 
         holder.btnViewMap.setOnClickListener{
-            val intent = Intent(cxt, TrackLocation::class.java)
+            /*val intent = Intent(cxt, TrackLocation::class.java)
             intent.putExtra("lat_code",feedData!![position].lat_code )
             intent.putExtra("lng_code",feedData!![position].lng_code )
+            cxt!!.startActivity(intent)*/
+            val uri ="http://maps.google.com/maps?f=d&hl=en&saddr=" + LocalStorage.getLatitude(cxt!!)  + "," +  LocalStorage.getLongitude(cxt!!) + "&daddr=" + feedData!![position].lat_code + "," + feedData!![position].lng_code
+            val intent =  Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps");
             cxt!!.startActivity(intent)
-           // cxt!!.finish()
         }
         holder.tvMoveToWorking.setOnClickListener{
             val intent = Intent(cxt, MoveToWorking::class.java)
@@ -161,8 +166,9 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
         val edt_feedback_msg = material!!.findViewById(R.id.edt_feedback_msg) as EditText
 
         btn_done.setOnClickListener {
-            Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
-
+            //Apicall(cxt).cancelBy(this,"cancel-by-partner",feedData!![pos].customerDetails.user_id,feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            Apicall(cxt).cancelBy(this,"cancel-by-partner",LocalStorage.getCustomerID(cxt!!),feedData!![pos].order_id,edt_feedback_msg.text.toString())
+            material!!.dismiss()
         }
     }
 
@@ -173,7 +179,7 @@ class OnHoldLeadsAdapter(var cxt: FragmentActivity?) :
                     "cancel-by-partner" -> {
                         val cancelByData = response.response as CancelByData
                         Log.e("partner-openleads", " " + cancelByData.message + "")
-
+                        mListner.onClick(0)//refresh api
                     }
                     "get-hold-reason" -> {
                         val holdReasonData = response.response as HoldReasonData

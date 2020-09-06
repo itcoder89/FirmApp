@@ -51,10 +51,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="1.5"
                 android:gravity="right"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16dp"
+                android:textSize="@dimen/_14ssp"
                 android:text="Booking Date &amp; Time" />
 
 
@@ -76,7 +76,7 @@
                 android:gravity="left"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="@dimen/_14ssp"
                 android:text="Customer Name" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:gravity="right"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="@dimen/_14ssp"
                 android:text="Mobile No." />
 
 
@@ -102,6 +102,29 @@
             android:paddingRight="10dp"
             android:textSize="@dimen/_14ssp"
             android:text="AC/Split/Repair/Less Cooling" />
+
+
+        <TextView
+            android:id="@+id/tvCommission"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/_14ssp"
+            android:text="Commission Rs 0.0" />
+
+        <TextView
+            android:id="@+id/tvCloseDateTime"
+            android:layout_width="match_parent"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/_14ssp"
+            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +152,7 @@
                 android:gravity="right"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="@dimen/_14ssp"
                 android:text="Total Amount 1500/-" />
 
 
@@ -150,6 +173,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="3"
+            android:visibility="gone"
             android:orientation="horizontal">
 
 
@@ -157,6 +181,7 @@
                 android:id="@+id/tvAddress"
                 android:layout_width="0dp"
                 android:layout_weight="2.2"
+                android:visibility="gone"
                 android:gravity="left"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -171,6 +196,7 @@
                 android:id="@+id/btnViewMap"
                 android:layout_width="0dp"
                 android:layout_weight="0.8"
+                android:visibility="gone"
                 android:layout_height="40dp"
                 android:text="View Map" />
 

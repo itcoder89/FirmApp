@@ -126,7 +126,7 @@ class OpenLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterCl
                 LocalStorage.getCustomerID(activity!!),
                 openLeadsData!!.data[pos].order_id,
                 edt_feedback_msg.text.toString())
-
+            material!!.dismiss()
         }
     }
 

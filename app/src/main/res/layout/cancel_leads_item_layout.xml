@@ -153,6 +153,7 @@
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:textColor="@color/black"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

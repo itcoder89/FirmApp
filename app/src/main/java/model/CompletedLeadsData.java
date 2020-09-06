@@ -66,6 +66,26 @@ public class CompletedLeadsData {
         private String customerName;
         private String address;
 
+        public String getCommision() {
+            return commision;
+        }
+
+        public void setCommision(String commision) {
+            this.commision = commision;
+        }
+
+        private String commision;
+
+        public String getWarrenty_day() {
+            return warrenty_day;
+        }
+
+        public void setWarrenty_day(String warrenty_day) {
+            this.warrenty_day = warrenty_day;
+        }
+
+        private String warrenty_day;
+
         public String getCustomerName() {
             return customerName;
         }

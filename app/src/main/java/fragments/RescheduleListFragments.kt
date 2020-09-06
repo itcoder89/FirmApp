@@ -1,6 +1,7 @@
 package fragments
 
 import Interfaces.Apicall
+import Interfaces.ItemAdapterClick
 import Interfaces.OnResponse
 import adapter.RescheduleLeadsAdapter
 import android.os.Bundle
@@ -20,7 +21,7 @@ import model.RescheduleLeadsData
 import utils.CustomDialogue
 import utils.LocalStorage
 
-class RescheduleListFragments : Fragment(), OnResponse<UniverSelObjct> {
+class RescheduleListFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapterClick {
 
     private var rescheduleLeadsAdapter: RescheduleLeadsAdapter? = null
     private var layoutManager: LinearLayoutManager? = null
@@ -71,7 +72,7 @@ class RescheduleListFragments : Fragment(), OnResponse<UniverSelObjct> {
                     "partner-reschedule" -> {
                         val rescheduleLeadsData = response.response as RescheduleLeadsData
                         Log.e("rescheduleLeadsData"," "+rescheduleLeadsData.isStatus+"")
-                        rescheduleLeadsAdapter = RescheduleLeadsAdapter(activity)
+                        rescheduleLeadsAdapter = RescheduleLeadsAdapter(activity,this)
                         recyclerView!!.adapter = rescheduleLeadsAdapter
                         recyclerView!!.setHasFixedSize(false)
                         rescheduleLeadsAdapter!!.addData(rescheduleLeadsData.data)
@@ -88,6 +89,15 @@ class RescheduleListFragments : Fragment(), OnResponse<UniverSelObjct> {
 
     override fun onError(error: String?) {
         CustomDialogue.showcustomblank(activity!!, "Alert", error.toString())
+    }
+
+    override fun onClick(pos: Int) {
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getReschedueLeadsList(this,"partner-reschedule", LocalStorage.getCustomerID(activity!!))
+
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
     }
 
 }
