@@ -6,7 +6,7 @@ public class EstimateSentData {
     /**
      * status : true
      * message : Estimate Sent
-     * data : {"otp":4234}
+     * data : {"otp":7642,"estimateCount":6}
      */
 
     private boolean status;
@@ -39,10 +39,12 @@ public class EstimateSentData {
 
     public static class DataBean {
         /**
-         * otp : 4234
+         * otp : 7642
+         * estimateCount : 6
          */
 
         private int otp;
+        private int estimateCount;
 
         public int getOtp() {
             return otp;
@@ -50,6 +52,14 @@ public class EstimateSentData {
 
         public void setOtp(int otp) {
             this.otp = otp;
+        }
+
+        public int getEstimateCount() {
+            return estimateCount;
+        }
+
+        public void setEstimateCount(int estimateCount) {
+            this.estimateCount = estimateCount;
         }
     }
 }

@@ -29,10 +29,7 @@ import connection.CheckNetwork
 import connection.MyDialog
 import kotlinx.android.synthetic.main.custom_close_popup.*
 import kotlinx.android.synthetic.main.custom_on_hold_popup.*
-import model.CancelByData
-import model.HoldByPartnerData
-import model.WorkCloseData
-import model.WorkingLeadsData
+import model.*
 import retrofit.AppGlobal
 import utils.CustomDialogue
 import utils.LocalStorage
@@ -52,6 +49,8 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
     var isTouched = false
     var isOfficeTouched = false
     var finalAmount=""
+    var received_otp=""
+    var orderId=""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,11 +59,8 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
         val fragmentView =
             inflater.inflate(R.layout.working_leads_list_layout, container, false)
         recyclerView = fragmentView.findViewById<View>(R.id.recyclerView) as RecyclerView
-        if (CheckNetwork.isConnected(activity!!)) {
-            Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
-        }else{
-            MyDialog(activity!!).getNoInternetDialog().show()
-        }
+        LocalStorage.setRedirectWorking(activity!!,"false")
+
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -73,6 +69,15 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
 
 
         return fragmentView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (CheckNetwork.isConnected(activity!!)) {
+            Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
+        }else{
+            MyDialog(activity!!).getNoInternetDialog().show()
+        }
     }
     override fun onSucess(response: UniverSelObjct?) {
         try {
@@ -99,6 +104,14 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
                         Log.e("holdByPartnerData", " " + holdByPartnerData.message + "")
                         AppGlobal.showToast(activity!!,holdByPartnerData.message)
                         Apicall(activity!!).getallWorkingLeads(this,"partner-working", LocalStorage.getCustomerID(activity!!))
+                    }
+                    "get-opt-confirmation" -> {
+                        val sendSMSOTPData = response.response as SendSMSOTPData
+                        Log.e("sendSMSOTPData", " " + sendSMSOTPData.message + "")
+                        //AppGlobal.showToast(activity!!,sendSMSOTPData.message)
+                        received_otp=sendSMSOTPData.data.otp.toString()
+                        Log.e("received_otp", " " + sendSMSOTPData.data.otp.toString() + "")
+                        showDialoge(received_otp,activity!!)
                     }
                     "closed-partner-booking" -> {
                         val workCloseData = response.response as WorkCloseData
@@ -234,7 +247,35 @@ class WorkingLeadsFragments : Fragment(), OnResponse<UniverSelObjct>, ItemAdapte
     }
 
     override fun onHoldClick(pos: Int) {
-        showOnHoldDialoge(workingLeadsData!!.data[pos].order_id,activity!!)
+        //call send sms api
+        orderId=workingLeadsData!!.data[pos].order_id
+        Apicall(activity!!)
+            .getoptconfirmation(this,"get-opt-confirmation",
+                LocalStorage.getCustomerID(activity),
+                workingLeadsData!!.data[pos].order_id,
+                "4")
+    }
+
+    fun showDialoge(cust_otp: String,cxt: Context) {
+        val dialog = Dialog(cxt)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_resend_otp_popup)
+        dialog.setCanceledOnTouchOutside(false)
+        val edEnterCustomerOTP = dialog.findViewById<View>(R.id.edEnterCustomerOTP) as EditText
+        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
+        val tvYesCancel =
+            dialog.findViewById<View>(R.id.tvYesCancel) as TextView
+        tvNo.setOnClickListener { dialog.dismiss() }
+        tvYesCancel.setOnClickListener {
+            if(edEnterCustomerOTP.text.toString().equals(cust_otp)) {
+                //showOnHoldDialoge(workingLeadsData!!.data[pos].order_id,activity!!)
+                showOnHoldDialoge(orderId,activity!!)
+                dialog.dismiss()
+            }else {
+                Toast.makeText(activity, "Invalid OTP Entered!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        dialog.show()
     }
 
     fun showOnHoldDialoge(order_id: String,cxt: Context) {

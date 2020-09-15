@@ -140,6 +140,10 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             startActivity(Intent(this, WalletRecharge::class.java))
             drawerLayout.closeDrawers()
         }
+        ll_assigned_service.setOnClickListener{
+            startActivity(Intent(this, AssignServiceList::class.java))
+            drawerLayout.closeDrawers()
+        }
         ll_AboutApp.setOnClickListener{
             startActivity(Intent(this, AboutApp::class.java))
             drawerLayout.closeDrawers()
@@ -323,8 +327,10 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
 
     override fun onBackPressed() {
         if(LocalStorage.getCheckLastFragment(this).equals("dashboard")){
+            tvFragmentTitle.text="Welcome"
             ShowDialog.showDialog(this)
         }else{
+            tvFragmentTitle.text="Welcome"
             LocalStorage.setCheckLastFragment(this,"dashboard")
             val homeFragments = HomeFragments()
             supportFragmentManager
@@ -552,6 +558,16 @@ class DashboardActivity : AppCompatActivity(),View.OnClickListener {
             updateUI()
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+        if(LocalStorage.getRedirectWorking(this).equals("true")){
+            LocalStorage.setCheckLastFragment(this,"workingleads")
+            tvFragmentTitle.text="Working Leads"
+            val workingLeadsFragments = WorkingLeadsFragments()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.containerView, workingLeadsFragments)
+                .commit()
+            drawerLayout.closeDrawers()
         }
     }
 

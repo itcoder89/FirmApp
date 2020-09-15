@@ -190,6 +190,9 @@ public class DashboardData implements Serializable {
         }
 
         public Float getWalletAmount() {
+            if(walletAmount==null || walletAmount.equals("")){
+                walletAmount = 0f;
+            }
             return walletAmount;
         }
 

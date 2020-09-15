@@ -7,6 +7,8 @@ import activity.Dummy
 import activity.MoveToWorking
 import activity.TrackLocation
 import android.Manifest
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -15,6 +17,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -27,10 +30,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kodpartner.DashboardActivity
 import com.kodpartner.R
 import com.social.ekchat.Interfaces.UniverSelObjct
-import model.CancelByData
-import model.OpenLeadsData
-import model.RescheduleData
-import model.TimeDateSlabData
+import model.*
 import utils.LocalStorage
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -45,7 +45,9 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
     var feedData: ArrayList<OpenLeadsData.DataBean>? = ArrayList()
 
     var onItemClick: ((pos: Int, view: View) -> Unit)? = null
-
+    var received_otp=""
+    var feedID=""
+    var feed_pos=0
     private var subServiceData: TimeDateSlabData? = null
     var select_date:String ? = null
     var select_time:String ? = null
@@ -157,6 +159,7 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
             cxt!!.startActivity(intent)
         }
         holder.tvMoveToWorking.setOnClickListener{
+            LocalStorage.setRedirectWorking(cxt,"true")
             val intent = Intent(cxt, MoveToWorking::class.java)
             intent.putExtra("city_id",feedData!![position].idcity )
             intent.putExtra("service_id",feedData!![position].order_id )
@@ -169,8 +172,14 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
             //cxt.finish()
         }
         holder.tvRescheduledLeads.setOnClickListener{
-            bottomSheetDiloge(position,feedData!![position].id.toString())
-            //showccancel(position,cxt!!)
+            feedID=feedData!![position].id.toString()
+            feed_pos=position
+            Apicall(cxt!!)
+                .getoptconfirmation(this,"get-opt-confirmation",
+                    LocalStorage.getCustomerID(cxt),
+                    feedData!![position].order_id,
+                    "5")
+
         }
     }
 
@@ -211,6 +220,28 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
         }
     }
 
+    fun showDialoge(cust_otp: String,cxt: Context) {
+        val dialog = Dialog(cxt)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_resend_otp_popup)
+        dialog.setCanceledOnTouchOutside(false)
+        val edEnterCustomerOTP = dialog.findViewById<View>(R.id.edEnterCustomerOTP) as EditText
+        val tvNo = dialog.findViewById<View>(R.id.tvNo) as TextView
+        val tvYesCancel =
+            dialog.findViewById<View>(R.id.tvYesCancel) as TextView
+        tvNo.setOnClickListener { dialog.dismiss() }
+        tvYesCancel.setOnClickListener {
+            if(edEnterCustomerOTP.text.toString().equals(cust_otp)) {
+                Log.e("FeedData","id "+feedID)
+                Log.e("FeedData","pos "+feed_pos)
+                bottomSheetDiloge(feed_pos,feedID)
+                dialog.dismiss()
+            }else {
+                Toast.makeText(cxt, "Invalid OTP Entered!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        dialog.show()
+    }
 
 
     override fun onSucess(response: UniverSelObjct?) {
@@ -221,6 +252,13 @@ class OpenLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterClic
                         val cancelByData = response.response as CancelByData
                         Log.e("partner-openleads", " " + cancelByData.message + "")
 
+                    }
+                    "get-opt-confirmation" -> {
+                        val sendSMSOTPData = response.response as SendSMSOTPData
+                        Log.e("sendSMSOTPData", " " + sendSMSOTPData.message + "")
+                        received_otp=sendSMSOTPData.data.otp.toString()
+                        Log.e("received_otp", " " + sendSMSOTPData.data.otp.toString() + "")
+                        showDialoge(received_otp,cxt!!)
                     }
                     "reschedule-by-partner" -> {
                         val rescheduleData = response.response as RescheduleData

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kodpartner">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -31,29 +32,58 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.kodpartner.DashboardActivity" />
-        <activity android:name="activity.LoginActivity" />
-        <activity android:name="activity.RescheduleActivity" />
-        <activity android:name="activity.ExpertDetails" />
-        <activity android:name="activity.MapActivity" />
-        <activity android:name="activity.ProfileDetails" />
-        <activity android:name="activity.AllPendingLeadsActivity" />
-        <activity android:name="activity.TrackLocation" />
-        <activity android:name="activity.MoveToWorking" />
-        <activity android:name="activity.SendOtp" />
-        <activity android:name="activity.WalletRecharge" />
-        <activity android:name="activity.SearchProductTab" />
-        <activity android:name="activity.AllLabours" />
+        <activity android:name="com.kodpartner.DashboardActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name="activity.LoginActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.RescheduleActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.ExpertDetails"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.MapActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.ProfileDetails"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.AllPendingLeadsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.TrackLocation"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.MoveToWorking"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.SendOtp"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.WalletRecharge"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.SearchProductTab"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name="activity.AllLabours"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity android:name="activity.EditProfile"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:configChanges="locale"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
         <activity android:name="activity.AboutApp" />
         <activity android:name="activity.OfflineRecharge" />
+        <activity android:name="activity.AssignServiceList" />
 
         <meta-data
             android:name="com.google.android.gms.version"

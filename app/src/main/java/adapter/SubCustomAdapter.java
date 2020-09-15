@@ -36,8 +36,8 @@ public class SubCustomAdapter extends ArrayAdapter<SubServiceData.DataBean> {
     @Override
     public int getCount() {
         int count = super.getCount();
-
-        return count > 0 ? count - 1 : count;
+        return count;
+        //return count > 0 ? count - 1 : count;
     }
 
     @Override

@@ -5,6 +5,7 @@ package retrofit;
 import model.AboutAppData;
 import model.AcceptLeadData;
 import model.AddFaultSuccessData;
+import model.AssignedServiceListData;
 import model.CancelByData;
 import model.CancelLeadsData;
 import model.CloseByPartnerData;
@@ -38,6 +39,7 @@ import model.RescheduleData;
 import model.RescheduleLeadsData;
 import model.SaveOrderPartData;
 import model.SendOTPData;
+import model.SendSMSOTPData;
 import model.ServiceListForRateData;
 import model.SubServiceData;
 import model.TimeDateSlabData;
@@ -148,11 +150,19 @@ public interface ApiRequest {
     @GET("api/partner-working-area")
     Call<WorkingAreaData> getWorkingArea(@Query("partner_id") String query);
 
+    @GET("api/partner-services-ver1")
+    Call<AssignedServiceListData> partner_services_ver1(@Query("partner_id") String query);
+
     @GET("api/partner-reschedule")
     Call<RescheduleLeadsData> getReschedueLeadsList(@Query("partner_id") String query);
 
     @GET("api/partner-wallet-summary")
     Call<WalletSummaryListData> getWalletRechargeSummaryList(@Query("partner_id") String query);
+
+    @GET("api/get-opt-confirmation")
+    Call<SendSMSOTPData> getoptconfirmation(@Query("partner_id") String query,
+                                            @Query("order_id") String order_id
+                                            , @Query("idstatus") String idstatus);
 
     @GET("api/close-by-partner")
     Call<CloseByPartnerData> closebyPartner(@Query("partner_id") String query,@Query("order_id") String order_id);

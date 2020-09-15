@@ -103,6 +103,7 @@ class WorkingLeadsAdapter(var cxt: FragmentActivity?,var mListner : ItemAdapterC
 
         }
         holder.tvMoveToWorking.setOnClickListener{
+            LocalStorage.setRedirectWorking(cxt!!,"false")
             val intent = Intent(cxt, MoveToWorking::class.java)
             intent.putExtra("city_id",feedData!![position].idcity )
             intent.putExtra("service_id",feedData!![position].order_id )

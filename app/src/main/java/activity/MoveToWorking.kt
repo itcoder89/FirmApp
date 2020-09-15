@@ -75,6 +75,17 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         super.onResume()
         Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
     }
+
+    override fun onPause() {
+        super.onPause()
+        LocalStorage.setRedirectWorking(this@MoveToWorking,"false")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalStorage.setRedirectWorking(this@MoveToWorking,"false")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.move_to_working_layout)
@@ -109,7 +120,10 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         tvServiceId.text="Service ID-"+order_id
         tvBookingDateTime.text="Booking Date & Time\n"+booking_dt
         tvTitle.text="Move To Working"
-        iv_back.setOnClickListener { finish() }
+        iv_back.setOnClickListener {
+            LocalStorage.setRedirectWorking(this@MoveToWorking,"false")
+            finish()
+        }
         tvAddPart.visibility=View.GONE
         /*
         tvAddPart.setOnClickListener {
@@ -148,30 +162,37 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
 
             override fun afterTextChanged(s: Editable) {
                 if (!TextUtils.isEmpty(s)) {
-                    sum=edEnterEstimate.text.toString().toFloat()+s.toString().toFloat()
+                    tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()
+                    sum=tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()+s.toString().toFloat()
                     tvGrandTotal.text="Grand Total: "+sum.toString()
-                    edEnterEstimate.setText(tvGrandTotal.text.toString())
+                    edEnterEstimate.setText(sum.toString())
                 }else{
-                    tvGrandTotal.text="Grand Total: "+edEnterEstimate.text.toString()
-                    edEnterEstimate.setText(tvGrandTotal.text.toString())
+                    tvGrandTotal.text="Grand Total: "+tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()
+                    edEnterEstimate.setText((tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString())
                 }
             }
         })
         btnSubmitOrder.setOnClickListener {
            // Log.e("finalcalculation","sum:"+(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString())
-            //Log.e("finalcalculation","extra:"+edEnterExtraCharge.text.toString().trim())
-            //Log.e("finalcalculation","reason:"+edEnterReason.text.toString().trim())
+            Log.e("finalcalculation","sum:"+(edEnterEstimate.text.toString().toFloat()))
+            Log.e("finalcalculation","extra:"+edEnterExtraCharge.text.toString().trim())
+            Log.e("finalcalculation","reason:"+edEnterReason.text.toString().trim())
 
             Apicall(this)
                 .sendEstimateValue(this,"send-order-estimate",
                     LocalStorage.getCustomerID(this),
                     order_id,
-                    (edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString(),
+                    //(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString(),
+                    edEnterEstimate.text.toString().toFloat().toString(),
                     edEnterExtraCharge.text.toString().trim(),
                     edEnterReason.text.toString().trim())
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        LocalStorage.setRedirectWorking(this@MoveToWorking,"false")
+    }
 
     private fun callSubmitAPI() {
         //fault list json prepare
@@ -255,7 +276,6 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
 
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView!!.layoutManager = layoutManager
-
 
         customAdapter = CustomAdapter(
             this,
@@ -343,7 +363,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
 
                         if(!extraAmount.toString().isNullOrEmpty()) {
                             edEnterExtraCharge.setText(extraAmount.toString())
-                            tvGrandTotal.text="Grand Total: "+(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString()
+                            tvGrandTotal.text="Grand Total: "+(edEnterEstimate.text.toString().toFloat())
                         }
                     }
                     "remove-order-part" -> {
@@ -367,6 +387,8 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                         val addFaultSuccessData = response.response as AddFaultSuccessData
                         Log.e("partner-part-services","size- "+addFaultSuccessData.message)
                         Toast.makeText(this,""+addFaultSuccessData.message,Toast.LENGTH_SHORT).show()
+                        edEnterExtraCharge.setText("")
+                        Apicall(this).getOrderFaults(this,"get-order-faults", LocalStorage.getCustomerID(this),order_id)
                     }
                     "send-order-estimate" -> {
                         val estimateSentData = response.response as EstimateSentData
@@ -377,16 +399,23 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
                             btnReSendOTP.visibility=View.VISIBLE
                         else
                             btnReSendOTP.visibility=View.GONE
-
                         received_otp=estimateSentData.data.otp.toString()
+                        if(estimateSentData.getData().estimateCount > 3){
+                            callSubmitAPI()
+                            //Toast.makeText(this,"call api ",Toast.LENGTH_SHORT).show()
+                        }
                     }
                     "save-complete-work" -> {
                         val orderPlaceData = response.response as OrderPlaceData
                         Log.e("save-complete-work","size- "+orderPlaceData.message)
                         Toast.makeText(this,""+orderPlaceData.message,Toast.LENGTH_SHORT).show()
                         //showCloseDialoge(order_id,this)
-                        startActivity(Intent(this, DashboardActivity::class.java))
-                        finish()
+                        if(LocalStorage.getRedirectWorking(this).equals("false")){
+                            finish()
+                        }else{
+                            startActivity(Intent(this, DashboardActivity::class.java))
+                            finish()
+                        }
                     }
                     "closed-partner-booking" -> {
                         val workCloseData = response.response as WorkCloseData
@@ -508,7 +537,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         tvPartTotalAmount.text=""+(amnt )
         tvTotalEstimateAmount.text =(tvFaultTotalAmount.text.toString().toFloat() + tvPartTotalAmount.text.toString().toFloat()).toString()
         edEnterEstimate.setText(tvTotalEstimateAmount.text.toString().trim())
-        tvGrandTotal.text="Grand Total: "+(edEnterEstimate.text.toString().toFloat()+edEnterExtraCharge.text.toString().toFloat()).toString()
+        tvGrandTotal.text="Grand Total: "+(edEnterEstimate.text.toString().toFloat()).toString()
 
     }
 
@@ -556,9 +585,7 @@ class MoveToWorking : AppCompatActivity(), OnResponse<UniverSelObjct>,
         tvYesCancel.setOnClickListener {
             if(edEnterCustomerOTP.text.toString().equals(cust_otp)) {
                 callSubmitAPI()
-            }/*else if(){
-
-            }*/else {
+            }else {
                 Toast.makeText(this, "Invalid OTP Entered!", Toast.LENGTH_SHORT).show()
             }
             dialog.dismiss()

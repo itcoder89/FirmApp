@@ -1132,6 +1132,43 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
             })
     }
 
+    fun partner_services_ver1(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        city: String
+    ) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.partner_services_ver1(city)
+            .enqueue(object : retrofit2.Callback<AssignedServiceListData> {
+                override fun onResponse(
+                    call: retrofit2.Call<AssignedServiceListData>,
+                    response: Response<AssignedServiceListData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<AssignedServiceListData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
     fun getReschedueLeadsList(
         activity: OnResponse<UniverSelObjct>,
         mathod: String,
@@ -1276,6 +1313,45 @@ class Apicall(activity_: Context) : ProgressBar(activity_) {
                 }
 
                 override fun onFailure(call: retrofit2.Call<CloseByPartnerData>, t: Throwable) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    Log.e("", "")
+                    activity.onError(t.message.toString())
+                }
+            })
+    }
+
+    fun getoptconfirmation(
+        activity: OnResponse<UniverSelObjct>,
+        mathod: String,
+        partnerid: String,
+        orderid: String,
+        idstatus: String
+    ) {
+        HelperDiloge.showProgressDialog(mContext)
+        val weservices = RetrofitRequest.getRetrofitInstance().create(ApiRequest::class.java)
+
+        weservices.getoptconfirmation(partnerid,orderid,idstatus)
+            .enqueue(object : retrofit2.Callback<SendSMSOTPData> {
+                override fun onResponse(
+                    call: retrofit2.Call<SendSMSOTPData>,
+                    response: Response<SendSMSOTPData>
+                ) {
+                    HelperDiloge.hideProgressDialog(mContext)
+                    if (response.body() == null) {
+                        activity.onError(response.errorBody()!!.string())
+                    } else {
+                        activity.onSucess(
+                            UniverSelObjct(
+                                response.body()!!,
+                                mathod,"true",""
+                                //response.body()!!.status.toString(),""
+                                //response.body()!!.message
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<SendSMSOTPData>, t: Throwable) {
                     HelperDiloge.hideProgressDialog(mContext)
                     Log.e("", "")
                     activity.onError(t.message.toString())
